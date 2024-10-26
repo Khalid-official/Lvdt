@@ -23,7 +23,7 @@ const {DisconnectReason, useMultiFileAuthState, fetchLatestBaileysVersion, makeC
 import readline from 'readline';
 import NodeCache from 'node-cache';
 const {chain} = lodash;
-const PORT = process.env.PORT || process.env.SERVER_PORT;
+const PORT = process.env.PORT || process.env.SERVER_PORT || 9000;
 let stopped = 'close';  
 protoType();
 serialize();
