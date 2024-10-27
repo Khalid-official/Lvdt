@@ -332,7 +332,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				if (!("autobio" in setting)) setting.autobio = false
 				if (!("autoread" in setting)) setting.autoread = false
 				if (!("autoTyping" in setting)) setting.autoTyping = false
-				if (!("autoRecord" in setting)) setting.autoRecord = true
+				if (!("autoRecord" in setting)) setting.autoRecord = false
 				if (!("autoButton" in setting)) setting.autoButton = true
 				if (!("public" in setting)) setting.public = false
 				if (!("setPrefix" in setting)) setting.setPrefix = "multi" //multi, no, all
