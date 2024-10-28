@@ -342,7 +342,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				stock: 10,
 				autobio: false,
 				autoTyping: false,
-				autoRecord: true,
+				autoRecord: false,
 				autoButton: true,
 				public: false,
 				setPrefix: "all", //multi, no, all
