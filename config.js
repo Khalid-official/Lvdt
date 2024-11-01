@@ -14,8 +14,8 @@ global.calender = d.toLocaleDateString("id")
 //===========================//
 
 global.prefa = ["","!",".",",","🎭","〽️"]
-global.owner = ["254793658206"]
-global.ownMain = "254793658206"
+global.owner = ["254785717363"]
+global.ownMain = "254785717363"
 global.NamaOwner = "decode.id"
 global.usePairingCode = true // Ubah Ke False Jika Ingin Menggunakan Qr Code
 global.filenames = "PakTzy.js"
