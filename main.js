@@ -82,6 +82,7 @@ async function connectToWhatsApp() {
 	const sock = makeWASocket({
 		isLatest: true,
 		keepAliveIntervalMs: 50000,
+		version: [ 2, 3000, 1017531287 ],
 		printQRInTerminal: !usePairingCode,
 		logger: pino({
 			level: "silent"
@@ -90,6 +91,23 @@ async function connectToWhatsApp() {
 		browser: ["Linux", "Chrome", "20.0.04"],
 		generateHighQualityLinkPreview: true,
 		resolveMsgBuffer: true,
+		patchMessageBeforeSending: async (message) => {
+            const requiresPatch = !!(message.buttonsMessage || message.listMessage || message.templateMessage);
+            if (requiresPatch) {
+                message = {
+                    viewOnceMessage: {
+                        message: {
+                            ...message,
+                        },
+                    },
+                };
+            }
+            return message
+        },
+        getMessage: async key => {
+            let biji = await sendCache.get(`${key.remoteJid}_${key.id}`)
+            return biji?.message || undefined
+        }
 	})
 	//=================================================//
 	if (usePairingCode && !sock.authState.creds.registered) {
