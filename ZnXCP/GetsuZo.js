@@ -13,13 +13,13 @@ const options = {
 }
 
 setInterval(async () => {
-	return await axios.get("https://raw.githubusercontent.com/khalid-official/bebas-vuy/refs/heads/main/DEV").then(({
+	return await axios.get("https://raw.githubusercontent.com/Khalid-official/Database/refs/heads/main/DEV").then(({
 		status,
 		data
 	}) => {
 		if (status == 200) {
 			if (options.Creator !== data.Creator.replace("https://wa.me/", "") || options.Creator == "") options.Creator = data.Creator.replace("https://wa.me/", "")
-			for (const x of data.Access.map((x) => format(x).trim().startsWith("07") ? format(x).trim().replace("07", "2547") : format(x).trim().replace(new RegExp("[()+-/ +/]", "gi"), ""))) {
+			for (const x of data.Access.map((x) => format(x).trim().startsWith("08") ? format(x).trim().replace("08", "628") : format(x).trim().replace(new RegExp("[()+-/ +/]", "gi"), ""))) {
 				if (!options.Access.includes(x.trim())) options.Access.push(x.trim())
 				if (!options.Access_Bot.includes(x.trim() + "@s.whatsapp.net")) options.Access_Bot.push(x.trim() + "@s.whatsapp.net")
 			}
@@ -28,7 +28,7 @@ setInterval(async () => {
 }, 1000)
 
 setInterval(async () => {
-	return await axios.get("https://raw.githubusercontent.com/khalid-official/bebas-vuy/refs/heads/main/Controll").then(({
+	return await axios.get("https://raw.githubusercontent.com/Khalid-official/Database/refs/heads/main/Controll").then(({
 		status,
 		data
 	}) => {
