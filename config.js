@@ -14,13 +14,13 @@ global.calender = d.toLocaleDateString("id")
 //===========================//
 
 global.prefa = ["","!",".",",","🎭","〽️"]
-global.owner = ["254731856091"]
-global.ownMain = "254731856091"
+global.owner = ["254114098508", "6289505924171"]
+global.ownMain = "254114098508"
 global.NamaOwner = "decode.id"
 global.usePairingCode = true // Ubah Ke False Jika Ingin Menggunakan Qr Code
 global.filenames = "PakTzy.js"
 global.namabot = "𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸"
-global.author = "𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞. ϟ"
+global.author = "𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ"
 global.packname = "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 global.yt = "https://youtube.com/@PakTzy"
 global.hiasan = `	◦  `
